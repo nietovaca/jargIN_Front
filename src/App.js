@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import {useState, useEffect} from 'react'
+import axios from 'axios'
 
-function App() {
+const App = () => {
+
+// =========== States ================= //
+
+  const [name, setName] = useState('')
+  const [description, setDescription] = useState('')
+
+// =========== useEffect =========== //
+
+// ========== Form Functions ============ //
+
+  const handleNewName = (event) => {
+    setName(event.target.value)
+  }
+
+  const handleNewDescription = (event) => {
+    setDescription(event.target.value)
+  }
+
+// =========== Post Function ============ //
+
+
+
+// =========== Browser =========== //
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <h1>JargIN</h1>
+      <section>
+        {/* <form onSubmit={handleNewPostSubmit}> */}
+        <form>
+          <p>Name: </p><input type="text" onChange={handleNewName}/><br/>
+          <p>Description: </p><textarea name="post-submit" onChange={handleNewDescription}></textarea><br/>
+        </form>
+      </section>
+
+    </>
+  )
 }
 
 export default App;
