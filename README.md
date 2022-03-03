@@ -1,5 +1,8 @@
 JargIN - Software Engineering Community for Interview Prep
 
+Dependencies:
+#styling Material UI
+npm install @mui/material @emotion/react @emotion/styled
 
 
 # Getting Started with Create React App

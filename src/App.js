@@ -1,5 +1,7 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
+import Nav from './components/Nav'
+
 
 const App = () => {
 
@@ -28,6 +30,9 @@ const App = () => {
 
   return (
     <>
+      <header>
+
+      </header>
       <h1>JargIN</h1>
       <section>
         {/* <form onSubmit={handleNewPostSubmit}> */}
@@ -36,7 +41,9 @@ const App = () => {
           <p>Description: </p><textarea name="post-submit" onChange={handleNewDescription}></textarea><br/>
         </form>
       </section>
-
+      <footer>
+        <Nav />
+      </footer>
     </>
   )
 }
