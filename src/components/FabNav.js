@@ -1,13 +1,9 @@
 import React from 'react'
-import Button from '@mui/material/Button'
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import SvgIcon from '@mui/material/SvgIcon';
-
-
-const homeIcon = SvgIcon;
 
 function HomeIcon(props) {
   return (
@@ -17,12 +13,7 @@ function HomeIcon(props) {
   );
 }
 
-// export default function FloatingActionButtons {
-//   return (
-//
-// )};
-
-const Nav = (props) => {
+const FabNav = (props) => {
   return (
     <>
     <Fab color="primary" aria-label="add">
@@ -32,7 +23,7 @@ const Nav = (props) => {
       <EditIcon />
     </Fab>
     <Fab variant="extended">
-        <HomeIcon sx={{ mr: 1 }} />
+        <HomeIcon color="primary"sx={{ mr: 1 }} />
         Home
     </Fab>
     <Fab disabled aria-label="like">
@@ -40,18 +31,6 @@ const Nav = (props) => {
     </Fab>
     </>
   )
-
 };
 
-export default Nav;
-
-
-
-// <div>
-// <Button
-//   href="#"
-//   variant='outlined'
-//   color='secondary'>
-//     {<HomeIcon color="secondary" />}
-// </Button>
-// </div>
+export default FabNav;

@@ -1,6 +1,6 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
-import Nav from './components/Nav'
+import FabNav from './components/FabNav'
 
 
 const App = () => {
@@ -42,7 +42,7 @@ const App = () => {
         </form>
       </section>
       <footer>
-        <Nav />
+        <FabNav />
       </footer>
     </>
   )
