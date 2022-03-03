@@ -72,7 +72,7 @@ const TopNav = (props) => {
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            <img src="/jarginLogo.png"/>
+            JARGIN
           </Typography>
           <Search>
             <SearchIconWrapper>
