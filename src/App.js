@@ -1,5 +1,7 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
+import FabNav from './components/FabNav'
+
 
 const App = () => {
 
@@ -139,6 +141,9 @@ const handleDelete = (postsData) => {
 
   return (
     <>
+      <header>
+
+      </header>
       <h1>JargIN</h1>
       <section>
         <form onSubmit={handleNewFormSubmit}>
@@ -186,7 +191,7 @@ const handleDelete = (postsData) => {
             })
           }
       </section>
-
+       
     </>
   )
 }
