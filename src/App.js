@@ -61,8 +61,22 @@ useEffect(() => {
 // =========== Post Function ============ //
 
 const newFormSubmit = (event) => {
-  console.log(newJargin.user);
-  console.log(newJargin.type);
+  // console.log(newJargin.user);
+  // console.log(newJargin.type);
+  // console.log(newJargin.date);
+  // console.log(newJargin.company);
+  // console.log(newJargin.jobTitle);
+  // console.log(newJargin.stage);
+  // console.log(newJargin.salary);
+  // console.log(newJargin.location);
+  // console.log(newJargin.timeLimit);
+  // console.log(newJargin.devLanguage);
+  // console.log(newJargin.difficulty);
+  // console.log(newJargin.question);
+  // console.log(newJargin.response);
+  // console.log(newJargin.offer);
+
+
   event.preventDefault()
   axios.post('http://localhost:3000/interviews', {
     type: newJargin.type,
@@ -100,10 +114,23 @@ const handleDelete = (interviewData) => {
 const interviewArray = interview.map((interview) => {
   return (
       <>
-      <h3>{interview.user}</h3>
-      {interview.type === 'technical'? <h6>Technical</h6> : <h6>Behavioral</h6>}
-      <h6>{interview.date}</h6>
-      <h6>{interview.company}</h6>
+      <ul>
+      <li>{interview.user}</li>
+      {interview.type === 'technical'? <li>Technical</li> : <li>Behavioral</li>}
+      <li>{interview.date}</li>
+      <li>{interview.company}</li>
+      <li>{interview.jobTitle}</li>
+      <li>{interview.stage}</li>
+      <li>{interview.salary}</li>
+      <li>{interview.location}</li>
+      <li>{interview.timeLimit}</li>
+      <li>{interview.devLanguage}</li>
+      <li>{interview.difficulty}</li>
+      <li>{interview.question}</li>
+      <li>{interview.response}</li>
+      <li>{interview.offer}</li>
+      </ul>
+
       <IconButton aria-label="delete"
         onClick={(event) => {handleDelete(interview)}}
         color="error"><DeleteIcon />
@@ -133,8 +160,9 @@ const interviewArray = interview.map((interview) => {
             <label>Company</label>
               <input name="company" type="text" value={interview.company} onChange={newInterviewPost}/>
             <label>Position/Job Title</label>
-              <input name="JobTitle" type="text" value={interview.jobTitle} onChange={newInterviewPost}/>
+              <input name="jobTitle" type="text" value={interview.jobTitle} onChange={newInterviewPost}/>
             <label>Stage in Interview Process</label>
+              <input name="stage" type="text" value={interview.stage} onChange={newInterviewPost}/>
             <label>Salary</label>
               <input name="salary" type="number" value={interview.salary} onChange={newInterviewPost}/>
             <label>Location</label>
@@ -151,7 +179,11 @@ const interviewArray = interview.map((interview) => {
             <label>Response</label>
               <input name="response" type="text" value={interview.response} onChange={newInterviewPost}/>
             <label>Offered?</label>
-              <input name="offer" type="radio" value={interview.offer} onChange={newInterviewPost}/>
+              <select name='offer' onChange={newInterviewPost}>
+                <option name="offer" value={interview.offer}>Yes</option>
+                <option name="offer" value={interview.offer}>No</option>
+                <option name="offer" value={interview.offer}>Undetermined</option>
+              </select>
             <Button color="secondary" variant="contained" value="Submit Post" type='submit'>Submit</Button>
         </form>
       </section>
