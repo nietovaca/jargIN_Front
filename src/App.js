@@ -3,6 +3,8 @@ import axios from 'axios'
 import FabNav from './components/FabNav'
 import TopNav from './components/TopNav'
 import ShowInterview from './components/ShowInterview'
+import Input from '@mui/material/Input';
+
 
 
 const App = () => {
@@ -119,23 +121,9 @@ const interviewArray = interview.map((interview) => {
       <header>
       </header>
       <h1>JargIN</h1>
+      <header>
+      </header>
       <section>
-<<<<<<< HEAD
-<<<<<<< HEAD
-      </section>
-      <section>
-        {/* <form onSubmit={handleNewPostSubmit}> */}
-        <form>
-          <p>Name: </p><input type="text" onChange={handleNewName}/><br/>
-          <p>Description: </p><textarea name="post-submit" onChange={handleNewDescription}></textarea><br/>
-        </form>
-      </section>
-      <footer>
-
-      </footer>
-=======
-=======
->>>>>>> 4b71a850d5f686318224872484e1cecd9d147706
         <form onSubmit={newFormSubmit}>
           <p>User: </p><input type="text" name="user" value={interview.user} onChange={newInterviewPost}/><br/>
           <p>Type: </p><input type="text" name="type" value={interview.type} onChange={newInterviewPost}/><br/>
@@ -144,14 +132,8 @@ const interviewArray = interview.map((interview) => {
       </section>
       <section>
         {interviewArray}
-        {newJargin.type}
-<<<<<<< HEAD
       </section>
-       
->>>>>>> 469f9e2d669929706ba47a49abe3809882dc1b1b
-=======
-      </section>       
->>>>>>> 4b71a850d5f686318224872484e1cecd9d147706
+
     </>
   )
 }
