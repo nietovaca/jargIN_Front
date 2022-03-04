@@ -1,5 +1,10 @@
 -GENERAL NOTES/ TO-DOs
 
+Question for Ashley:
+-Post route in frontend not posting data to the server - but is working through Postman
+
+
+
 -Set up full CRUD with interview posts
 -Merge backend/frontend
     -Test through Heroku

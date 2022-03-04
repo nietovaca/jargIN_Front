@@ -22,7 +22,7 @@ const App = () => {
   // const [offer, setOffer] = useState('')
   // const [solution, setSolution] = useState('')
 
-  const [posts, setPosts] = useState([])
+  const [interviews, setInterviews] = useState([])
 
   // alternatively:
   // I am less familiar with this method but I believe we would need to use spreading (...) when calling within our functions and return. This just seems neater and could cut down on a massive state list, and having to change setState everytime.
@@ -42,14 +42,14 @@ const App = () => {
     userResponse: '',
     difficulty: '',
     offer: '',
-    comment: []
+    // comment: ''
   })
 
   // =========== useEffect =========== //
 
 useEffect(() => {
   axios.get('http://localhost:3000/interviews').then((res) => {
-    setPosts(res.data)
+    setInterview(res.data)
   })
 }, [])
 
@@ -65,6 +65,7 @@ useEffect(() => {
 
 const newFormSubmit = (event) => {
   console.log(interview.user);
+  console.log(interview.type);
   event.preventDefault()
   axios.post('http://localhost:3000/interviews', {
     type: interview.type,
@@ -81,24 +82,24 @@ const newFormSubmit = (event) => {
     userResponse: interview.userResponse,
     difficulty: interview.difficulty,
     offer: interview.offer,
-    comment: []
+    // comment: []
   }).then(() => {
     axios.get('http://localhost:3000/interviews').then((res) => {
-      setPosts(res.data)
+      setInterview(res.data)
     })
   })
 }
 
 // =========== Delete Function ============ //
 
-// const handleDelete = (postsData) => {
-//         // Will this work?? - May need to modify url depending on backend routes
-//   axios.delete(`http://localhost:3000/posts/${postsData._id}`).then((res) => {
-//     axios.get('http://localhost:3000/posts').then((res) => {
-//       setPosts(res.data)
-//     })
-//   })
-// }
+const handleDelete = (interviewData) => {
+        // Will this work?? - May need to modify url depending on backend routes
+  axios.delete(`http://localhost:3000/interview/${interviewData._id}`).then((res) => {
+    axios.get('http://localhost:3000/interview').then((res) => {
+      setInterview(res.data)
+    })
+  })
+}
 
 
 
@@ -113,8 +114,18 @@ const newFormSubmit = (event) => {
       <section>
         <form onSubmit={newFormSubmit}>
           <p>User: </p><input type="text" name="user" value={interview.user} onChange={newInterviewPost}/><br/>
-
+          <p>Type: </p><input type="text" name="type" value={interview.type} onChange={newInterviewPost}/><br/>
           <input type="submit" value="Submit Post"/>
+          {
+            interview.map((interview) => {
+              return (
+                <>
+                  <button onClick={ (event) => { handleDelete(interview) } }>Delete Post</button>
+                  
+                </>
+              )
+            })
+          }
         </form>
       </section>
        
