@@ -7,7 +7,12 @@ import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
-
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
 
 
 
@@ -38,7 +43,7 @@ const App = () => {
   // I am less familiar with this method but I believe we would need to use spreading (...) when calling within our functions and return. This just seems neater and could cut down on a massive state list, and having to change setState everytime.
 
   const [newJargin, setNewJargin] = useState({
-    type: '',
+    type: {'technical':'behavioral'},
     user: '',
     date: '',
     company: '',
@@ -163,6 +168,9 @@ const interviewArray = interview.map((interview) => {
                   </form> : null
                   }
 
+      {interview.type === 'technical'? <h6>Technical</h6> : <h6>Behavioral</h6>}
+      <h6>{interview.date}</h6>
+      <h6>{interview.company}</h6>
       <IconButton aria-label="delete"
         onClick={(event) => {handleDelete(interview)}}
         color="error"><DeleteIcon />
@@ -170,6 +178,7 @@ const interviewArray = interview.map((interview) => {
       </div>
   )
 })
+//work on displaying this data in component
 
 // =========== Browser =========== //
 
@@ -178,12 +187,39 @@ const interviewArray = interview.map((interview) => {
       <header>
         <ShowInterview />
       </header>
-      <h1>JargIN</h1>
-      <section className="body">
         <form onSubmit={newFormSubmit}>
-          <p>User: </p><input type="text" name="user" value={interview.user} onChange={newInterviewPost}/><br/>
-          <p>Type: </p><input type="text" name="type" value={interview.type} onChange={newInterviewPost}/><br/>
-          <input type="submit" value="Submit Post"/>
+            <label>Type of Interview</label>
+              <select name='type' onChange={newInterviewPost}>
+                <option name="type" value="technical">Technical Interview</option>
+                <option name="type" value="behavioral">Behavioral Interview</option>
+              </select>
+            <label>Name:</label>
+              <input name="user" value={interview.user} onChange={newInterviewPost} />
+            <label>Date of Interview:</label>
+              <input name="date" type="date" value={Date().now} onChange={newInterviewPost}/>
+            <label>Company</label>
+              <input name="company" type="text" value={interview.company} onChange={newInterviewPost}/>
+            <label>Position/Job Title</label>
+              <input name="JobTitle" type="text" value={interview.jobTitle} onChange={newInterviewPost}/>
+            <label>Stage in Interview Process</label>
+            <label>Salary</label>
+              <input name="salary" type="number" value={interview.salary} onChange={newInterviewPost}/>
+            <label>Location</label>
+              <input name="location" type="location" value={interview.location} onChange={newInterviewPost}/>
+            <label>Question</label>
+            <label>Time Limit (in minutes)</label>
+              <input name="timeLimit" type="number" value={interview.timeLimit} onChange={newInterviewPost}/>
+            <label>Language/Framework</label>
+              <input name="devLanguage" type="text" value={interview.devLanguage} onChange={newInterviewPost}/>
+            <label>Difficulty</label>
+              <input name="difficulty" type="text" value={interview.difficulty} onChange={newInterviewPost}/>
+            <label>Question</label>
+              <input name="question" type="text" value={interview.question} onChange={newInterviewPost}/>
+            <label>Response</label>
+              <input name="response" type="text" value={interview.response} onChange={newInterviewPost}/>
+            <label>Offered?</label>
+              <input name="offer" type="radio" value={interview.offer} onChange={newInterviewPost}/>
+            <Button color="secondary" variant="contained" value="Submit Post" type='submit'>Submit</Button>
         </form>
       </section>
       <section className="body">
@@ -196,3 +232,6 @@ const interviewArray = interview.map((interview) => {
 }
 
 export default App;
+
+/////LOGO \\\\\\\\
+// <img src="jarginLogo.png" />
