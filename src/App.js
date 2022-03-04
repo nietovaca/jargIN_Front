@@ -4,6 +4,10 @@ import FabNav from './components/FabNav'
 import TopNav from './components/TopNav'
 import ShowInterview from './components/ShowInterview'
 import Input from '@mui/material/Input';
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
+
 
 
 
@@ -109,7 +113,10 @@ const interviewArray = interview.map((interview) => {
       <>
       <h3>{interview.user}</h3>
       <h3>{interview.type}</h3>
-      <button onClick={ (event) => { handleDelete(interview) } }>Delete Post</button>
+      <IconButton aria-label="delete"
+        onClick={(event) => {handleDelete(interview)}}
+        color="error"><DeleteIcon />
+      </IconButton>
       </>
   )
 })
