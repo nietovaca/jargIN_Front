@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react'
 import axios from 'axios'
 import FabNav from './components/FabNav'
 import TopNav from './components/TopNav'
+import ShowInterview from './components/ShowInterview'
 
 
 const App = () => {
@@ -32,9 +33,11 @@ const App = () => {
   return (
     <>
       <header>
-        <TopNav />
       </header>
       <h1>JargIN</h1>
+      <section>
+        <ShowInterview />
+      </section>
       <section>
         {/* <form onSubmit={handleNewPostSubmit}> */}
         <form>
@@ -43,7 +46,7 @@ const App = () => {
         </form>
       </section>
       <footer>
-        <FabNav />
+
       </footer>
     </>
   )
