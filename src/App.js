@@ -117,7 +117,8 @@ const interviewArray = interview.map((interview) => {
   return (
       <>
       <h3>{interview.user}</h3>
-      <p>{interview.type === 'technical'? <p>Technical</p> : <p>Behavioral</p>}</p>
+      {interview.type === 'technical'? <h6>Technical</h6> : <h6>Behavioral</h6>}
+      <h6>{interview.date}</h6>
       <IconButton aria-label="delete"
         onClick={(event) => {handleDelete(interview)}}
         color="error"><DeleteIcon />
@@ -139,13 +140,14 @@ const interviewArray = interview.map((interview) => {
       <section>
         <form onSubmit={newFormSubmit}>
             <label>Type of Interview</label>
-            <select name='type' onChange={newInterviewPost}>
-              <option name="type" value="technical">Technical Interview</option>
-              <option name="type" value="behavioral">Behavioral Interview</option>
-            </select>
+              <select name='type' onChange={newInterviewPost}>
+                <option name="type" value="technical">Technical Interview</option>
+                <option name="type" value="behavioral">Behavioral Interview</option>
+              </select>
             <label>Name:</label>
-            <input name="user" value={interview.user} onChange={newInterviewPost} />
-
+              <input name="user" value={interview.user} onChange={newInterviewPost} />
+            <label>Date of Interview:</label>
+              <input name="date" type="date" value={Date().now} onChange={newInterviewPost}/>
 
             <input type="submit" value="Submit Post"/>
         </form>
