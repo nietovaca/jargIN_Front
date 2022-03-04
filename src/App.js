@@ -15,27 +15,11 @@ const App = () => {
 
 // =========== States ================= //
 
-  // const [name, setName] = useState('')
-  // const [company, setCompany] = useState('')
-  // const [jobTitle, setJobTitle] = useState('')
-  // const [stage, setStage] = useState('')
-  // const [salaray, setSalary] = useState('')
-  // const [location, setLocation] = useState('')
-  // const [timeLimit, setTimeLimit] = useState('')
-  // const [date, setDate] = useState('')
-  // const [description, setDescription] = useState('') // Question, specific code challenge, etc.
-  // const [language, setLanguage] = useState('')
-  // const [notes, setNotes] = useState('')
-  // const [difficulty, setDifficulty] = useState('')
-  // const [offer, setOffer] = useState('')
-  // const [solution, setSolution] = useState('')
-
   const [interview, setInterview] = useState([])
 
-  const [displayEditForms, setDisplayEditForms] = useState([false])
+  const [displayEditForms, setDisplayEditForms] = useState(false)
 
-  // alternatively:
-  // I am less familiar with this method but I believe we would need to use spreading (...) when calling within our functions and return. This just seems neater and could cut down on a massive state list, and having to change setState everytime.
+  // const [selectEdit, setSelectEdit] = useState('')
 
   const [newJargin, setNewJargin] = useState({
     type: {'techincal':'behavioral'},
@@ -55,7 +39,7 @@ const App = () => {
     // comment: ''
   })
 
-  // =========== useEffect =========== //
+// ============= useEffect ============= //
 
 useEffect(() => {
   axios.get('http://localhost:3000/interviews').then((res) => {
@@ -64,13 +48,11 @@ useEffect(() => {
   })
 }, [])
 
+// ======= Showing Data in Browser ========//
+
   const newInterviewPost = (event) => {
     setNewJargin({...newJargin,[event.target.name]:event.target.value})
   }
-  // Then need to display within the input field:
-  //   name = (corresponding key from useState)
-  //   value = interview.(corresponding key)
-
 
 // =========== Post Function ============ //
 
@@ -103,7 +85,6 @@ const newFormSubmit = (event) => {
 // =========== Delete Function ============ //
 
 const handleDelete = (interviewData) => {
-        // Will this work?? - May need to modify url depending on backend routes
   axios.delete(`http://localhost:3000/interviews/${interviewData._id}`).then((res) => {
     axios.get('http://localhost:3000/interviews').then((res) => {
       setInterview(res.data)
@@ -114,7 +95,6 @@ const handleDelete = (interviewData) => {
 // =========== Edit Function ============ //
 
 const handleToggleEditFormSubmit = (interviewData) => {
-  console.log('newJargin');
   axios.put(`http://localhost:3000/interviews/${interviewData._id}`, {
     type: newJargin.type,
     user: newJargin.user,
@@ -141,18 +121,23 @@ const handleToggleEditFormSubmit = (interviewData) => {
 // ========= Display Edit Forms Function ========= //
 
 const handleToggleEditForms = () => {
-  setDisplayEditForms(!displayEditForms);
-}
+    // console.log(newJargin.user);
+    // setSelectEdit(interview.id)
+    setDisplayEditForms(!displayEditForms)
+  }
 
+// const handleEditClick = () => {
+//   console.log('hello');
+// }
 // ============ Mapping Interviews ============== //
 
-const interviewArray = interview.map((interview) => {
+const interviewArray = interview.map((interview, id) => {
   return (
       <div key={interview._id}>
       <h3>{interview.user}</h3>
       {interview.type === 'technical'? <h6>Technical</h6> : <h6>Behavioral</h6>}
       <h3>{interview.type}</h3>
-
+  
       <button className="edit" onClick={handleToggleEditForms}>Edit</button>
                   { displayEditForms ?
                   <form onSubmit={ (event) => {handleToggleEditFormSubmit(interview) } }>
