@@ -22,12 +22,12 @@ const App = () => {
   // const [offer, setOffer] = useState('')
   // const [solution, setSolution] = useState('')
 
-  const [interviews, setInterviews] = useState([])
+  const [interview, setInterview] = useState([])
 
   // alternatively:
   // I am less familiar with this method but I believe we would need to use spreading (...) when calling within our functions and return. This just seems neater and could cut down on a massive state list, and having to change setState everytime.
 
-  const [interview, setInterview] = useState({
+  const [newJargin, setNewJargin] = useState({
     type: '',
     user: '',
     date: '',
@@ -49,39 +49,39 @@ const App = () => {
 
 useEffect(() => {
   axios.get('http://localhost:3000/interviews').then((res) => {
-    setInterview(res.data)
+    setNewJargin(res.data)
   })
 }, [])
 
   const newInterviewPost = (event) => {
-    setInterview({...interview,[event.target.name]:event.target.value})
+    setNewJargin({...newJargin,[event.target.name]:event.target.value})
   }
   // Then need to display within the input field:
-    // name = (corresponding key from useState)
-    // value = interview.(corresponding key)
+  //   name = (corresponding key from useState)
+  //   value = interview.(corresponding key)
 
 
 // =========== Post Function ============ //
 
 const newFormSubmit = (event) => {
-  console.log(interview.user);
-  console.log(interview.type);
+  console.log(newJargin.user);
+  console.log(newJargin.type);
   event.preventDefault()
   axios.post('http://localhost:3000/interviews', {
-    type: interview.type,
-    user: interview.user,
-    date: interview.date,
-    company: interview.company,
-    jobTitle: interview.jobTitle,
-    stage: interview.stage,
-    salary: interview.salary,
-    location: interview.location,
-    timeLimit: interview.timeLimit,
-    question: interview.question,
-    devLanguage: interview.devLanguage,
-    userResponse: interview.userResponse,
-    difficulty: interview.difficulty,
-    offer: interview.offer,
+    type: newJargin.type,
+    user: newJargin.user,
+    date: newJargin.date,
+    company: newJargin.company,
+    jobTitle: newJargin.jobTitle,
+    stage: newJargin.stage,
+    salary: newJargin.salary,
+    location: newJargin.location,
+    timeLimit: newJargin.timeLimit,
+    question: newJargin.question,
+    devLanguage: newJargin.devLanguage,
+    userResponse: newJargin.userResponse,
+    difficulty: newJargin.difficulty,
+    offer: newJargin.offer,
     // comment: []
   }).then(() => {
     axios.get('http://localhost:3000/interviews').then((res) => {
@@ -89,19 +89,26 @@ const newFormSubmit = (event) => {
     })
   })
 }
-
 // =========== Delete Function ============ //
 
 const handleDelete = (interviewData) => {
         // Will this work?? - May need to modify url depending on backend routes
-  axios.delete(`http://localhost:3000/interview/${interviewData._id}`).then((res) => {
-    axios.get('http://localhost:3000/interview').then((res) => {
+  axios.delete(`http://localhost:3000/interviews/${interviewData._id}`).then((res) => {
+    axios.get('http://localhost:3000/interviews').then((res) => {
       setInterview(res.data)
     })
   })
 }
 
-
+const interviewArray = interview.map((interview) => {
+  return (
+      <>
+      <h3>{interview.user}</h3>
+      <h3>{interview.type}</h3>
+      <button onClick={ (event) => { handleDelete(interview) } }>Delete Post</button>
+      </>
+  )
+})
 
 // =========== Browser =========== //
 
@@ -116,17 +123,11 @@ const handleDelete = (interviewData) => {
           <p>User: </p><input type="text" name="user" value={interview.user} onChange={newInterviewPost}/><br/>
           <p>Type: </p><input type="text" name="type" value={interview.type} onChange={newInterviewPost}/><br/>
           <input type="submit" value="Submit Post"/>
-          {
-            interview.map((interview) => {
-              return (
-                <>
-                  <button onClick={ (event) => { handleDelete(interview) } }>Delete Post</button>
-                  
-                </>
-              )
-            })
-          }
         </form>
+      </section>
+      <section>
+        {interviewArray}
+        {newJargin.type}
       </section>
        
     </>
