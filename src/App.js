@@ -36,7 +36,6 @@ const App = () => {
       </header>
       <h1>JargIN</h1>
       <section>
-        <ShowInterview />
       </section>
       <section>
         {/* <form onSubmit={handleNewPostSubmit}> */}
