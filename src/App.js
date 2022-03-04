@@ -7,7 +7,12 @@ import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
-
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
 
 
 
@@ -163,6 +168,9 @@ const interviewArray = interview.map((interview) => {
                   </form> : null
                   }
 
+      {interview.type === 'technical'? <h6>Technical</h6> : <h6>Behavioral</h6>}
+      <h6>{interview.date}</h6>
+      <h6>{interview.company}</h6>
       <IconButton aria-label="delete"
         onClick={(event) => {handleDelete(interview)}}
         color="error"><DeleteIcon />
@@ -170,6 +178,7 @@ const interviewArray = interview.map((interview) => {
       </div>
   )
 })
+//work on displaying this data in component
 
 // =========== Browser =========== //
 
@@ -223,3 +232,6 @@ return (
 
 
 export default App;
+
+/////LOGO \\\\\\\\
+// <img src="jarginLogo.png" />
