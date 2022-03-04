@@ -1,8 +1,12 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
+
+// ============= Content Components ============ //
 import FabNav from './components/FabNav'
 import TopNav from './components/TopNav'
 import ShowInterview from './components/ShowInterview'
+
+// ============== MUI Components ============= //
 import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -22,6 +26,7 @@ const App = () => {
 
 //DB Interview
 const [interview, setInterview] = useState([])
+const [showNewInterviewForm, setShowNewInterviewForm] = useState(false)
 
 //New Interview Use State
 const [newJargin, setNewJargin] = useState({
@@ -58,9 +63,11 @@ useEffect(() => {
   //   value = interview.(corresponding key)
 
 
+
 // =========== Post Function ============ //
 
 const newFormSubmit = (event) => {
+
   // console.log(newJargin.user);
   // console.log(newJargin.type);
   // console.log(newJargin.date);
@@ -99,6 +106,7 @@ const newFormSubmit = (event) => {
       setInterview(res.data)
     })
   })
+  setShowNewInterviewForm(false)
 }
 // =========== Delete Function ============ //
 
@@ -138,7 +146,12 @@ const interviewArray = interview.map((interview) => {
       </>
   )
 })
-//work on displaying this data in component
+
+//Button toggle show the new form
+const showNewForm = (event) => {
+  setShowNewInterviewForm(true)
+}
+
 
 // =========== Browser =========== //
 
@@ -147,6 +160,15 @@ const interviewArray = interview.map((interview) => {
       <header>
       </header>
       <section>
+        {interviewArray}
+      </section>
+      <section>
+        <Button onClick={showNewForm}>
+          Add Your Interview
+        </Button>
+      </section>
+      {showNewInterviewForm ?
+        <section>
         <form onSubmit={newFormSubmit}>
             <label>Type of Interview</label>
               <select name='type' onChange={newInterviewPost}>
@@ -187,10 +209,7 @@ const interviewArray = interview.map((interview) => {
             <Button color="secondary" variant="contained" value="Submit Post" type='submit'>Submit</Button>
         </form>
       </section>
-      <section>
-        {interviewArray}
-      </section>
-
+    : null }
     </>
   )
 }
