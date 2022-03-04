@@ -1,70 +1,136 @@
-# Getting Started with Create React App
+-GENERAL NOTES/ TO-DOs
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Question for Ashley:
+-Post route in frontend not posting data to the server - but is working through Postman
 
-## Available Scripts
 
-In the project directory, you can run:
 
-### `npm start`
+-Set up full CRUD with interview posts
+-Merge backend/frontend
+    -Test through Heroku
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+    name: '',
+    company: '',
+    jobTitle: '',
+    stage: '',
+    salary: '',
+    location: '',
+    timeLimit: '',
+    date: '',
+    description: '',
+    language: '',
+    notes: '',
+    difficulty: '',
+    offer: '',
+    solution: ''
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+// ========== Form Functions ============ //
 
-### `npm test`
+ const handleNewName = (event) => {
+    setName(event.target.value)
+  }
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+  const handleNewCompany = (event) => {
+    setCompany(event.target.value)
+  }
 
-### `npm run build`
+  const handleNewJobTitle = (event) => {
+    setJobTitle(event.target.value)
+  }
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  const handleNewStage = (event) => {
+    setStage(event.target.value)
+  }
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+  const handleNewSalary = (event) => {
+    setSalary(event.target.value)
+  }
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  const handleNewLocation = (event) => {
+    setLocation(event.target.value)
+  }
 
-### `npm run eject`
+  const handleNewTimeLimit = (event) => {
+    setTimeLimit(event.target.value)
+  }
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+  const handleNewDate = (event) => {
+    setDate(event.target.value)
+  }
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  const handleNewDescription = (event) => {
+    setDescription(event.target.value)
+  }
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+  const handleNewLanguage = (event) => {
+    setLanguage(event.target.value)
+  }
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+  const handleNewNotes = (event) => {
+    setNotes(event.target.value)
+  }
 
-## Learn More
+  const handleNewDifficulty = (event) => {
+    setDifficulty(event.target.value)
+  }
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  const handleNewOffer = (event) => {
+    setOffer(event.target.value)
+  }
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+  const handleNewSolution = (event) => {
+    setSolution(event.target.value)
+  }
 
-### Code Splitting
+<section>
+        <form onSubmit={handleNewFormSubmit}>
+                          {/* add placeholders? */}
+          <p>Name: </p><input type="text" onChange={handleNewName}/><br/>
+          <p>Company: </p><input type="text" onChange={handleNewCompany}/><br/>
+          <p>Location: </p><input type="text" onChange={handleNewLocation}/><br/>
+          <p>Job Title: </p><input type="text" onChange={handleNewJobTitle}/><br/>
+          <p>Salary: </p><input type="text" onChange={handleNewSalary}/><br/>
+          <p>Date: </p><input type="text" onChange={handleNewDate}/><br/>
+          <p>Stage: </p><input type="text" onChange={handleNewStage}/><br/>
+          <p>Time Limit: </p><input type="text" onChange={handleNewTimeLimit}/><br/>
+          <p>Description: </p><textarea name="post-submit" onChange={handleNewDescription}></textarea><br/>
+          <p>Languages used: </p><input type="text" onChange={handleNewLanguage}/><br/>
+          <p>Notes: </p><textarea name="post-submit" onChange={handleNewNotes}></textarea><br/>
+          <p>Difficulty(on a scale of 1 to 10): </p><input type="text" onChange={handleNewDifficulty}/><br/>
+          <p>Offer: </p><input type="text" onChange={handleNewOffer}/><br/>
+          <p>Solution: </p><textarea name="post-submit" onChange={handleNewSolution}></textarea><br/>
+        </form>
+</section>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+<section>
+        <h2>Posts:</h2>
+          {
+            setPosts.map((post) => {
+              return (
+                <div key={post._id}>
+                  <h3>{post.name}</h3>
+                  <h3>{post.company}</h3>
+                  <h3>{post.location}</h3>
+                  <h3>{post.jobTitle}</h3>
+                  <h3>{post.salary}</h3>
+                  <h3>{post.date}</h3>
+                  <h3>{post.stage}</h3>
+                  <h3>{post.timeLimit}</h3>
+                  <h3>{post.description}</h3>
+                  <h3>{post.languages}</h3>
+                  <h3>{post.notes}</h3>
+                  <h3>{post.difficulty}</h3>
+                  <h3>{post.offer}</h3>
+                  
+                  <h3>{post.solution}</h3>{/* hidden */}
+                  <button onClick={ (event) => { handleDelete(post) } }>Delete Post</button>
+                </div>
+              )
+            })
+          }
+      </section>
 
-### Analyzing the Bundle Size
+    
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
