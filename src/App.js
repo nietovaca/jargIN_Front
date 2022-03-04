@@ -41,7 +41,7 @@ const App = () => {
   // I am less familiar with this method but I believe we would need to use spreading (...) when calling within our functions and return. This just seems neater and could cut down on a massive state list, and having to change setState everytime.
 
   const [newJargin, setNewJargin] = useState({
-    type: 'technical',
+    type: {'technical':'behavioral'},
     user: '',
     date: '',
     company: '',
@@ -119,6 +119,7 @@ const interviewArray = interview.map((interview) => {
       <h3>{interview.user}</h3>
       {interview.type === 'technical'? <h6>Technical</h6> : <h6>Behavioral</h6>}
       <h6>{interview.date}</h6>
+      <h6>{interview.company}</h6>
       <IconButton aria-label="delete"
         onClick={(event) => {handleDelete(interview)}}
         color="error"><DeleteIcon />
@@ -134,9 +135,6 @@ const interviewArray = interview.map((interview) => {
     <>
       <header>
       </header>
-      <h1>JargIN</h1>
-      <header>
-      </header>
       <section>
         <form onSubmit={newFormSubmit}>
             <label>Type of Interview</label>
@@ -148,8 +146,12 @@ const interviewArray = interview.map((interview) => {
               <input name="user" value={interview.user} onChange={newInterviewPost} />
             <label>Date of Interview:</label>
               <input name="date" type="date" value={Date().now} onChange={newInterviewPost}/>
+            <label>Company</label>
+              <input name="company" type="text" value={interview.company} onChange={newInterviewPost}/>
+            <label>Position/Job Title</label>
+              <input name="JobTitle" type="text" value={interview.jobTitle} onChange={newInterviewPost}/>
 
-            <input type="submit" value="Submit Post"/>
+            <Button color="secondary" variant="contained" value="Submit Post" type='submit'>Submit</Button>
         </form>
       </section>
       <section>
@@ -161,3 +163,6 @@ const interviewArray = interview.map((interview) => {
 }
 
 export default App;
+
+/////LOGO \\\\\\\\
+// <img src="jarginLogo.png" />
