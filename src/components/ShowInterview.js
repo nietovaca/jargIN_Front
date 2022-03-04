@@ -17,9 +17,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
-// import InboxIcon from '@mui/icons-material/MoveToInbox';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import MailIcon from '@mui/icons-material/Mail';
 import SearchIcon from '@mui/icons-material/Search';
 import InputBase from '@mui/material/InputBase';
 
@@ -164,6 +162,15 @@ const ShowInterview = (props) => {
           </IconButton>
         </DrawerHeader>
         <Divider />
+        <Search>
+          <SearchIconWrapper>
+            <SearchIcon />
+          </SearchIconWrapper>
+          <StyledInputBase
+            placeholder="Search…"
+            inputProps={{ 'aria-label': 'search' }}
+          />
+        </Search>
         <List>
           {['Details', 'Comments', ].map((text, index) => (
             <ListItem button key={text}>
@@ -220,13 +227,4 @@ const ShowInterview = (props) => {
 
 export default ShowInterview;
 
-
-// <Search>
-//   <SearchIconWrapper>
-//     <SearchIcon />
-//   </SearchIconWrapper>
-//   <StyledInputBase
-//     placeholder="Search…"
-//     inputProps={{ 'aria-label': 'search' }}
-//   />
-// </Search>
+// https://mui.com/components/drawers/#persistent-drawer
