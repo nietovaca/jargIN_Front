@@ -20,27 +20,11 @@ const App = () => {
 
 // =========== States ================= //
 
-  // const [name, setName] = useState('')
-  // const [company, setCompany] = useState('')
-  // const [jobTitle, setJobTitle] = useState('')
-  // const [stage, setStage] = useState('')
-  // const [salaray, setSalary] = useState('')
-  // const [location, setLocation] = useState('')
-  // const [timeLimit, setTimeLimit] = useState('')
-  // const [date, setDate] = useState('')
-  // const [description, setDescription] = useState('') // Question, specific code challenge, etc.
-  // const [language, setLanguage] = useState('')
-  // const [notes, setNotes] = useState('')
-  // const [difficulty, setDifficulty] = useState('')
-  // const [offer, setOffer] = useState('')
-  // const [solution, setSolution] = useState('')
+//DB Interview
+const [interview, setInterview] = useState([])
 
-  const [interview, setInterview] = useState([])
-
-  // alternatively:
-  // I am less familiar with this method but I believe we would need to use spreading (...) when calling within our functions and return. This just seems neater and could cut down on a massive state list, and having to change setState everytime.
-
-  const [newJargin, setNewJargin] = useState({
+//New Interview Use State
+const [newJargin, setNewJargin] = useState({
     type: {'technical':'behavioral'},
     user: '',
     date: '',
