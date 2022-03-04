@@ -70,17 +70,18 @@ const [newJargin, setNewJargin] = useState({
   // =========== useEffect =========== //
 
 useEffect(() => {
-    if (displayInterviews === true){
+    // if (displayInterviews === true){
         axios.get('http://localhost:3000/interviews').then((res) => {
           setNewJargin(res.data)
           setInterview(res.data)
-        })
-    } else if (displayResources === true){
-        axios.get('http://localhost:3000/resources').then((res) => {
-          setNewBook(res.data)
-          setResource(res.data)
-        })
-    }
+        }
+      )
+    // } else if (displayResources === true){
+    //     axios.get('http://localhost:3000/resources').then((res) => {
+    //       setNewBook(res.data)
+    //       setResource(res.data)
+    //     })
+    // }
 }, [])
 
 
@@ -102,10 +103,9 @@ useEffect(() => {
 
 // =========== Post Function ============ //
 
-const newFormSubmit = (event) => {
-
-  // console.log(newJargin.user);
-  // console.log(newJargin.type);
+const newInterviewSubmit = (event) => {
+  console.log(newJargin.user);
+  console.log(newJargin.type);
   // console.log(newJargin.date);
   // console.log(newJargin.company);
   // console.log(newJargin.jobTitle);
@@ -118,13 +118,6 @@ const newFormSubmit = (event) => {
   // console.log(newJargin.question);
   // console.log(newJargin.response);
   // console.log(newJargin.offer);
-
-
-// =========== Post Functions ============ //
-
-const newInterviewSubmit = (event) => {
-  console.log(newJargin.user);
-  console.log(newJargin.type);
 
   event.preventDefault()
   axios.post('http://localhost:3000/interviews', {
@@ -148,7 +141,7 @@ const newInterviewSubmit = (event) => {
       setInterview(res.data)
     })
   })
-  setShowNewInterviewForm(false)
+  // setShowNewInterviewForm(false)
 }
 
 const newResourceSubmit = (event) => {
@@ -212,7 +205,6 @@ const handleToggleEditInterviewSubmit = (interviewData) => {
     })
   })
 }
-console.log(displayInterviews)
 // ========= Display Edit Forms Function ========= //
 
 const handleToggleEditInterviewForms = () => {
@@ -271,7 +263,7 @@ const displayInterviewDetails = (event) => {
 // =========== Browser =========== //
 return (
   <Router>
-      <>
+      <div>
           <header>
           </header>
           <Switch>
@@ -283,60 +275,57 @@ return (
                   </section>
               </Route>
               <Route exact path="/interviews">
+                {interviewArray}
+                <Link to ="/interviewform"><button>Add Your Interview</button></Link>
+              </Route>
+              <Route exact path="/interviewform">
                   <section>
-                    <Button onClick={showNewForm}>
-                      Add Your Interview
-                    </Button>
+                    <form onSubmit={newInterviewSubmit}>
+                        <label>Type of Interview</label>
+                          <select name='type' onChange={newInterviewPost}>
+                            <option name="type" value="technical">Technical Interview</option>
+                            <option name="type" value="behavioral">Behavioral Interview</option>
+                          </select>
+                        <label>Name:</label>
+                          <input name="user" value={interview.user} onChange={newInterviewPost} />
+                        <label>Date of Interview:</label>
+                          <input name="date" type="date" value={Date().now} onChange={newInterviewPost}/>
+                        <label>Company</label>
+                          <input name="company" type="text" value={interview.company} onChange={newInterviewPost}/>
+                        <label>Position/Job Title</label>
+                          <input name="jobTitle" type="text" value={interview.jobTitle} onChange={newInterviewPost}/>
+                        <label>Stage in Interview Process</label>
+                          <input name="stage" type="text" value={interview.stage} onChange={newInterviewPost}/>
+                        <label>Salary</label>
+                          <input name="salary" type="number" value={interview.salary} onChange={newInterviewPost}/>
+                        <label>Location</label>
+                          <input name="location" type="location" value={interview.location} onChange={newInterviewPost}/>
+                        <label>Question</label>
+                        <label>Time Limit (in minutes)</label>
+                          <input name="timeLimit" type="number" value={interview.timeLimit} onChange={newInterviewPost}/>
+                        <label>Language/Framework</label>
+                          <input name="devLanguage" type="text" value={interview.devLanguage} onChange={newInterviewPost}/>
+                        <label>Difficulty</label>
+                          <input name="difficulty" type="text" value={interview.difficulty} onChange={newInterviewPost}/>
+                        <label>Question</label>
+                          <input name="question" type="text" value={interview.question} onChange={newInterviewPost}/>
+                        <label>Response</label>
+                          <input name="response" type="text" value={interview.response} onChange={newInterviewPost}/>
+                        <label>Offered?</label>
+                          <select name='offer' onChange={newInterviewPost}>
+                            <option name="offer" value={interview.offer}>Yes</option>
+                            <option name="offer" value={interview.offer}>No</option>
+                            <option name="offer" value={interview.offer}>Undetermined</option>
+                          </select>
+                        <Button color="secondary" variant="contained" value="Submit Post" type='submit'>Submit</Button>
+                    </form>
                 </section>
-                    {showNewInterviewForm ?
-                      <section>
-                      <form onSubmit={newFormSubmit}>
-                          <label>Type of Interview</label>
-                            <select name='type' onChange={newInterviewPost}>
-                              <option name="type" value="technical">Technical Interview</option>
-                              <option name="type" value="behavioral">Behavioral Interview</option>
-                            </select>
-                          <label>Name:</label>
-                            <input name="user" value={interview.user} onChange={newInterviewPost} />
-                          <label>Date of Interview:</label>
-                            <input name="date" type="date" value={Date().now} onChange={newInterviewPost}/>
-                          <label>Company</label>
-                            <input name="company" type="text" value={interview.company} onChange={newInterviewPost}/>
-                          <label>Position/Job Title</label>
-                            <input name="jobTitle" type="text" value={interview.jobTitle} onChange={newInterviewPost}/>
-                          <label>Stage in Interview Process</label>
-                            <input name="stage" type="text" value={interview.stage} onChange={newInterviewPost}/>
-                          <label>Salary</label>
-                            <input name="salary" type="number" value={interview.salary} onChange={newInterviewPost}/>
-                          <label>Location</label>
-                            <input name="location" type="location" value={interview.location} onChange={newInterviewPost}/>
-                          <label>Question</label>
-                          <label>Time Limit (in minutes)</label>
-                            <input name="timeLimit" type="number" value={interview.timeLimit} onChange={newInterviewPost}/>
-                          <label>Language/Framework</label>
-                            <input name="devLanguage" type="text" value={interview.devLanguage} onChange={newInterviewPost}/>
-                          <label>Difficulty</label>
-                            <input name="difficulty" type="text" value={interview.difficulty} onChange={newInterviewPost}/>
-                          <label>Question</label>
-                            <input name="question" type="text" value={interview.question} onChange={newInterviewPost}/>
-                          <label>Response</label>
-                            <input name="response" type="text" value={interview.response} onChange={newInterviewPost}/>
-                          <label>Offered?</label>
-                            <select name='offer' onChange={newInterviewPost}>
-                              <option name="offer" value={interview.offer}>Yes</option>
-                              <option name="offer" value={interview.offer}>No</option>
-                              <option name="offer" value={interview.offer}>Undetermined</option>
-                            </select>
-                          <Button color="secondary" variant="contained" value="Submit Post" type='submit'>Submit</Button>
-                      </form>
-                </section>
-              : null }
               </Route>
           </Switch>
-      </>
+      </div>
   </Router>
 )
-}
+};
 
 export default App;
 
