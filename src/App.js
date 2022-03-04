@@ -100,13 +100,24 @@ const handleDelete = (interviewData) => {
   })
 }
 
+// =========== Edit Function ============ //
+
+const handleEditInterview = () => { 
+  axios.put(`http://localhost:3000/interviews/${interviewData._id}`)
+}
+
+// =========== Interview Mapping ============ //
+
 const interviewArray = interview.map((interview) => {
   return (
-      <>
+      <div key={interview._id}>
+      <form>
+
+      </form>
       <h3>{interview.user}</h3>
       <h3>{interview.type}</h3>
       <button onClick={ (event) => { handleDelete(interview) } }>Delete Post</button>
-      </>
+      </div>
   )
 })
 
@@ -118,16 +129,16 @@ const interviewArray = interview.map((interview) => {
 
       </header>
       <h1>JargIN</h1>
-      <section>
+      <section className="body">
         <form onSubmit={newFormSubmit}>
           <p>User: </p><input type="text" name="user" value={interview.user} onChange={newInterviewPost}/><br/>
           <p>Type: </p><input type="text" name="type" value={interview.type} onChange={newInterviewPost}/><br/>
           <input type="submit" value="Submit Post"/>
         </form>
       </section>
-      <section>
+      <section className="body">
         {interviewArray}
-        {newJargin.type}
+        {/* {newJargin.type} */}
       </section>
        
     </>
