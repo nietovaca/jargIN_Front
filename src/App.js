@@ -7,7 +7,12 @@ import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
-
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
 
 
 
@@ -36,7 +41,7 @@ const App = () => {
   // I am less familiar with this method but I believe we would need to use spreading (...) when calling within our functions and return. This just seems neater and could cut down on a massive state list, and having to change setState everytime.
 
   const [newJargin, setNewJargin] = useState({
-    type: '',
+    type: 'technical',
     user: '',
     date: '',
     company: '',
@@ -112,7 +117,7 @@ const interviewArray = interview.map((interview) => {
   return (
       <>
       <h3>{interview.user}</h3>
-      <h3>{interview.type}</h3>
+      <p>{interview.type === 'technical'? <p>Technical</p> : <p>Behavioral</p>}</p>
       <IconButton aria-label="delete"
         onClick={(event) => {handleDelete(interview)}}
         color="error"><DeleteIcon />
@@ -120,6 +125,7 @@ const interviewArray = interview.map((interview) => {
       </>
   )
 })
+//work on displaying this data in component
 
 // =========== Browser =========== //
 
@@ -132,9 +138,16 @@ const interviewArray = interview.map((interview) => {
       </header>
       <section>
         <form onSubmit={newFormSubmit}>
-          <p>User: </p><input type="text" name="user" value={interview.user} onChange={newInterviewPost}/><br/>
-          <p>Type: </p><input type="text" name="type" value={interview.type} onChange={newInterviewPost}/><br/>
-          <input type="submit" value="Submit Post"/>
+            <label>Type of Interview</label>
+            <select name='type' onChange={newInterviewPost}>
+              <option name="type" value="technical">Technical Interview</option>
+              <option name="type" value="behavioral">Behavioral Interview</option>
+            </select>
+            <label>Name:</label>
+            <input name="user" value={interview.user} onChange={newInterviewPost} />
+
+
+            <input type="submit" value="Submit Post"/>
         </form>
       </section>
       <section>
