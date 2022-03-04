@@ -37,6 +37,8 @@ const App = () => {
 
   const [interview, setInterview] = useState([])
 
+  const [displayEditForms, setDisplayEditForms] = useState([false])
+
   // alternatively:
   // I am less familiar with this method but I believe we would need to use spreading (...) when calling within our functions and return. This just seems neater and could cut down on a massive state list, and having to change setState everytime.
 
@@ -63,6 +65,7 @@ const App = () => {
 useEffect(() => {
   axios.get('http://localhost:3000/interviews').then((res) => {
     setNewJargin(res.data)
+    setInterview(res.data)
   })
 }, [])
 
@@ -113,10 +116,58 @@ const handleDelete = (interviewData) => {
   })
 }
 
+// =========== Edit Function ============ //
+
+const handleToggleEditFormSubmit = (interviewData) => {
+  console.log('newJargin');
+  axios.put(`http://localhost:3000/interviews/${interviewData._id}`, {
+    type: newJargin.type,
+    user: newJargin.user,
+    date: newJargin.date,
+    company: newJargin.company,
+    jobTitle: newJargin.jobTitle,
+    stage: newJargin.stage,
+    salary: newJargin.salary,
+    location: newJargin.location,
+    timeLimit: newJargin.timeLimit,
+    question: newJargin.question,
+    devLanguage: newJargin.devLanguage,
+    userResponse: newJargin.userResponse,
+    difficulty: newJargin.difficulty,
+    offer: newJargin.offer,
+    // comment: []
+  }).then(() => {
+    axios.get('http://localhost:3000/quotes').then((res) => {
+      setInterview(res.data)
+    })
+  })
+}
+
+// ========= Display Edit Forms Function ========= //
+
+const handleToggleEditForms = () => {
+  setDisplayEditForms(!displayEditForms);
+}
+
+// ============ Mapping Interviews ============== //
+
+
 const interviewArray = interview.map((interview) => {
   return (
-      <>
+      <div key={interview._id}>
       <h3>{interview.user}</h3>
+      <h3>{interview.type}</h3>
+
+      <button className="edit" onClick={handleToggleEditForms}>Edit</button>
+                  { displayEditForms ?
+                  <form onSubmit={ (event) => {handleToggleEditFormSubmit(interview) } }>
+                      <p> User: </p> <input type="text" name="user" onChange={newInterviewPost}/><br/>
+                      <p> Type: </p> <input type="text" name="type" onChange={newInterviewPost}/><br/>
+                      <br/>
+                      <input type="submit" value="Change Interview Data"/>
+                  </form> : null
+                  }
+
       {interview.type === 'technical'? <h6>Technical</h6> : <h6>Behavioral</h6>}
       <h6>{interview.date}</h6>
       <h6>{interview.company}</h6>
@@ -124,7 +175,7 @@ const interviewArray = interview.map((interview) => {
         onClick={(event) => {handleDelete(interview)}}
         color="error"><DeleteIcon />
       </IconButton>
-      </>
+      </div>
   )
 })
 //work on displaying this data in component
@@ -132,10 +183,10 @@ const interviewArray = interview.map((interview) => {
 // =========== Browser =========== //
 
   return (
-    <>
+    <main>
       <header>
+        <ShowInterview />
       </header>
-      <section>
         <form onSubmit={newFormSubmit}>
             <label>Type of Interview</label>
               <select name='type' onChange={newInterviewPost}>
@@ -171,11 +222,12 @@ const interviewArray = interview.map((interview) => {
             <Button color="secondary" variant="contained" value="Submit Post" type='submit'>Submit</Button>
         </form>
       </section>
-      <section>
+      <section className="body">
         {interviewArray}
+        {/* {newJargin.type} */}
       </section>
 
-    </>
+    </main>
   )
 }
 
