@@ -42,7 +42,7 @@ const [displayInterviews, setDisplayInterviews] = useState([false])
 
   // Kevin C killed it here with the below states!!!
 const [newJargin, setNewJargin] = useState({
-    type: {'techincal':'behavioral'},
+    type: '',
     user: '',
     date: '',
     company: '',
@@ -200,7 +200,7 @@ const handleToggleEditInterviewSubmit = (interviewData) => {
     offer: newJargin.offer,
     // comment: []
   }).then(() => {
-    axios.get('http://localhost:3000/quotes').then((res) => {
+    axios.get('http://localhost:3000/interviews').then((res) => {
       setInterview(res.data)
     })
   })
@@ -217,7 +217,7 @@ const interviewArray = interview.map((interview) => {
       <div key={interview._id}>
         <ul>
         <li>{interview.user}</li>
-        {interview.type === 'technical'? <li>Technical</li> : <li>Behavioral</li>}
+        {interview.type? <li>Technical</li> : <li>Behavioral</li>}
         <li>{interview.date}</li>
         <li>{interview.company}</li>
         <li>{interview.jobTitle}</li>
@@ -282,6 +282,7 @@ return (
                     <form onSubmit={newInterviewSubmit}>
                         <label>Type of Interview</label>
                           <select name='type' onChange={newInterviewPost}>
+                            <option value="select type">Select type:</option>
                             <option name="type" value="technical">Technical Interview</option>
                             <option name="type" value="behavioral">Behavioral Interview</option>
                           </select>
@@ -317,6 +318,7 @@ return (
                             <option name="offer" value={interview.offer}>Undetermined</option>
                           </select>
                         <Button color="secondary" variant="contained" value="Submit Post" type='submit'>Submit</Button>
+                        <Link to="/interviews">Back to all Interviews</Link>
                     </form>
                 </section>
               </Route>
