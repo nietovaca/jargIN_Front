@@ -41,7 +41,6 @@ const [displayInterviews, setDisplayInterviews] = useState([false])
 
 
   // Kevin C killed it here with the below states!!!
-
 const [newJargin, setNewJargin] = useState({
     type: {'techincal':'behavioral'},
     user: '',
@@ -74,6 +73,7 @@ useEffect(() => {
         axios.get('http://localhost:3000/interviews').then((res) => {
           setNewJargin(res.data)
           setInterview(res.data)
+          setDisplayEditInterviewForms(!res.data)
         }
       )
     // } else if (displayResources === true){
