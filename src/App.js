@@ -19,7 +19,6 @@ import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 
 
-
 const App = () => {
 
 // =========== States ================= //
@@ -27,6 +26,7 @@ const App = () => {
 //DB Interview
 const [interview, setInterview] = useState([])
 const [showNewInterviewForm, setShowNewInterviewForm] = useState(false)
+const [showInterviewDetails, setShowInterviewDetails] = useState(false)
 
 //New Interview Use State
 const [newJargin, setNewJargin] = useState({
@@ -122,6 +122,7 @@ const handleDelete = (interviewData) => {
 const interviewArray = interview.map((interview) => {
   return (
       <>
+      
       <ul>
       <li>{interview.user}</li>
       {interview.type === 'technical'? <li>Technical</li> : <li>Behavioral</li>}
@@ -138,7 +139,6 @@ const interviewArray = interview.map((interview) => {
       <li>{interview.response}</li>
       <li>{interview.offer}</li>
       </ul>
-
       <IconButton aria-label="delete"
         onClick={(event) => {handleDelete(interview)}}
         color="error"><DeleteIcon />
@@ -152,12 +152,17 @@ const showNewForm = (event) => {
   setShowNewInterviewForm(true)
 }
 
+const displayInterviewDetails = (event) => {
+  setShowInterviewDetails(true)
+}
+
 
 // =========== Browser =========== //
 
   return (
     <>
       <header>
+        <ShowInterview />
       </header>
       <section>
         {interviewArray}
