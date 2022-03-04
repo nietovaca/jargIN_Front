@@ -212,7 +212,6 @@ const handleToggleEditInterviewForms = () => {
 }
 
 // ============ Mapping Interviews ============== //
-
 const interviewArray = interview.map((interview) => {
   return (
       <div key={interview._id}>
