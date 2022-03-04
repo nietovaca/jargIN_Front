@@ -1,6 +1,8 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
 import FabNav from './components/FabNav'
+import TopNav from './components/TopNav'
+import ShowInterview from './components/ShowInterview'
 
 
 const App = () => {
@@ -115,7 +117,6 @@ const interviewArray = interview.map((interview) => {
   return (
     <>
       <header>
-
       </header>
       <h1>JargIN</h1>
       <section>
@@ -128,8 +129,7 @@ const interviewArray = interview.map((interview) => {
       <section>
         {interviewArray}
         {newJargin.type}
-      </section>
-       
+      </section>       
     </>
   )
 }
