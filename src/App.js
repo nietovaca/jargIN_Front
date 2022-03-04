@@ -3,6 +3,8 @@ import axios from 'axios'
 import FabNav from './components/FabNav'
 import TopNav from './components/TopNav'
 import ShowInterview from './components/ShowInterview'
+import Input from '@mui/material/Input';
+
 
 
 const App = () => {
@@ -119,6 +121,8 @@ const interviewArray = interview.map((interview) => {
       <header>
       </header>
       <h1>JargIN</h1>
+      <header>
+      </header>
       <section>
         <form onSubmit={newFormSubmit}>
           <p>User: </p><input type="text" name="user" value={interview.user} onChange={newInterviewPost}/><br/>
@@ -128,8 +132,8 @@ const interviewArray = interview.map((interview) => {
       </section>
       <section>
         {interviewArray}
-        {newJargin.type}
-      </section>       
+      </section>
+
     </>
   )
 }
