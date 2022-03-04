@@ -146,6 +146,7 @@ const handleToggleEditForms = () => {
 
 // ============ Mapping Interviews ============== //
 
+
 const interviewArray = interview.map((interview) => {
   return (
       <div key={interview._id}>
@@ -178,17 +179,16 @@ const interviewArray = interview.map((interview) => {
         <ShowInterview />
       </header>
       <h1>JargIN</h1>
-      <header>
-      </header>
-      <section>
+      <section className="body">
         <form onSubmit={newFormSubmit}>
           <p>User: </p><input type="text" name="user" value={interview.user} onChange={newInterviewPost}/><br/>
           <p>Type: </p><input type="text" name="type" value={interview.type} onChange={newInterviewPost}/><br/>
           <input type="submit" value="Submit Post"/>
         </form>
       </section>
-      <section>
+      <section className="body">
         {interviewArray}
+        {/* {newJargin.type} */}
       </section>
 
     </main>
