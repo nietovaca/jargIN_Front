@@ -33,7 +33,7 @@ const [resource, setResource] = useState([])
 
 
 // form displays on edit buttons
-const [displayEditInterviewForms, setDisplayEditInterviewForms] = useState([false])
+const [displayEditForms, setDisplayEditForms] = useState([false])
 
 // this will change our useEffect function based on which is true and which is false with different button clicks
 const [displayResources, setDisplayResources] = useState([false])
@@ -69,19 +69,20 @@ const [newJargin, setNewJargin] = useState({
   // =========== useEffect =========== //
 
 useEffect(() => {
-    // if (displayInterviews === true){
         axios.get('http://localhost:3000/interviews').then((res) => {
           setNewJargin(res.data)
           setInterview(res.data)
-          setDisplayEditInterviewForms(!res.data)
+          setDisplayEditForms(!res.data)
         }
       )
-    // } else if (displayResources === true){
-    //     axios.get('http://localhost:3000/resources').then((res) => {
-    //       setNewBook(res.data)
-    //       setResource(res.data)
-    //     })
-    // }
+}, [])
+
+useEffect(() => {
+    axios.get('http://localhost:3000/resources').then((res) => {
+      setNewBook(res.data)
+      setResource(res.data)
+      setDisplayEditForms(!res.data)
+    })
 }, [])
 
 
@@ -101,7 +102,7 @@ useEffect(() => {
 
 
 
-// =========== Post Function ============ //
+// =========== Post Functions ============ //
 
 const newInterviewSubmit = (event) => {
   console.log(newJargin.user);
@@ -181,7 +182,7 @@ const handleResourceDelete = (resourceData) => {
 
 // =========== Edit Function ============ //
 
-const handleToggleEditInterviewSubmit = (interviewData) => {
+const handleEditInterviewSubmit = (interviewData) => {
   console.log('newJargin');
   axios.put(`http://localhost:3000/interviews/${interviewData._id}`, {
     type: newJargin.type,
@@ -205,10 +206,24 @@ const handleToggleEditInterviewSubmit = (interviewData) => {
     })
   })
 }
+
+const handleEditResourceSubmit = (resourceData) => {
+  axios.put(`http://localhost:3000/resources/${resourceData._id}`, {
+    type: newBook.type,
+    user: newBook.user,
+    description: newBook.description,
+    link: newBook.link
+    // comment: []
+  }).then(() => {
+    axios.get('http://localhost:3000/resources').then((res) => {
+      setResource(res.data)
+    })
+  })
+}
 // ========= Display Edit Forms Function ========= //
 
-const handleToggleEditInterviewForms = () => {
-  setDisplayEditInterviewForms(!displayEditInterviewForms);
+const handleToggleDisplayEditForms = () => {
+  setDisplayEditForms(!displayEditForms);
 }
 
 // ============ Mapping Interviews ============== //
@@ -232,9 +247,9 @@ const interviewArray = interview.map((interview) => {
         <li>{interview.offer}</li>
         </ul>
 
-      <button className="edit" onClick={handleToggleEditInterviewForms}>Edit</button>
-                  { displayEditInterviewForms ?
-                  <form onSubmit={ (event) => {handleToggleEditInterviewSubmit(interview) } }>
+      <button className="edit" onClick={handleToggleDisplayEditForms}>Edit</button>
+                  { displayEditForms ?
+                  <form onSubmit={ (event) => {handleEditInterviewSubmit(interview) } }>
                       <p> User: </p> <input type="text" name="user" onChange={newInterviewPost}/><br/>
                       <p> Type: </p> <input type="text" name="type" onChange={newInterviewPost}/><br/>
                       <br/>
@@ -248,7 +263,35 @@ const interviewArray = interview.map((interview) => {
       </div>
   )
 })
+// ============ Mapping Resources ============== //
+const resourceArray = resource.map((resource) => {
+  return (
+      <div key={resource._id}>
+        <ul>
+        <li>{resource.type}</li>
+        <li>{resource.user}</li>
+        <li>{resource.description}</li>
+        <li>{resource.link}</li>
+        </ul>
 
+      <button className="edit" onClick={handleToggleDisplayEditForms}>Edit</button>
+                  { displayEditForms ?
+                  <form onSubmit={ (event) => {handleEditResourceSubmit(resource) } }>
+                      <p> Username: </p> <input type="text" name="user" onChange={newResourcePost}/><br/>
+                      <br/>
+                      <p> Type: </p> <input type="text" name="type" onChange={newResourcePost}/><br/>
+                      <p> Description: </p> <input type="text" name="description" onChange={newResourcePost}/><br/>
+                      <p> link: </p> <input type="text" name="link" onChange={newResourcePost}/><br/>
+                      <input type="submit" value="Change Interview Data"/>
+                  </form> : null
+                  }
+      <IconButton aria-label="delete"
+        onClick={(event) => {handleResourceDelete(resource)}}
+        color="error"><DeleteIcon />
+      </IconButton>
+      </div>
+  )
+})
 //Button toggle show the new form
 const showNewForm = (event) => {
   setShowNewInterviewForm(true)
@@ -275,8 +318,13 @@ return (
                   </section>
               </Route>
               <Route exact path="/interviews">
+                <Link to="/"><button>HOME PAGE</button></Link>
                 {interviewArray}
                 <Link to ="/interviewform"><button>Add Your Interview</button></Link>
+              </Route>
+              <Route exact path="/resources">
+                {resourceArray}
+                <Link to ="/resourceform"><button>Add Your Resource</button></Link>
               </Route>
               <Route exact path="/interviewform">
                   <section>
@@ -320,6 +368,22 @@ return (
                           </select>
                         <Button color="secondary" variant="contained" value="Submit Post" type='submit'>Submit</Button>
                         <Link to="/interviews">Back to all Interviews</Link>
+                    </form>
+                </section>
+              </Route>
+              <Route exact path="/resourceform">
+                  <section>
+                    <form onSubmit={newResourceSubmit}>
+                        <label>Type: </label>
+                          <input name="type" value={resource.user} onChange={newResourcePost} />
+                        <label>Name: </label>
+                          <input name="user" type="text" value={resource.user} onChange={newResourcePost}/>
+                        <label>Description: </label>
+                          <textarea name="description" type="text" value={resource.description} onChange={newResourcePost}/>
+                        <label>Link: </label>
+                          <input name="link" type="text" value={resource.link} onChange={newResourcePost}/>
+                        <Button color="secondary" variant="contained" value="Submit Post" type='submit'>Submit</Button>
+                        <Link to="/resources">Back to all resources</Link>
                     </form>
                 </section>
               </Route>
