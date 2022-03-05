@@ -268,7 +268,7 @@ const interviewArray = interview.map((interview) => {
         <li>{interview.offer}</li>
         </ul>
 
-      <IconButton className="edit" onClick={handleToggleEditInterviewForms}><EditIcon color="secondary"/></IconButton>
+      <IconButton className="edit" onClick={handleToggleEditInterviewForms}><EditIcon color="primary"/></IconButton>
                   { displayEditInterviewForms ?
                   <form onSubmit={ (event) => {handleToggleEditInterviewSubmit(interview) } }>
                       <p> User: </p> <input type="text" name="user" onChange={newInterviewPost}/><br/>
