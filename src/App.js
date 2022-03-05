@@ -48,13 +48,13 @@ const [newJargin, setNewJargin] = useState({
     company: '',
     jobTitle: '',
     stage: '',
-    salary: '',
+    salary: 1,
     location: '',
     timeLimit: '',
     question: '',
     devLanguage: '',
     userResponse: '',
-    difficulty: '',
+    difficulty: 1,
     offer: '',
     // comment: ''
   })
@@ -106,18 +106,18 @@ useEffect(() => {
 const newInterviewSubmit = (event) => {
   console.log(newJargin.user);
   console.log(newJargin.type);
-  // console.log(newJargin.date);
-  // console.log(newJargin.company);
-  // console.log(newJargin.jobTitle);
-  // console.log(newJargin.stage);
-  // console.log(newJargin.salary);
-  // console.log(newJargin.location);
-  // console.log(newJargin.timeLimit);
-  // console.log(newJargin.devLanguage);
-  // console.log(newJargin.difficulty);
-  // console.log(newJargin.question);
-  // console.log(newJargin.response);
-  // console.log(newJargin.offer);
+  console.log(newJargin.date);
+  console.log(newJargin.company);
+  console.log(newJargin.jobTitle);
+  console.log(newJargin.stage);
+  console.log(newJargin.salary);
+  console.log(newJargin.location);
+  console.log(newJargin.timeLimit);
+  console.log(newJargin.devLanguage);
+  console.log(newJargin.difficulty);
+  console.log(newJargin.question);
+  console.log(newJargin.userResponse);
+  console.log(newJargin.offer);
 
   event.preventDefault()
   axios.post('http://localhost:3000/interviews', {
@@ -228,7 +228,7 @@ const interviewArray = interview.map((interview) => {
         <li>{interview.devLanguage}</li>
         <li>{interview.difficulty}</li>
         <li>{interview.question}</li>
-        <li>{interview.response}</li>
+        <li>{interview.userResponse}</li>
         <li>{interview.offer}</li>
         </ul>
 
@@ -271,6 +271,7 @@ return (
                         <h1>JargIN</h1>
                         <h3>Slay the interview</h3>
                         <Link to ="/interviews"><button>INTERVIEW LIBRARY</button></Link>
+                        <Link to ="/resources"><button>RESOURCES LIBRARY</button></Link>
                   </section>
               </Route>
               <Route exact path="/interviews">
@@ -310,7 +311,7 @@ return (
                         <label>Question</label>
                           <input name="question" type="text" value={interview.question} onChange={newInterviewPost}/>
                         <label>Response</label>
-                          <input name="response" type="text" value={interview.response} onChange={newInterviewPost}/>
+                          <input name="userResponse" type="text" value={interview.userResponse} onChange={newInterviewPost}/>
                         <label>Offered?</label>
                           <select name='offer' onChange={newInterviewPost}>
                             <option name="offer" value={interview.offer}>Yes</option>
