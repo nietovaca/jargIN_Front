@@ -20,6 +20,39 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
+import {ThemeProvider, createTheme} from '@mui/material/styles';
+
+const theme = createTheme({
+  palette: {
+    type: 'dark',
+    primary: {
+      main: '#c51162',
+    },
+    secondary: {
+      main: '#ffb74d',
+    },
+  },
+  typography: {
+    fontFamily: 'Questrial',
+  },
+  overrides: {
+    MuiAppBar: {
+      colorInherit: {
+        backgroundColor: 'rgb(137, 11, 68)',
+        color: '#fff',
+      },
+    },
+  },
+  props: {
+    MuiAppBar: {
+      color: 'primary',
+    },
+  },
+});
+
+// function App() {
+//   return <ThemeProvider theme={theme}>...</ThemeProvider>;
+// }
 
 
 const App = () => {
@@ -329,6 +362,3 @@ return (
 };
 
 export default App;
-
-/////LOGO \\\\\\\\
-// <img src="jarginLogo.png" />
