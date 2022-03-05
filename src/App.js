@@ -7,6 +7,7 @@ import TopNav from './components/TopNav'
 import ShowInterview from './components/ShowInterview'
 
 // ============== MUI Components ============= //
+import Typography from '@mui/material/Typography';
 import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -122,7 +123,7 @@ const handleDelete = (interviewData) => {
 const interviewArray = interview.map((interview) => {
   return (
       <>
-      
+
       <ul>
       <li>{interview.user}</li>
       {interview.type === 'technical'? <li>Technical</li> : <li>Behavioral</li>}
