@@ -321,14 +321,8 @@ return (
               </Route>
               <Route exact path="/interviewform">
                   <section>
-                    <Box component="form" onSubmit={newInterviewSubmit} sx={{'& .MuiTextField-root': { m: 1, width: '25ch' },}}>
-                      <div>
-            <label>Type of Interview</label>
-              <select name='type' onChange={newInterviewPost}>
-                <option value="select type">Select type:</option>
-                <option name="type" value="technical">Technical Interview</option>
-                <option name="type" value="behavioral">Behavioral Interview</option>
-              </select>
+                    <form autocomplete="off" component="form" onSubmit={newInterviewSubmit} sx={{'& .MuiTextField-root': { m: 1, width: '25ch' },}}>
+                      <Box>
                         <TextField
                           color="secondary"
                           required
@@ -339,9 +333,7 @@ return (
                           label="Name"
                           value={interview.user}
                           onChange={newInterviewPost}
-                          />
-                        </div>
-                        <div>
+                        />
                         <TextField
                           color="secondary"
                           focused
@@ -351,24 +343,21 @@ return (
                           label="Company Name"
                           value={interview.company}
                           onChange={newInterviewPost}
+                        />
+                        <TextField
+                            color="secondary"
+                            focused
+                            multiline
+                            id="date"
+                            label="Date of Interview"
+                            type="date"
+                            defaultValue='05/05/2022'
+                            sx={{ width: 220 }}
+                            onChange={newInterviewPost}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
                           />
-
-                          <TextField
-                              color="secondary"
-                              focused
-                              multiline
-                              id="date"
-                              label="Date of Interview"
-                              type="date"
-                              defaultValue='05/05/2022'
-                              sx={{ width: 220 }}
-                              onChange={newInterviewPost}
-                              InputLabelProps={{
-                                shrink: true,
-                              }}
-                          />
-                        </div>
-                        <div>
                           <TextField
                             color="secondary"
                             focused
@@ -378,7 +367,7 @@ return (
                             label="Job Title"
                             value={interview.jobTitle}
                             onChange={newInterviewPost}
-                            />
+                          />
                           <TextField
                             color="secondary"
                             focused
@@ -389,8 +378,17 @@ return (
                             value={interview.stage}
                             onChange={newInterviewPost}
                             />
-                <label>Salary</label>
-                  <input name="salary" type="number" value={interview.salary} onChange={newInterviewPost}/>
+                          <TextField
+                            color="secondary"
+                            focused
+                            multiline
+                            id="salary"
+                            name="salary"
+                            label="Salary"
+                            helperText = "Numbers Only"
+                            value={interview.salary}
+                            onChange={newInterviewPost}
+                          />
                           <TextField
                             color="secondary"
                             focused
@@ -401,9 +399,7 @@ return (
                             helperText = "Online / In-person"
                             value={interview.location}
                             onChange={newInterviewPost}
-                            />
-                        </div>
-                        <div>
+                          />
                           <TextField
                             color="secondary"
                             focused
@@ -414,7 +410,13 @@ return (
                             helperText = "Numbers Only"
                             value={interview.timeLimit}
                             onChange={newInterviewPost}
-                            />
+                          />
+                <label>Type of Interview</label>
+                  <select name='type' onChange={newInterviewPost}>
+                    <option value="select type">Select type:</option>
+                    <option name="type" value="technical">Technical Interview</option>
+                    <option name="type" value="behavioral">Behavioral Interview</option>
+                  </select>
                           <TextField
                             color="secondary"
                             focused
@@ -425,45 +427,45 @@ return (
                             helperText = "* Technical Interview"
                             value={interview.devLanguage}
                             onChange={newInterviewPost}
-                            />
-                  <label>Difficulty</label>
-                    <input name="difficulty" type="text" value={interview.difficulty} onChange={newInterviewPost}/>
-                          </div>
-                          <div className="QnA">
+                          />
+                <label>Difficulty</label>
+                  <input name="difficulty" type="text" value={interview.difficulty} onChange={newInterviewPost}/>
+                <label>Offered?</label>
+                  <select name='offer' onChange={newInterviewPost}>
+                    <option name="offer" value={interview.offer}>Yes</option>
+                    <option name="offer" value={interview.offer}>No</option>
+                    <option name="offer" value={interview.offer}>Undetermined</option>
+                  </select>
+                      </Box>
+                        <TextField
+                          color="secondary"
+                          multiline
+                          variant="filled"
+                          rows={20}
+                          id="question"
+                          name="question"
+                          label="Question"
+                          fullWidth
+                          value={interview.question}
+                          onChange={newInterviewPost}
+                          />
+
                           <TextField
                             color="secondary"
                             multiline
                             variant="filled"
                             rows={20}
-                            id="question"
-                            name="question"
-                            label="Question"
-                            value={interview.question}
+                            id="userResponse"
+                            name="userResponse"
+                            label="Response"
+                            value={interview.userResponse}
                             onChange={newInterviewPost}
                             />
-                            <TextField
-                              color="secondary"
-                              multiline
-                              variant="filled"
-                              rows={20}
-                              id="userResponse"
-                              name="userResponse"
-                              label="Response"
-                              value={interview.userResponse}
-                              onChange={newInterviewPost}
-                              />
-                          </div>
                           <div>
-                          <label>Offered?</label>
-                            <select name='offer' onChange={newInterviewPost}>
-                              <option name="offer" value={interview.offer}>Yes</option>
-                              <option name="offer" value={interview.offer}>No</option>
-                              <option name="offer" value={interview.offer}>Undetermined</option>
-                            </select>
-                        </div>
-                        <Button color="secondary" variant="contained" value="Submit Post" type='submit'>Submit</Button>
-                        <Link to="/interviews">Back to all Interviews</Link>
-                    </Box>
+                  <Button color="secondary" variant="contained" value="Submit Post" type='submit'>Submit</Button>
+                  <Link to="/interviews">Back to all Interviews</Link>
+                          </div>
+                  </form>
                 </section>
               </Route>
           </Switch>
@@ -494,6 +496,8 @@ export default App;
 //   <input name="response" type="text" value={interview.response} onChange={newInterviewPost}/>
 // <label>Date of Interview:</label>
 //   <input name="date" type="date" value={Date().now} onChange={newInterviewPost}/>
+// <label>Salary</label>
+//   <input name="salary" type="number" value={interview.salary} onChange={newInterviewPost}/>
 
 // <TextField
 //   color="secondary"
