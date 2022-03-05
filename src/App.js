@@ -6,6 +6,7 @@ import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
 import FabNav from './components/FabNav'
 import TopNav from './components/TopNav'
 import ShowInterview from './components/ShowInterview'
+import LandingPage from './components/LandingPage'
 
 // ============== MUI Components ============= //
 import Typography from '@mui/material/Typography';
@@ -269,9 +270,7 @@ return (
           <Switch>
               <Route exact path="/">
                   <section className = "homepage">
-                        <h1>JargIN</h1>
-                        <h3>Slay the interview</h3>
-                        <Link to ="/interviews"><button>INTERVIEW LIBRARY</button></Link>
+                    <LandingPage />
                   </section>
               </Route>
               <Route exact path="/interviews">
