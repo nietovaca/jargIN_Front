@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Input from '@mui/material/Input';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import IconButton from '@mui/material/IconButton';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -267,7 +268,7 @@ const interviewArray = interview.map((interview) => {
         <li>{interview.offer}</li>
         </ul>
 
-      <button className="edit" onClick={handleToggleEditInterviewForms}>Edit</button>
+      <IconButton className="edit" onClick={handleToggleEditInterviewForms}><EditIcon color="secondary"/></IconButton>
                   { displayEditInterviewForms ?
                   <form onSubmit={ (event) => {handleToggleEditInterviewSubmit(interview) } }>
                       <p> User: </p> <input type="text" name="user" onChange={newInterviewPost}/><br/>
