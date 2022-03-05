@@ -7,12 +7,13 @@ import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 import {Card, CardMedia, CardContent, CardActions, Collapse} from '@mui/material'
-import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import SendIcon from '@mui/icons-material/Send';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import IconButton from '@mui/material/IconButton';
+import Avatar from '@mui/material/Avatar';
 
 // const [expanded, setExpanded] = useState(false);
 
@@ -36,8 +37,8 @@ const LandingPage = (props) => {
       <CardMedia
         component="img"
         alt="JargIn Logo"
-        height="345"
-        image="jarginLogo.png"
+        height="500"
+        image="logoMid.png"
       />
       <CardContent>
 
@@ -45,10 +46,12 @@ const LandingPage = (props) => {
       <CardActions>
         <Link to="/interviews"
           variant="body2">
-          <Button
-            disableElevation variant="contained" color="secondary">
+          <Typography
+            color="secondary"
+            variant="h5"
+            >
             Slay the Interview
-          </Button>
+          </Typography>
         </Link>
         <ExpandMore
            expand={expanded}
@@ -56,12 +59,29 @@ const LandingPage = (props) => {
            aria-expanded={expanded}
            aria-label="show more"
          >
-           <ExpandMoreIcon color="primary"/>
+           <ExpandMoreIcon color="secondary"/>
          </ExpandMore>
      </CardActions>
      <Collapse in={expanded} timeout="auto" unmountOnExit>
        <CardContent>
-
+       <IconButton aria-label="Github.com" onClick={() => window.open('https://github.com/nietovaca/jargIN_Front')}>
+          <GitHubIcon color='warning'fontSize='large' aria-label="GitHub"/>
+        </IconButton>
+        <IconButton aria-label="Reid's GitHub" onClick={() => window.open('https://github.com/billiam95')}>
+          <Avatar sx={{ bgcolor: 'primary.main' }}aria-label="ReidShipley" href="">
+            RS
+          </Avatar>
+        </IconButton>
+        <IconButton aria-label="Kevin's GitHub" onClick={() => window.open('https://github.com/kevinjcasey')}>
+          <Avatar sx={{ bgcolor: 'error.main' }}aria-label="KevinCasey">
+            KC
+          </Avatar>
+        </IconButton>
+        <IconButton aria-label="email Vanessa" onClick={() => window.open('mailto:nietovaca@gmail.com')}>
+        <Avatar sx={{ bgcolor: 'secondary.main' }}aria-label="VanessaThrower">
+          VT
+        </Avatar>
+        </IconButton>
        </CardContent>
      </Collapse>
     </Card>
@@ -69,3 +89,5 @@ const LandingPage = (props) => {
 };
 
 export default LandingPage;
+
+// src="/static/images/avatar/1.jpg"
