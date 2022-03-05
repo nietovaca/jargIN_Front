@@ -45,20 +45,19 @@ const [displayInterviews, setDisplayInterviews] = useState([false])
 
   // Kevin C killed it here with the below states!!!
 const [newJargin, setNewJargin] = useState({
-
-    type: {'techincal':'behavioral'},
+    type: '',
     user: '',
     date: '',
     company: '',
     jobTitle: '',
     stage: '',
-    salary: '',
+    salary: 1,
     location: '',
     timeLimit: '',
     question: '',
     devLanguage: '',
     userResponse: '',
-    difficulty: '',
+    difficulty: 1,
     offer: '',
     // comment: ''
   })
@@ -105,18 +104,18 @@ useEffect(() => {
 const newInterviewSubmit = (event) => {
   console.log(newJargin.user);
   console.log(newJargin.type);
-  // console.log(newJargin.date);
-  // console.log(newJargin.company);
-  // console.log(newJargin.jobTitle);
-  // console.log(newJargin.stage);
-  // console.log(newJargin.salary);
-  // console.log(newJargin.location);
-  // console.log(newJargin.timeLimit);
-  // console.log(newJargin.devLanguage);
-  // console.log(newJargin.difficulty);
-  // console.log(newJargin.question);
-  // console.log(newJargin.response);
-  // console.log(newJargin.offer);
+  console.log(newJargin.date);
+  console.log(newJargin.company);
+  console.log(newJargin.jobTitle);
+  console.log(newJargin.stage);
+  console.log(newJargin.salary);
+  console.log(newJargin.location);
+  console.log(newJargin.timeLimit);
+  console.log(newJargin.devLanguage);
+  console.log(newJargin.difficulty);
+  console.log(newJargin.question);
+  console.log(newJargin.userResponse);
+  console.log(newJargin.offer);
 
   event.preventDefault()
   axios.post('http://localhost:3000/interviews', {
@@ -272,6 +271,7 @@ const interviewArray = interview.map((interview, index) => {
       color="error"><DeleteIcon />
     </IconButton>
     </div>
+
   )
 })
 
@@ -297,6 +297,7 @@ return (
                         <h1>JargIN</h1>
                         <h3>Slay the interview</h3>
                         <Link to ="/interviews"><button>INTERVIEW LIBRARY</button></Link>
+                        <Link to ="/resources"><button>RESOURCES LIBRARY</button></Link>
                   </section>
               </Route>
               <Route exact path="/interviews">
@@ -308,6 +309,7 @@ return (
                     <form onSubmit={newInterviewSubmit}>
                         <label>Type of Interview</label>
                           <select name='type' onChange={newInterviewPost}>
+                            <option value="select type">Select type:</option>
                             <option name="type" value="technical">Technical Interview</option>
                             <option name="type" value="behavioral">Behavioral Interview</option>
                           </select>
@@ -335,7 +337,7 @@ return (
                         <label>Question</label>
                           <input name="question" type="text" value={interview.question} onChange={newInterviewPost}/>
                         <label>Response</label>
-                          <input name="response" type="text" value={interview.response} onChange={newInterviewPost}/>
+                          <input name="userResponse" type="text" value={interview.userResponse} onChange={newInterviewPost}/>
                         <label>Offered?</label>
                           <select name='offer' onChange={newInterviewPost}>
                             <option name="offer" value={interview.offer}>Yes</option>
@@ -343,6 +345,7 @@ return (
                             <option name="offer" value={interview.offer}>Undetermined</option>
                           </select>
                         <Button color="secondary" variant="contained" value="Submit Post" type='submit'>Submit</Button>
+                        <Link to="/interviews">Back to all Interviews</Link>
                     </form>
                 </section>
               </Route>
