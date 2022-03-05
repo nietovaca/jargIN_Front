@@ -3,6 +3,7 @@ import axios from 'axios'
 import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
 
 // ============= Content Components ============ //
+
 import FabNav from './components/FabNav'
 import TopNav from './components/TopNav'
 import ShowInterview from './components/ShowInterview'
@@ -34,6 +35,8 @@ const [resource, setResource] = useState([])
 
 // form displays on edit buttons
 const [displayEditInterviewForms, setDisplayEditInterviewForms] = useState([false])
+
+const [selectInterview, setSelectInterview] = useState(0)
 
 // this will change our useEffect function based on which is true and which is false with different button clicks
 const [displayResources, setDisplayResources] = useState([false])
@@ -85,7 +88,9 @@ useEffect(() => {
 }, [])
 
 
+
 // =========== These go in the forms for the interview buttons =========== //
+
   const newInterviewPost = (event) => {
       setNewJargin({...newJargin,[event.target.name]:event.target.value})
   }
@@ -93,13 +98,6 @@ useEffect(() => {
   const newResourcePost = (event) => {
       setNewBook({...newBook,[event.target.name]:event.target.value})
   }
-
-
-  // Then need to display within the input field:
-  //   name = (corresponding key from useState)
-  //   value = interview.(corresponding key)
-
-
 
 // =========== Post Function ============ //
 
@@ -141,6 +139,7 @@ const newInterviewSubmit = (event) => {
       setInterview(res.data)
     })
   })
+  
   // setShowNewInterviewForm(false)
 }
 
@@ -162,7 +161,6 @@ const newResourceSubmit = (event) => {
 // =========== Delete Functions ============ //
 
 const handleInterviewDelete = (interviewData) => {
-        // Will this work?? - May need to modify url depending on backend routes
   axios.delete(`http://localhost:3000/interviews/${interviewData._id}`).then((res) => {
     axios.get('http://localhost:3000/interviews').then((res) => {
       setInterview(res.data)
@@ -171,7 +169,6 @@ const handleInterviewDelete = (interviewData) => {
 }
 
 const handleResourceDelete = (resourceData) => {
-        // Will this work?? - May need to modify url depending on backend routes
   axios.delete(`http://localhost:3000/resources/${resourceData._id}`).then((res) => {
     axios.get('http://localhost:3000/resources').then((res) => {
       setResource(res.data)
@@ -181,8 +178,8 @@ const handleResourceDelete = (resourceData) => {
 
 // =========== Edit Function ============ //
 
+
 const handleToggleEditInterviewSubmit = (interviewData) => {
-  console.log('newJargin');
   axios.put(`http://localhost:3000/interviews/${interviewData._id}`, {
     type: newJargin.type,
     user: newJargin.user,
@@ -207,45 +204,74 @@ const handleToggleEditInterviewSubmit = (interviewData) => {
 }
 // ========= Display Edit Forms Function ========= //
 
-const handleToggleEditInterviewForms = () => {
+
+// const handleToggleEditInterviewForms = () => {
+//   setDisplayEditInterviewForms(!displayEditInterviewForms);
+// }
+
+// Minor bug of toggling off current edit and not directly into another --> Kevin can demo next time we are together.
+const handleEditClick = (index) => {
   setDisplayEditInterviewForms(!displayEditInterviewForms);
+  setSelectInterview(index)
 }
 
-// ============ Mapping Interviews ============== //
-const interviewArray = interview.map((interview) => {
-  return (
-      <div key={interview._id}>
-        <ul>
-        <li>{interview.user}</li>
-        {interview.type? <li>Technical</li> : <li>Behavioral</li>}
-        <li>{interview.date}</li>
-        <li>{interview.company}</li>
-        <li>{interview.jobTitle}</li>
-        <li>{interview.stage}</li>
-        <li>{interview.salary}</li>
-        <li>{interview.location}</li>
-        <li>{interview.timeLimit}</li>
-        <li>{interview.devLanguage}</li>
-        <li>{interview.difficulty}</li>
-        <li>{interview.question}</li>
-        <li>{interview.userResponse}</li>
-        <li>{interview.offer}</li>
-        </ul>
+// ----- Matt Notes ----- //
+// Create edit form component - all editing occurs within the edit component 
 
-      <button className="edit" onClick={handleToggleEditInterviewForms}>Edit</button>
-                  { displayEditInterviewForms ?
-                  <form onSubmit={ (event) => {handleToggleEditInterviewSubmit(interview) } }>
-                      <p> User: </p> <input type="text" name="user" onChange={newInterviewPost}/><br/>
-                      <p> Type: </p> <input type="text" name="type" onChange={newInterviewPost}/><br/>
-                      <br/>
-                      <input type="submit" value="Change Interview Data"/>
-                  </form> : null
-                  }
-      <IconButton aria-label="delete"
-        onClick={(event) => {handleInterviewDelete(interview)}}
-        color="error"><DeleteIcon />
-      </IconButton>
-      </div>
+// const refereshIndex = () => {
+
+// }
+
+// <EditForm refereshPageFunction={refreshIndex}></EditForm>
+
+// inside the edit component: 
+
+// const EditForm = (props) => {
+//   const onSubmit = () => {
+//     props.refreshIndex()
+//   }
+//   return <form onSubmit = {}></form>
+// }
+
+// ----- ^Matt Notes^ ----- //
+
+// ============ Mapping Interviews ============== //
+const interviewArray = interview.map((interview, index) => {
+  return (
+    <div key={interview._id}>
+      <ul>
+      <li>{interview.user}</li>
+      {interview.type === 'technical'? <li>Technical</li> : <li>Behavioral</li>}
+      <li>{interview.date}</li>
+      <li>{interview.company}</li>
+      <li>{interview.jobTitle}</li>
+      <li>{interview.stage}</li>
+      <li>{interview.salary}</li>
+      <li>{interview.location}</li>
+      <li>{interview.timeLimit}</li>
+      <li>{interview.devLanguage}</li>
+      <li>{interview.difficulty}</li>
+      <li>{interview.question}</li>
+      <li>{interview.response}</li>
+      <li>{interview.offer}</li>
+      </ul>
+    
+    <button className="edit" onClick={ (event) => {handleEditClick(index)} }>Edit</button>
+                {/* assign a number and assign the index */}
+                { displayEditInterviewForms && selectInterview === index ? 
+                <form onSubmit={ (event) => {handleToggleEditInterviewSubmit(interview) } }>
+                    <p> User: </p> <input type="text" name="user" onChange={newInterviewPost}/><br/>
+                    <p> Type: </p> <input type="text" name="type" onChange={newInterviewPost}/><br/>
+                    <br/>
+                    <input type="submit" value="Change Interview Data"/>
+                </form> : null
+                }
+    <IconButton aria-label="delete"
+      onClick={(event) => {handleInterviewDelete(interview)}}
+      color="error"><DeleteIcon />
+    </IconButton>
+    </div>
+
   )
 })
 
