@@ -3,6 +3,7 @@ import axios from 'axios'
 import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
 
 // ============= Content Components ============ //
+
 import FabNav from './components/FabNav'
 import TopNav from './components/TopNav'
 import ShowInterview from './components/ShowInterview'
@@ -44,6 +45,7 @@ const [displayInterviews, setDisplayInterviews] = useState([false])
 
   // Kevin C killed it here with the below states!!!
 const [newJargin, setNewJargin] = useState({
+
     type: {'techincal':'behavioral'},
     user: '',
     date: '',
@@ -87,7 +89,9 @@ useEffect(() => {
 }, [])
 
 
+
 // =========== These go in the forms for the interview buttons =========== //
+
   const newInterviewPost = (event) => {
       setNewJargin({...newJargin,[event.target.name]:event.target.value})
   }
@@ -95,13 +99,6 @@ useEffect(() => {
   const newResourcePost = (event) => {
       setNewBook({...newBook,[event.target.name]:event.target.value})
   }
-
-
-  // Then need to display within the input field:
-  //   name = (corresponding key from useState)
-  //   value = interview.(corresponding key)
-
-
 
 // =========== Post Function ============ //
 
@@ -165,7 +162,6 @@ const newResourceSubmit = (event) => {
 // =========== Delete Functions ============ //
 
 const handleInterviewDelete = (interviewData) => {
-        // Will this work?? - May need to modify url depending on backend routes
   axios.delete(`http://localhost:3000/interviews/${interviewData._id}`).then((res) => {
     axios.get('http://localhost:3000/interviews').then((res) => {
       setInterview(res.data)
@@ -174,7 +170,6 @@ const handleInterviewDelete = (interviewData) => {
 }
 
 const handleResourceDelete = (resourceData) => {
-        // Will this work?? - May need to modify url depending on backend routes
   axios.delete(`http://localhost:3000/resources/${resourceData._id}`).then((res) => {
     axios.get('http://localhost:3000/resources').then((res) => {
       setResource(res.data)
@@ -184,8 +179,8 @@ const handleResourceDelete = (resourceData) => {
 
 // =========== Edit Function ============ //
 
+
 const handleToggleEditInterviewSubmit = (interviewData) => {
-  console.log('newJargin');
   axios.put(`http://localhost:3000/interviews/${interviewData._id}`, {
     type: newJargin.type,
     user: newJargin.user,
@@ -209,6 +204,7 @@ const handleToggleEditInterviewSubmit = (interviewData) => {
   })
 }
 // ========= Display Edit Forms Function ========= //
+
 
 // const handleToggleEditInterviewForms = () => {
 //   setDisplayEditInterviewForms(!displayEditInterviewForms);
