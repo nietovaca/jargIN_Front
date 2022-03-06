@@ -35,6 +35,7 @@ import AddIcon from '@mui/icons-material/Add';
 
 // ============== MUI Styles/Themes =================== //
 import {ThemeProvider, createTheme } from '@mui/material/styles';
+import { display } from '@mui/system';
 
 
 // ============ MAIN COMPONENT =================//
@@ -50,8 +51,12 @@ const [showInterviewDetails, setShowInterviewDetails] = useState(false)
 const [resource, setResource] = useState([])
 
 
+
+
 // form displays on edit buttons
 const [displayEditForms, setDisplayEditForms] = useState([false])
+
+
 
 const [selectIndex, setSelectIndex] = useState(0)
 
@@ -59,6 +64,10 @@ const [selectIndex, setSelectIndex] = useState(0)
 const [displayResources, setDisplayResources] = useState([false])
 const [displayInterviews, setDisplayInterviews] = useState([false])
 
+// Comments stuff
+const [comment, setComment] = useState([])
+const [displayCommentForm, setDisplayCommentForm] = useState([false])
+const [postComment, setPostComment] = useState()
 
   // Kevin C killed it here with the below states!!!
 const [newJargin, setNewJargin] = useState({
@@ -87,6 +96,11 @@ const [newJargin, setNewJargin] = useState({
     link: ''
   })
 
+  const [newComment, setNewComment] = useState({
+    user: '',
+    comment: ''
+  })
+
   // =========== useEffect =========== //
 
 useEffect(() => {
@@ -94,6 +108,7 @@ useEffect(() => {
           setNewJargin(res.data)
           setInterview(res.data)
           setDisplayEditForms(!res.data)
+          setDisplayCommentForm(!res.data)
         }
       )
 }, [])
@@ -105,6 +120,13 @@ useEffect(() => {
       setDisplayEditForms(!res.data)
     })
 }, [])
+
+useEffect(() => {
+  axios.get('http://localhost:3000/comments').then((res) => {
+    setNewComment(res.data)
+  })
+}, [])
+
 
 
 
@@ -118,26 +140,31 @@ useEffect(() => {
       setNewBook({...newBook,[event.target.name]:event.target.value})
   }
 
+  const newCommentPost = (event) => {
+      setNewComment({...newComment,[event.target.name]:event.target.value})
+  }
 
 
 
-// =========== Post Function ============ //
 
+// =========== Post Functions ============ //
+
+// --------- Interviews ---------- //
 const newInterviewSubmit = (event) => {
-  console.log(newJargin.user);
-  console.log(newJargin.type);
-  console.log(newJargin.date);
-  console.log(newJargin.company);
-  console.log(newJargin.jobTitle);
-  console.log(newJargin.stage);
-  console.log(newJargin.salary);
-  console.log(newJargin.location);
-  console.log(newJargin.timeLimit);
-  console.log(newJargin.devLanguage);
-  console.log(newJargin.difficulty);
-  console.log(newJargin.question);
-  console.log(newJargin.userResponse);
-  console.log(newJargin.offer);
+  // console.log(newJargin.user);
+  // console.log(newJargin.type);
+  // console.log(newJargin.date);
+  // console.log(newJargin.company);
+  // console.log(newJargin.jobTitle);
+  // console.log(newJargin.stage);
+  // console.log(newJargin.salary);
+  // console.log(newJargin.location);
+  // console.log(newJargin.timeLimit);
+  // console.log(newJargin.devLanguage);
+  // console.log(newJargin.difficulty);
+  // console.log(newJargin.question);
+  // console.log(newJargin.userResponse);
+  // console.log(newJargin.offer);
 
   event.preventDefault()
   axios.post('http://localhost:3000/interviews', {
@@ -165,9 +192,11 @@ const newInterviewSubmit = (event) => {
   // setShowNewInterviewForm(false)
 }
 
+// --------- Resources ---------- //
+
 const newResourceSubmit = (event) => {
-  console.log(newJargin.user);
-  console.log(newJargin.type);
+  // console.log(newJargin.user);
+  // console.log(newJargin.type);
   event.preventDefault()
   axios.post('http://localhost:3000/resources', {
     type: newBook.type,
@@ -180,6 +209,22 @@ const newResourceSubmit = (event) => {
     })
   })
 }
+
+// --------- Comments ---------- //
+
+const newCommentSubmit = (event) => {
+  event.preventDefault()
+  axios.post('http://localhost:3000/comments', {
+    user: newComment.user,
+    comment: newComment.comment
+  }).then(() => {
+    axios.get('http://localhost:3000/comments').then((res) => {
+      setComment(res.data)
+    })
+  })
+}
+
+
 // =========== Delete Functions ============ //
 
 const handleInterviewDelete = (interviewData) => {
@@ -253,6 +298,11 @@ const handleEditClick = (index) => {
   setSelectIndex(index);
 }
 
+const handleCommentClick = (index) => {
+  setDisplayCommentForm(!displayCommentForm)
+  setSelectIndex(index)
+}
+
 // ============ Styling Show Page =============== //
 
 const Item = createTheme({
@@ -306,6 +356,10 @@ const interviewArray = interview.map((interview, index) => {
           <Grid item xs={2}><li>{interview.createdAt}</li></Grid>
         </Grid>
 
+        <h3>Replies:</h3>
+        <p> Name: {newComment.user}</p>
+        <p> Comment: {newComment.comment}</p>
+
         <IconButton className="edit" onClick={(event) => {handleEditClick(index)}}><EditIcon color="info"/></IconButton>
                      {/* assign a number and assign the index */}
                 { displayEditForms && selectIndex === index ?
@@ -322,6 +376,27 @@ const interviewArray = interview.map((interview, index) => {
                     <input type="submit" value="Change Interview Data"/>
                 </form> : null
                 }
+
+                <button onClick={(event) => {handleCommentClick(index)}}>Add Comment</button>
+
+                { displayCommentForm && selectIndex === index ?
+                <form onSubmit={newCommentSubmit}>
+                  <p> Name: </p> <input
+                  type="text"
+                  name="user"
+                  value={newComment.user}
+                  onChange={newCommentPost}
+                  /><br/>
+                  <p> Comment: </p> <input
+                  type="text"
+                  name="comment"
+                  value={newComment.comment}
+                  onChange={newCommentPost}
+                  /><br/>
+                  <input type="submit" value="Submit"/>
+                </form> : null
+                }
+
         <IconButton aria-label="delete"
           onClick={(event) => {handleInterviewDelete(interview)}}
           color="error"><DeleteIcon />
@@ -358,8 +433,6 @@ const resourceArray = resource.map((resource, index) => {
       </div>
   )
 })
-
-
 
 // ----- Matt Notes ----- //
 // Create edit form component - all editing occurs within the edit component
