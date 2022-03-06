@@ -22,7 +22,9 @@ import {
   Select,
   TextField,
   Box,
-  Modal
+  Modal,
+  Grid,
+  Paper
  } from '@mui/material'
 
 // ============== MUI Icons =================== //
@@ -31,43 +33,10 @@ import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 
 // ============== MUI Styles/Themes =================== //
-import {ThemeProvider, createTheme} from '@mui/material/styles';
-
-const theme = createTheme({
-  palette: {
-    mode: 'dark',
-    type: 'dark',
-    primary: {
-      main: '#ffb74d',
-      bgcolor: '#FFC570'
-    },
-    secondary: {
-      main: '#c51162',
-    },
-  },
-  typography: {
-    fontFamily: 'Questrial',
-  },
-  overrides: {
-    MuiAppBar: {
-      colorInherit: {
-        backgroundColor: 'rgb(137, 11, 68)',
-        color: '#fff',
-      },
-    },
-  },
-  props: {
-    MuiAppBar: {
-      color: 'primary',
-    },
-  },
-});
-
-// function App() {
-//   return <ThemeProvider theme={theme}>...</ThemeProvider>;
-// }
+import {ThemeProvider, createTheme } from '@mui/material/styles';
 
 
+// ============ MAIN COMPONENT =================//
 const App = () => {
 
 // =========== States ================= //
@@ -146,7 +115,6 @@ useEffect(() => {
   // Then need to display within the input field:
   //   name = (corresponding key from useState)
   //   value = interview.(corresponding key)
-
 
 
 // =========== Post Function ============ //
@@ -259,42 +227,74 @@ const handleToggleEditInterviewForms = () => {
   setDisplayEditInterviewForms(!displayEditInterviewForms);
 }
 
-// ============ Mapping Interviews ============== //
+// ============ Styling Show Page =============== //
+
+const Item = createTheme({
+  palette: {
+    mode: 'dark',
+    type: 'dark',
+    primary: {
+      main: '#ffb74d',
+      bgcolor: '#FFC570'
+    },
+    secondary: {
+      main: '#c51162',
+    },
+  },
+  typography: {
+    fontFamily: 'Questrial',
+  },
+  overrides: {
+    MuiAppBar: {
+      colorInherit: {
+        backgroundColor: 'rgb(137, 11, 68)',
+        color: '#fff',
+      },
+    },
+  },
+  props: {
+    MuiAppBar: {
+      color: 'primary',
+    },
+  },
+});
+
+// ============ (Show Page) Mapping Interviews ============== //
 const interviewArray = interview.map((interview) => {
   return (
-      <div key={interview._id}>
-        <ul>
-        <li>{interview.user}</li>
-        {interview.type? <li>Technical</li> : <li>Behavioral</li>}
-        <li>{interview.date}</li>
-        <li>{interview.company}</li>
-        <li>{interview.jobTitle}</li>
-        <li>{interview.stage}</li>
-        <li>{interview.salary}</li>
-        <li>{interview.location}</li>
-        <li>{interview.timeLimit}</li>
-        <li>{interview.devLanguage}</li>
-        <li>{interview.difficulty}</li>
-        <li>{interview.question}</li>
-        <li>{interview.userResponse}</li>
-        <li>{interview.offer}</li>
-        <li>{interview.createdAt}</li>
-        </ul>
+      <Box sx={{flexGrow: 1}}key={interview._id}>
+        <Grid container spacing={3}>
+          <Grid item xs={2}><li>{interview.user}</li></Grid>
+          <Grid item xs={2}>{interview.type? <li>Technical</li> : <li>Behavioral</li>}</Grid>
+          <Grid item xs={2}><li>{interview.date}</li></Grid>
+          <Grid item xs={2}><li>{interview.company}</li></Grid>
+          <Grid item xs={2}><li>{interview.jobTitle}</li></Grid>
+          <Grid item xs={2}><li>{interview.stage}</li></Grid>
+          <Grid item xs={2}><li>{interview.salary}</li></Grid>
+          <Grid item xs={2}><li>{interview.location}</li></Grid>
+          <Grid item xs={2}><li>{interview.timeLimit}</li></Grid>
+          <Grid item xs={2}><li>{interview.devLanguage}</li></Grid>
+          <Grid item xs={2}><li>{interview.difficulty}</li></Grid>
+          <Grid item xs={2}><li>{interview.question}</li></Grid>
+          <Grid item xs={2}><li>{interview.userResponse}</li></Grid>
+          <Grid item xs={2}><li>{interview.offer}</li></Grid>
+          <Grid item xs={2}><li>{interview.createdAt}</li></Grid>
+        </Grid>
 
-      <IconButton className="edit" onClick={handleToggleEditInterviewForms}><EditIcon color="primary"/></IconButton>
-                  { displayEditInterviewForms ?
-                  <form onSubmit={ (event) => {handleToggleEditInterviewSubmit(interview) } }>
-                      <p> User: </p> <input type="text" name="user" onChange={newInterviewPost}/><br/>
-                      <p> Type: </p> <input type="text" name="type" onChange={newInterviewPost}/><br/>
-                      <br/>
-                      <input type="submit" value="Change Interview Data"/>
-                  </form> : null
-                  }
-      <IconButton aria-label="delete"
-        onClick={(event) => {handleInterviewDelete(interview)}}
-        color="error"><DeleteIcon />
-      </IconButton>
-      </div>
+        <IconButton className="edit" onClick={handleToggleEditInterviewForms}><EditIcon color="info"/></IconButton>
+                    { displayEditInterviewForms ?
+                    <form onSubmit={ (event) => {handleToggleEditInterviewSubmit(interview) } }>
+                        <p> User: </p> <input type="text" name="user" onChange={newInterviewPost}/><br/>
+                        <p> Type: </p> <input type="text" name="type" onChange={newInterviewPost}/><br/>
+                        <br/>
+                        <input type="submit" value="Change Interview Data"/>
+                    </form> : null
+                    }
+        <IconButton aria-label="delete"
+          onClick={(event) => {handleInterviewDelete(interview)}}
+          color="error"><DeleteIcon />
+        </IconButton>
+      </Box>
   )
 })
 
@@ -308,21 +308,53 @@ const displayInterviewDetails = (event) => {
 }
 
 // ============= Modal Style & State ====================== //
-    const modalStyle = {
-      position: 'absolute',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-      width: 400,
-      bgcolor: 'warning.main',
-      border: '2px solid #000',
-      boxShadow: 24,
-      p: 4,
-    };
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+const modalStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'warning.main',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
+const [open, setOpen] = useState(false);
+const handleOpen = () => setOpen(true);
+const handleClose = () => setOpen(false);
+
+// =========== Theme Build =============//
+
+const defaultTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    type: 'dark',
+    primary: {
+      main: '#ffb74d',
+      bgcolor: '#FFC570'
+    },
+    secondary: {
+      main: '#c51162',
+    },
+  },
+  typography: {
+    fontFamily: 'Questrial',
+  },
+  overrides: {
+    MuiAppBar: {
+      colorInherit: {
+        backgroundColor: 'rgb(137, 11, 68)',
+        color: '#fff',
+      },
+    },
+  },
+  props: {
+    MuiAppBar: {
+      color: 'primary',
+    },
+  },
+});
 
 // =========== Browser =========== //
 return (
@@ -337,7 +369,7 @@ return (
                   </section>
               </Route>
               <Route exact path="/interviews">
-                <ThemeProvider theme={theme}>
+                <ThemeProvider theme={defaultTheme}>
                   {interviewArray}
                   <Link to ="/interviewform">
                     <Button
@@ -463,7 +495,7 @@ return (
                         <Typography component='input' name="date" type="date" value={Date().now} onChange={newInterviewPost}/>
                       </Box>
                     </Box>
-                    <Box sx={{width: .75, p: 5, mb: .5}}>
+                    <Box sx={{width: .75, p: 2, mb: .5}}>
                       <TextField
                         color="secondary"
                         multiline
@@ -477,12 +509,12 @@ return (
                         onChange={newInterviewPost}
                         />
                     </Box>
-                    <Box sx={{width: .75, p: 5, mb: .5}}>
+                    <Box sx={{width: .75, p: 2, mb: .5}}>
                       <TextField
                         color="secondary"
                         multiline
                         variant="filled"
-                        rows={20}
+                        rows={10}
                         fullWidth
                         id="userResponse"
                         name="userResponse"
