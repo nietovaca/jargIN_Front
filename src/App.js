@@ -232,7 +232,6 @@ const handleToggleEditInterviewForms = () => {
 const Item = createTheme({
   palette: {
     mode: 'dark',
-    type: 'dark',
     primary: {
       main: '#ffb74d',
       bgcolor: '#FFC570'
@@ -327,8 +326,8 @@ const handleClose = () => setOpen(false);
 // =========== Theme Build =============//
 
 const defaultTheme = createTheme({
+  mode: 'dark',
   palette: {
-    mode: 'dark',
     type: 'dark',
     primary: {
       main: '#ffb74d',
