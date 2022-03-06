@@ -30,14 +30,16 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 
-// ============== MUI Styles =================== //
+// ============== MUI Styles/Themes =================== //
 import {ThemeProvider, createTheme} from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
+    mode: 'dark',
     type: 'dark',
     primary: {
-      main: '#c51162',
+    main: '#c51162',
+    bgcolor: '#FFC570'
     },
     secondary: {
       main: '#ffb74d',
@@ -335,31 +337,33 @@ return (
                   </section>
               </Route>
               <Route exact path="/interviews">
-                {interviewArray}
-                <Link to ="/interviewform">
-                  <Button
-                    onClick={handleClose}
-                    color="secondary"
-                    aria-label='add your interview'
-                    variant="contained"
-                    startIcon={<AddIcon />}>
-                    Add
-                  </Button>
-                </Link>
+                <ThemeProvider theme={theme}>
+                  {interviewArray}
+                  <Link to ="/interviewform">
+                    <Button
+                      onClick={handleClose}
+                      color="secondary"
+                      aria-label='add your interview'
+                      variant="contained"
+                      startIcon={<AddIcon />}>
+                      Add
+                    </Button>
+                  </Link>
+                </ThemeProvider>
               </Route>
               <Route exact path="/interviewform">
                   <section>
                     <Typography variant="h4" sx={{pl: 1, pr: .5, pb: 2}} >Add Your Interview:</Typography>
                     <form onSubmit={newInterviewSubmit}>
-                      <Box color="secondary" sx={{ m: 1, width: '80ch', pb: 2 }} >
-                        <Typography component='label' sx={{pl: 1, pr: .5, m:1}} >*Type of Interview:</Typography>
+                      <Box color="secondary" sx={{ m: 1, width: '80ch', pb: 2, pl: 2}} >
+                        <Typography component='label' sx={{pl: 1, pr: .5, m:1}} >*Required</Typography>
                         <Typography component="select" name='type' onChange={newInterviewPost}>
-                          <option  value="select type">Select:</option>
+                          <option  value="select type">Type of Interview:</option>
                           <option  name="type" value="technical">Technical Interview</option>
                           <option name="type" value="behavioral">Behavioral Interview</option>
                         </Typography>
                       </Box>
-                        <Box  sx={{'& .MuiTextField-root': { m: 1, width: '25ch' },}}>
+                        <Box  sx={{'& .MuiTextField-root': { m: 1, width: '25ch'},}}>
                         <TextField
                           color="secondary"
                           required
@@ -445,7 +449,7 @@ return (
                             value={interview.devLanguage}
                             onChange={newInterviewPost}
                           />
-                        <Box sx={{pt:1, pb: 1}}>
+                        <Box sx={{pt:1, pb: 1, pl: 1}}>
                           <Typography component="label" sx={{pl: 1, pr: .5}} >Difficulty (0-10)</Typography>
                             <Typography component="input" name="difficulty" type="number" min="0" max="10" defaultValue='0' value={interview.difficulty}onChange={newInterviewPost}/>
                           <Typography component="label" sx={{pl: 1, pr: .5}}>Offered?</Typography>
@@ -455,10 +459,10 @@ return (
                               <option name="offer" value={interview.offer}>No</option>
                             </Typography>
                         </Box>
-            <div>
+            <Box sx={{pt:1, pb: 1, pl: 2}}>
               <Typography >Date of Interview:</Typography>
                 <Typography component='input' name="date" type="date" value={Date().now} onChange={newInterviewPost}/>
-            </div>
+            </Box>
 
                       </Box>
                       <Box sx={{width: .75, p: 5, mb: .5}}>
