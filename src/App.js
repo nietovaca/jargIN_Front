@@ -303,6 +303,11 @@ const handleCommentClick = (index) => {
   setSelectIndex(index)
 }
 
+const handleCommentPost = (index) => {
+  newCommentSubmit(index)
+  setPostComment(index)
+}
+
 // ============ Styling Show Page =============== //
 
 const Item = createTheme({
@@ -334,6 +339,8 @@ const Item = createTheme({
   },
 });
 
+// const [postComment, setPostComment] = useState()
+
 // ============ (Show Page) Mapping Interviews ============== //
 const interviewArray = interview.map((interview, index) => {
   return (
@@ -357,8 +364,14 @@ const interviewArray = interview.map((interview, index) => {
         </Grid>
 
         <h3>Replies:</h3>
-        <p> Name: {newComment.user}</p>
-        <p> Comment: {newComment.comment}</p>
+        
+        { postComment && selectIndex === index ? 
+        <div>
+          <p> Name: {newComment.user}</p>
+          <p> Comment: {newComment.comment}</p>
+        </div> : null
+        } 
+        
 
         <IconButton className="edit" onClick={(event) => {handleEditClick(index)}}><EditIcon color="info"/></IconButton>
                      {/* assign a number and assign the index */}
@@ -380,16 +393,18 @@ const interviewArray = interview.map((interview, index) => {
                 <button onClick={(event) => {handleCommentClick(index)}}>Add Comment</button>
 
                 { displayCommentForm && selectIndex === index ?
-                <form onSubmit={newCommentSubmit}>
+                <form onSubmit={handleCommentPost}>
                   <p> Name: </p> <input
                   type="text"
                   name="user"
                   value={newComment.user}
                   onChange={newCommentPost}
                   /><br/>
-                  <p> Comment: </p> <input
+                  <br/>
+                  <textarea
                   type="text"
                   name="comment"
+                  placeholder="Add a comment..."
                   value={newComment.comment}
                   onChange={newCommentPost}
                   /><br/>
