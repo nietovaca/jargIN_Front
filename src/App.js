@@ -97,7 +97,7 @@ const [newJargin, setNewJargin] = useState({
     question: '',
     devLanguage: '',
     userResponse: '',
-    difficulty: '',
+    difficulty: Number,
     offer: '',
     // comment: ''
   })
@@ -149,18 +149,18 @@ useEffect(() => {
 const newInterviewSubmit = (event) => {
   console.log(newJargin.user);
   console.log(newJargin.type);
-  // console.log(newJargin.date);
-  // console.log(newJargin.company);
-  // console.log(newJargin.jobTitle);
-  // console.log(newJargin.stage);
-  // console.log(newJargin.salary);
-  // console.log(newJargin.location);
-  // console.log(newJargin.timeLimit);
-  // console.log(newJargin.devLanguage);
-  // console.log(newJargin.difficulty);
-  // console.log(newJargin.question);
-  // console.log(newJargin.response);
-  // console.log(newJargin.offer);
+  console.log(newJargin.date);
+  console.log(newJargin.company);
+  console.log(newJargin.jobTitle);
+  console.log(newJargin.stage);
+  console.log(newJargin.salary);
+  console.log(newJargin.location);
+  console.log(newJargin.timeLimit);
+  console.log(newJargin.devLanguage);
+  console.log(newJargin.difficulty);
+  console.log(newJargin.question);
+  console.log(newJargin.userResponse);
+  console.log(newJargin.offer);
 
   event.preventDefault()
   axios.post('http://localhost:3000/interviews', {
@@ -321,8 +321,19 @@ return (
               </Route>
               <Route exact path="/interviewform">
                   <section>
-                    <form autocomplete="off" component="form" onSubmit={newInterviewSubmit} sx={{'& .MuiTextField-root': { m: 1, width: '25ch' },}}>
-                      <Box>
+                    <Typography variant="h4">Add Your Interview:</Typography>
+                    <form onSubmit={newInterviewSubmit}>
+                      <Box color="secondary" sx={{'& .MuiTextField-root': { width: 1, m: 1, p: 2 },}}>
+                        <Typography sx={{pl: 1, pr: .5}} variant="subtitle2" >Date of Interview:</Typography>
+                          <Typography component='input'  sx={{pl: 1, pr: .5}} name="date" type="date" value={Date().now} onChange={newInterviewPost} variant="subtitle2"/>
+                        <Typography component='label' variant="subtitle2">Type of Interview</Typography>
+                        <Typography component="select" name='type' onChange={newInterviewPost}>
+                          <Typography component="option"  value="select type">Select type:</Typography>
+                          <Typography component="option"  name="type" value="technical">Technical Interview</Typography>
+                          <Typography component="option" name="type" value="behavioral">Behavioral Interview</Typography>
+                        </Typography>
+                      </Box>
+                        <Box  sx={{'& .MuiTextField-root': { m: 1, width: '25ch' },}}>
                         <TextField
                           color="secondary"
                           required
@@ -344,20 +355,7 @@ return (
                           value={interview.company}
                           onChange={newInterviewPost}
                         />
-                        <TextField
-                            color="secondary"
-                            focused
-                            multiline
-                            id="date"
-                            label="Date of Interview"
-                            type="date"
-                            defaultValue='05/05/2022'
-                            sx={{ width: 220 }}
-                            onChange={newInterviewPost}
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
-                          />
+
                           <TextField
                             color="secondary"
                             focused
@@ -407,16 +405,9 @@ return (
                             id="timeLimit"
                             name="timeLimit"
                             label="Time Limit"
-                            helperText = "Numbers Only"
                             value={interview.timeLimit}
                             onChange={newInterviewPost}
                           />
-                <label>Type of Interview</label>
-                  <select name='type' onChange={newInterviewPost}>
-                    <option value="select type">Select type:</option>
-                    <option name="type" value="technical">Technical Interview</option>
-                    <option name="type" value="behavioral">Behavioral Interview</option>
-                  </select>
                           <TextField
                             color="secondary"
                             focused
@@ -428,43 +419,49 @@ return (
                             value={interview.devLanguage}
                             onChange={newInterviewPost}
                           />
-                <label>Difficulty</label>
-                  <input name="difficulty" type="text" value={interview.difficulty} onChange={newInterviewPost}/>
-                <label>Offered?</label>
-                  <select name='offer' onChange={newInterviewPost}>
-                    <option name="offer" value={interview.offer}>Yes</option>
-                    <option name="offer" value={interview.offer}>No</option>
-                    <option name="offer" value={interview.offer}>Undetermined</option>
-                  </select>
+                        <Box>
+                          <Typography component="label" sx={{pl: 1, pr: .5}} variant="subtitle2">Difficulty (0-10)</Typography>
+                            <Typography component="input" name="difficulty" type="number" min="0" max="10" defaultValue='0' value={interview.difficulty}onChange={newInterviewPost} variant="subtitle2"/>
+                          <Typography component="label" sx={{pl: 1, pr: .5}} variant="subtitle2">Offered?</Typography>
+                            <Typography component='select' name='offer' onChange={newInterviewPost} variant="subtitle2">
+                              <option name="offer" value={interview.offer}>Undetermined</option>
+                              <option name="offer" value={interview.offer}>Yes</option>
+                              <option name="offer" value={interview.offer}>No</option>
+                            </Typography>
+                        </Box>
                       </Box>
+                      <Box sx={{width: .75, p: 5, mb: .5}}>
                         <TextField
                           color="secondary"
                           multiline
                           variant="filled"
-                          rows={20}
+                          rows={10}
+                          fullWidth
                           id="question"
                           name="question"
                           label="Question"
-                          fullWidth
                           value={interview.question}
                           onChange={newInterviewPost}
                           />
-
+                        </Box>
+                        <Box sx={{width: .75, p: 5, mb: .5}}>
                           <TextField
                             color="secondary"
                             multiline
                             variant="filled"
                             rows={20}
+                            fullWidth
                             id="userResponse"
                             name="userResponse"
                             label="Response"
                             value={interview.userResponse}
                             onChange={newInterviewPost}
                             />
-                          <div>
-                  <Button color="secondary" variant="contained" value="Submit Post" type='submit'>Submit</Button>
-                  <Link to="/interviews">Back to all Interviews</Link>
-                          </div>
+                        </Box>
+                      <div>
+                        <Button color="secondary" variant="contained" value="Submit" type='submit'>Submit</Button>
+                        <Link to="/interviews">Back to all Interviews</Link>
+                      </div>
                   </form>
                 </section>
               </Route>
@@ -509,4 +506,18 @@ export default App;
 //   label="Date of Interview"
 //   value={Date().now}
 //   onChange={newInterviewPost}
+//   />
+// <TextField
+//     color="secondary"
+//     focused
+//     multiline
+//     id="date"
+//     label="Date of Interview"
+//     type="date"
+//     defaultValue='05/05/2022'
+//     sx={{ width: 220 }}
+//     onChange={newInterviewPost}
+//     InputLabelProps={{
+//       shrink: true,
+//     }}
 //   />
