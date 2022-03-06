@@ -22,10 +22,13 @@ import {
   Select,
   TextField,
   Box,
+  Modal
  } from '@mui/material'
+
 // ============== MUI Icons =================== //
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import AddIcon from '@mui/icons-material/Add';
 
 // ============== MUI Styles =================== //
 import {ThemeProvider, createTheme} from '@mui/material/styles';
@@ -302,6 +305,22 @@ const displayInterviewDetails = (event) => {
   setShowInterviewDetails(true)
 }
 
+// ============= Modal Style & State ====================== //
+    const modalStyle = {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: 400,
+      bgcolor: 'warning.main',
+      border: '2px solid #000',
+      boxShadow: 24,
+      p: 4,
+    };
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
 
 // =========== Browser =========== //
 return (
@@ -317,7 +336,16 @@ return (
               </Route>
               <Route exact path="/interviews">
                 {interviewArray}
-                <Link to ="/interviewform"><button>Add Your Interview</button></Link>
+                <Link to ="/interviewform">
+                  <Button
+                    onClick={handleClose}
+                    color="secondary"
+                    aria-label='add your interview'
+                    variant="contained"
+                    startIcon={<AddIcon />}>
+                    Add
+                  </Button>
+                </Link>
               </Route>
               <Route exact path="/interviewform">
                   <section>
@@ -462,8 +490,23 @@ return (
                             />
                         </Box>
                       <div>
-                        <Button color="secondary" variant="contained" value="Submit" type='submit'>Submit</Button>
-                        <Link to="/interviews">Back to all Interviews</Link>
+                        <Button sx={{mr: 1}}color="secondary" variant="contained" value="Submit" type='submit' onClick={handleOpen}>Submit</Button>
+                          <Modal
+                            open={open}
+                            onClose={handleClose}
+                            aria-labelledby="modal-modal-title"
+                            aria-describedby="modal-modal-description"
+                          >
+                            <Box sx={modalStyle}>
+                              <Typography id="modal-modal-title" variant="h6" component="h2">
+                                Thank you! Your interview has been added.
+                              </Typography>
+                              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                <Link to="/interviews">Click here to see all interviews.</Link>
+                              </Typography>
+                            </Box>
+                          </Modal>
+                        <Link to="/interviews"><Button color="primary" variant="contained">Back to all Interviews</Button></Link>
                       </div>
                   </form>
                 </section>
