@@ -53,7 +53,7 @@ const [resource, setResource] = useState([])
 // form displays on edit buttons
 const [displayEditForms, setDisplayEditForms] = useState([false])
 
-const [selectInterview, setSelectInterview] = useState(0)
+const [selectIndex, setSelectIndex] = useState(0)
 
 // this will change our useEffect function based on which is true and which is false with different button clicks
 const [displayResources, setDisplayResources] = useState([false])
@@ -161,7 +161,7 @@ const newInterviewSubmit = (event) => {
       setInterview(res.data)
     })
   })
-  
+
   // setShowNewInterviewForm(false)
 }
 
@@ -250,7 +250,7 @@ const handleEditResourceSubmit = (resourceData) => {
 // Minor bug of toggling off current edit and not directly into another --> Kevin can demo next time we are together.
 const handleEditClick = (index) => {
   setDisplayEditForms(!displayEditForms);
-  setSelectInterview(index);
+  setSelectIndex(index);
 }
 
 // ============ Styling Show Page =============== //
@@ -308,13 +308,13 @@ const interviewArray = interview.map((interview, index) => {
 
         <IconButton className="edit" onClick={(event) => {handleEditClick(index)}}><EditIcon color="info"/></IconButton>
                      {/* assign a number and assign the index */}
-                { displayEditInterviewForms && selectInterview === index ? 
-                <form onSubmit={ (event) => {handleToggleEditInterviewSubmit(interview) } }>
-                    <p> User: </p> <input 
-                    type="text" 
+                { displayEditForms && selectIndex === index ?
+                <form onSubmit={ (event) => {handleEditInterviewSubmit(interview) } }>
+                    <p> User: </p> <input
+                    type="text"
                     name="user"
-                    // defaultChecked can also be used for checkbox 
-                    defaultValue={interview.user} 
+                    // defaultChecked can also be used for checkbox
+                    defaultValue={interview.user}
                     onChange={newInterviewPost}
                     /><br/>
                     <p> Type: </p> <input type="text" name="type" onChange={newInterviewPost}/><br/>
@@ -331,7 +331,7 @@ const interviewArray = interview.map((interview, index) => {
 })
 
 // ============ Mapping Resources ============== //
-const resourceArray = resource.map((resource) => {
+const resourceArray = resource.map((resource, index) => {
   return (
       <div key={resource._id}>
         <p>{resource.user}</p>
@@ -340,14 +340,14 @@ const resourceArray = resource.map((resource) => {
         <p>{resource.description}</p>
         <a href={resource.link} target="_blank">{resource.link}</a>
 
-      <button className="edit" onClick={handleToggleDisplayEditForms}>Edit</button>
-                  { displayEditForms ?
+      <IconButton className="edit" onClick={(event) => {handleEditClick(index)}}><EditIcon color="info"/></IconButton>
+                  { displayEditForms && selectIndex === index ?
                   <form onSubmit={ (event) => {handleEditResourceSubmit(resource) } }>
-                      <p> Username: </p> <input type="text" name="user" onChange={newResourcePost}/><br/>
+                      <p> Username: </p> <input type="text" name="user" onChange={newResourcePost} defaultValue = {resource.user}/><br/>
                       <br/>
-                      <p> Type: </p> <input type="text" name="type" onChange={newResourcePost}/><br/>
-                      <p> Description: </p> <input type="text" name="description" onChange={newResourcePost}/><br/>
-                      <p> link: </p> <input type="text" name="link" onChange={newResourcePost}/><br/>
+                      <p> Type: </p> <input type="text" name="type" onChange={newResourcePost} defaultValue = {resource.type}/><br/>
+                      <p> Description: </p> <input type="text" name="description" onChange={newResourcePost} defaultValue = {resource.description}/><br/>
+                      <p> link: </p> <input type="text" name="link" onChange={newResourcePost} defaultValue = {resource.link}/><br/>
                       <input type="submit" value="Change Interview Data"/>
                   </form> : null
                   }
@@ -362,7 +362,7 @@ const resourceArray = resource.map((resource) => {
 
 
 // ----- Matt Notes ----- //
-// Create edit form component - all editing occurs within the edit component 
+// Create edit form component - all editing occurs within the edit component
 
 // const refereshIndex = () => {
 
@@ -370,7 +370,7 @@ const resourceArray = resource.map((resource) => {
 
 // <EditForm refereshPageFunction={refreshIndex}></EditForm>
 
-// inside the edit component: 
+// inside the edit component:
 
 // const EditForm = (props) => {
 //   const onSubmit = () => {
@@ -450,13 +450,10 @@ return (
                   <section className = "homepage">
                     <TopNav />
                     <LandingPage />
-                        <h1>JargIN</h1>
-                        <h3>Slay the interview</h3>
-                        <Link to ="/interviews"><button>INTERVIEW LIBRARY</button></Link>
-                        <Link to ="/resources"><button>RESOURCES LIBRARY</button></Link>
                   </section>
               </Route>
               <Route exact path="/interviews">
+                <TopNav />
                 <ThemeProvider theme={defaultTheme}>
                   {interviewArray}
                   <Link to ="/interviewform">
@@ -474,7 +471,16 @@ return (
               <Route exact path="/resources">
                 <TopNav />
                 {resourceArray}
-                <Link to ="/resourceform"><button>Add Your Resource</button></Link>
+                <Link to ="/resourceform">
+                  <Button
+                    onClick={handleClose}
+                    color="secondary"
+                    aria-label='add your resource'
+                    variant="contained"
+                    startIcon={<AddIcon />}>
+                    Add
+                  </Button>
+                </Link>
               </Route>
               <Route exact path="/interviewform">
                   <TopNav />
@@ -653,8 +659,24 @@ return (
                           <textarea name="description" type="text" value={resource.description} onChange={newResourcePost}/>
                         <label>Link: </label>
                           <input name="link" type="text" value={resource.link} onChange={newResourcePost}/>
-                        <Button color="secondary" variant="contained" value="Submit Post" type='submit'>Submit</Button>
-                        <Link to="/resources">Back to all resources</Link>
+
+                          <Button sx={{mr: 1}}color="secondary" variant="contained" value="Submit" type='submit' onClick={handleOpen}>Submit</Button>
+                            <Modal
+                              open={open}
+                              onClose={handleClose}
+                              aria-labelledby="modal-modal-title"
+                              aria-describedby="modal-modal-description"
+                            >
+                              <Box sx={modalStyle}>
+                                <Typography id="modal-modal-title" variant="h6" component="h2">
+                                  Thank you! Your resource has been added.
+                                </Typography>
+                                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                  <Link to="/resources">Click here to see all resources.</Link>
+                                </Typography>
+                              </Box>
+                            </Modal>
+
                     </form>
                 </section>
               </Route>
