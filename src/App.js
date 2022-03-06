@@ -255,12 +255,18 @@ const interviewArray = interview.map((interview, index) => {
       <li>{interview.response}</li>
       <li>{interview.offer}</li>
       </ul>
-    
+
     <button className="edit" onClick={ (event) => {handleEditClick(index)} }>Edit</button>
                 {/* assign a number and assign the index */}
                 { displayEditInterviewForms && selectInterview === index ? 
                 <form onSubmit={ (event) => {handleToggleEditInterviewSubmit(interview) } }>
-                    <p> User: </p> <input type="text" name="user" onChange={newInterviewPost}/><br/>
+                    <p> User: </p> <input 
+                    type="text" 
+                    name="user"
+                    // defaultChecked can also be used for checkbox 
+                    defaultValue={interview.user} 
+                    onChange={newInterviewPost}
+                    /><br/>
                     <p> Type: </p> <input type="text" name="type" onChange={newInterviewPost}/><br/>
                     <br/>
                     <input type="submit" value="Change Interview Data"/>
