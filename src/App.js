@@ -261,7 +261,7 @@ const interviewArray = interview.map((interview, index) => {
                 {/* assign a number and assign the index */}
                 { displayEditInterviewForms && selectInterview === index ? 
                 <form onSubmit={ (event) => {handleToggleEditInterviewSubmit(interview) } }>
-                    <p> User: </p> <input type="text" name="user" onChange={newInterviewPost}/><br/>
+                    <p> User: </p> <input type="text" name="user" value={interview.user} onChange={ (event) => setInterview({...newJargin, user: event.target.value}) }/><br/>
                     <p> Type: </p> <input type="text" name="type" onChange={newInterviewPost}/><br/>
                     <br/>
                     <input type="submit" value="Change Interview Data"/>
