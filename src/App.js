@@ -321,16 +321,14 @@ return (
               </Route>
               <Route exact path="/interviewform">
                   <section>
-                    <Typography variant="h4">Add Your Interview:</Typography>
+                    <Typography variant="h4" sx={{pl: 1, pr: .5, pb: 2}} >Add Your Interview:</Typography>
                     <form onSubmit={newInterviewSubmit}>
-                      <Box color="secondary" sx={{'& .MuiTextField-root': { width: 1, m: 1, p: 2 },}}>
-                        <Typography sx={{pl: 1, pr: .5}} variant="subtitle2" >Date of Interview:</Typography>
-                          <Typography component='input'  sx={{pl: 1, pr: .5}} name="date" type="date" value={Date().now} onChange={newInterviewPost} variant="subtitle2"/>
-                        <Typography component='label' variant="subtitle2">Type of Interview</Typography>
+                      <Box color="secondary" sx={{ m: 1, width: '80ch', pb: 2 }} >
+                        <Typography component='label' sx={{pl: 1, pr: .5, m:1}} >*Type of Interview:</Typography>
                         <Typography component="select" name='type' onChange={newInterviewPost}>
-                          <Typography component="option"  value="select type">Select type:</Typography>
-                          <Typography component="option"  name="type" value="technical">Technical Interview</Typography>
-                          <Typography component="option" name="type" value="behavioral">Behavioral Interview</Typography>
+                          <option  value="select type">Select:</option>
+                          <option  name="type" value="technical">Technical Interview</option>
+                          <option name="type" value="behavioral">Behavioral Interview</option>
                         </Typography>
                       </Box>
                         <Box  sx={{'& .MuiTextField-root': { m: 1, width: '25ch' },}}>
@@ -419,16 +417,21 @@ return (
                             value={interview.devLanguage}
                             onChange={newInterviewPost}
                           />
-                        <Box>
-                          <Typography component="label" sx={{pl: 1, pr: .5}} variant="subtitle2">Difficulty (0-10)</Typography>
-                            <Typography component="input" name="difficulty" type="number" min="0" max="10" defaultValue='0' value={interview.difficulty}onChange={newInterviewPost} variant="subtitle2"/>
-                          <Typography component="label" sx={{pl: 1, pr: .5}} variant="subtitle2">Offered?</Typography>
-                            <Typography component='select' name='offer' onChange={newInterviewPost} variant="subtitle2">
+                        <Box sx={{pt:1, pb: 1}}>
+                          <Typography component="label" sx={{pl: 1, pr: .5}} >Difficulty (0-10)</Typography>
+                            <Typography component="input" name="difficulty" type="number" min="0" max="10" defaultValue='0' value={interview.difficulty}onChange={newInterviewPost}/>
+                          <Typography component="label" sx={{pl: 1, pr: .5}}>Offered?</Typography>
+                            <Typography component='select' name='offer' onChange={newInterviewPost}>
                               <option name="offer" value={interview.offer}>Undetermined</option>
                               <option name="offer" value={interview.offer}>Yes</option>
                               <option name="offer" value={interview.offer}>No</option>
                             </Typography>
                         </Box>
+            <div>
+              <Typography >Date of Interview:</Typography>
+                <Typography component='input' name="date" type="date" value={Date().now} onChange={newInterviewPost}/>
+            </div>
+
                       </Box>
                       <Box sx={{width: .75, p: 5, mb: .5}}>
                         <TextField
