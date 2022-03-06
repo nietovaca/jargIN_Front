@@ -51,7 +51,7 @@ const [resource, setResource] = useState([])
 
 
 // form displays on edit buttons
-const [displayEditInterviewForms, setDisplayEditInterviewForms] = useState([false])
+const [displayEditForms, setDisplayEditForms] = useState([false])
 
 const [selectInterview, setSelectInterview] = useState(0)
 
@@ -82,6 +82,7 @@ const [newJargin, setNewJargin] = useState({
   const [newBook, setNewBook] = useState({
     type: {'book':'video'},
     user: '',
+    title: '',
     description: '',
     link: ''
   })
@@ -89,19 +90,20 @@ const [newJargin, setNewJargin] = useState({
   // =========== useEffect =========== //
 
 useEffect(() => {
-    // if (displayInterviews === true){
         axios.get('http://localhost:3000/interviews').then((res) => {
           setNewJargin(res.data)
           setInterview(res.data)
-          setDisplayEditInterviewForms(!res.data)
+          setDisplayEditForms(!res.data)
         }
       )
-    // } else if (displayResources === true){
-    //     axios.get('http://localhost:3000/resources').then((res) => {
-    //       setNewBook(res.data)
-    //       setResource(res.data)
-    //     })
-    // }
+}, [])
+
+useEffect(() => {
+    axios.get('http://localhost:3000/resources').then((res) => {
+      setNewBook(res.data)
+      setResource(res.data)
+      setDisplayEditForms(!res.data)
+    })
 }, [])
 
 
@@ -115,6 +117,8 @@ useEffect(() => {
   const newResourcePost = (event) => {
       setNewBook({...newBook,[event.target.name]:event.target.value})
   }
+
+
 
 
 // =========== Post Function ============ //
@@ -196,8 +200,9 @@ const handleResourceDelete = (resourceData) => {
 
 // =========== Edit Function ============ //
 
+const handleEditInterviewSubmit = (interviewData) => {
+  console.log('newJargin');
 
-const handleToggleEditInterviewSubmit = (interviewData) => {
   axios.put(`http://localhost:3000/interviews/${interviewData._id}`, {
     type: newJargin.type,
     user: newJargin.user,
@@ -220,6 +225,21 @@ const handleToggleEditInterviewSubmit = (interviewData) => {
     })
   })
 }
+
+const handleEditResourceSubmit = (resourceData) => {
+  axios.put(`http://localhost:3000/resources/${resourceData._id}`, {
+    type: newBook.type,
+    user: newBook.user,
+    title: newBook.title,
+    description: newBook.description,
+    link: newBook.link
+    // comment: []
+  }).then(() => {
+    axios.get('http://localhost:3000/resources').then((res) => {
+      setResource(res.data)
+    })
+  })
+}
 // ========= Display Edit Forms Function ========= //
 
 
@@ -229,8 +249,8 @@ const handleToggleEditInterviewSubmit = (interviewData) => {
 
 // Minor bug of toggling off current edit and not directly into another --> Kevin can demo next time we are together.
 const handleEditClick = (index) => {
-  setDisplayEditInterviewForms(!displayEditInterviewForms);
-  setSelectInterview(index)
+  setDisplayEditForms(!displayEditForms);
+  setSelectInterview(index);
 }
 
 // ============ Styling Show Page =============== //
@@ -267,7 +287,7 @@ const Item = createTheme({
 // ============ (Show Page) Mapping Interviews ============== //
 const interviewArray = interview.map((interview, index) => {
   return (
-      <Box sx={{flexGrow: 1}}key={interview._id}>
+          <Box sx={{flexGrow: 1}}key={interview._id}>
         <Grid container spacing={3}>
           <Grid item xs={2}><li>{interview.user}</li></Grid>
           <Grid item xs={2}>{interview.type? <li>Technical</li> : <li>Behavioral</li>}</Grid>
@@ -310,6 +330,36 @@ const interviewArray = interview.map((interview, index) => {
   )
 })
 
+// ============ Mapping Resources ============== //
+const resourceArray = resource.map((resource) => {
+  return (
+      <div key={resource._id}>
+        <p>{resource.user}</p>
+        <p>{resource.title}</p>
+        <p>{resource.type}</p>
+        <p>{resource.description}</p>
+        <a href={resource.link} target="_blank">{resource.link}</a>
+
+      <button className="edit" onClick={handleToggleDisplayEditForms}>Edit</button>
+                  { displayEditForms ?
+                  <form onSubmit={ (event) => {handleEditResourceSubmit(resource) } }>
+                      <p> Username: </p> <input type="text" name="user" onChange={newResourcePost}/><br/>
+                      <br/>
+                      <p> Type: </p> <input type="text" name="type" onChange={newResourcePost}/><br/>
+                      <p> Description: </p> <input type="text" name="description" onChange={newResourcePost}/><br/>
+                      <p> link: </p> <input type="text" name="link" onChange={newResourcePost}/><br/>
+                      <input type="submit" value="Change Interview Data"/>
+                  </form> : null
+                  }
+      <IconButton aria-label="delete"
+        onClick={(event) => {handleResourceDelete(resource)}}
+        color="error"><DeleteIcon />
+      </IconButton>
+      </div>
+  )
+})
+
+
 
 // ----- Matt Notes ----- //
 // Create edit form component - all editing occurs within the edit component 
@@ -330,7 +380,6 @@ const interviewArray = interview.map((interview, index) => {
 // }
 
 // ----- ^Matt Notes^ ----- //
-
 
 //Button toggle show the new form
 const showNewForm = (event) => {
@@ -399,6 +448,7 @@ return (
           <Switch>
               <Route exact path="/">
                   <section className = "homepage">
+                    <TopNav />
                     <LandingPage />
                         <h1>JargIN</h1>
                         <h3>Slay the interview</h3>
@@ -421,7 +471,13 @@ return (
                   </Link>
                 </ThemeProvider>
               </Route>
+              <Route exact path="/resources">
+                <TopNav />
+                {resourceArray}
+                <Link to ="/resourceform"><button>Add Your Resource</button></Link>
+              </Route>
               <Route exact path="/interviewform">
+                  <TopNav />
                   <section>
                     <Typography variant="h4" sx={{pl: 1, pr: .5, pb: 2}} >Add Your Interview:</Typography>
                     <form onSubmit={newInterviewSubmit}>
@@ -581,6 +637,25 @@ return (
                       <Link to="/interviews"><Button color="primary" variant="contained">Back to all Interviews</Button></Link>
                     </div>
                   </form>
+                </section>
+              </Route>
+              <Route exact path="/resourceform">
+                  <TopNav />
+                  <section>
+                    <form onSubmit={newResourceSubmit}>
+                        <label>Name: </label>
+                          <input name="user" type="text" value={resource.user} onChange={newResourcePost}/>
+                          <label>Title: </label>
+                            <input name="title" type="text" value={resource.title} onChange={newResourcePost}/>
+                        <label>Type: </label>
+                          <input name="type" value={resource.user} onChange={newResourcePost} />
+                        <label>Description: </label>
+                          <textarea name="description" type="text" value={resource.description} onChange={newResourcePost}/>
+                        <label>Link: </label>
+                          <input name="link" type="text" value={resource.link} onChange={newResourcePost}/>
+                        <Button color="secondary" variant="contained" value="Submit Post" type='submit'>Submit</Button>
+                        <Link to="/resources">Back to all resources</Link>
+                    </form>
                 </section>
               </Route>
           </Switch>
