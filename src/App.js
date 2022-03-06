@@ -62,6 +62,7 @@ const [newJargin, setNewJargin] = useState({
   const [newBook, setNewBook] = useState({
     type: {'book':'video'},
     user: '',
+    title: '',
     description: '',
     link: ''
   })
@@ -211,6 +212,7 @@ const handleEditResourceSubmit = (resourceData) => {
   axios.put(`http://localhost:3000/resources/${resourceData._id}`, {
     type: newBook.type,
     user: newBook.user,
+    title: newBook.title,
     description: newBook.description,
     link: newBook.link
     // comment: []
@@ -267,12 +269,11 @@ const interviewArray = interview.map((interview) => {
 const resourceArray = resource.map((resource) => {
   return (
       <div key={resource._id}>
-        <ul>
-        <li>{resource.type}</li>
-        <li>{resource.user}</li>
-        <li>{resource.description}</li>
-        <li>{resource.link}</li>
-        </ul>
+        <p>{resource.user}</p>
+        <p>{resource.title}</p>
+        <p>{resource.type}</p>
+        <p>{resource.description}</p>
+        <a href={resource.link} target="_blank">{resource.link}</a>
 
       <button className="edit" onClick={handleToggleDisplayEditForms}>Edit</button>
                   { displayEditForms ?
@@ -311,22 +312,24 @@ return (
           <Switch>
               <Route exact path="/">
                   <section className = "homepage">
-                        <h1>JargIN</h1>
-                        <h3>Slay the interview</h3>
-                        <Link to ="/interviews"><button>INTERVIEW LIBRARY</button></Link>
-                        <Link to ="/resources"><button>RESOURCES LIBRARY</button></Link>
+                      <TopNav />
+                      <h1>JargIN</h1>
+                      <h3>Slay the interview</h3>
+
                   </section>
               </Route>
               <Route exact path="/interviews">
-                <Link to="/"><button>HOME PAGE</button></Link>
+                <TopNav />
                 {interviewArray}
                 <Link to ="/interviewform"><button>Add Your Interview</button></Link>
               </Route>
               <Route exact path="/resources">
+                <TopNav />
                 {resourceArray}
                 <Link to ="/resourceform"><button>Add Your Resource</button></Link>
               </Route>
               <Route exact path="/interviewform">
+                  <TopNav />
                   <section>
                     <form onSubmit={newInterviewSubmit}>
                         <label>Type of Interview</label>
@@ -372,12 +375,15 @@ return (
                 </section>
               </Route>
               <Route exact path="/resourceform">
+                  <TopNav />
                   <section>
                     <form onSubmit={newResourceSubmit}>
-                        <label>Type: </label>
-                          <input name="type" value={resource.user} onChange={newResourcePost} />
                         <label>Name: </label>
                           <input name="user" type="text" value={resource.user} onChange={newResourcePost}/>
+                          <label>Title: </label>
+                            <input name="title" type="text" value={resource.title} onChange={newResourcePost}/>
+                        <label>Type: </label>
+                          <input name="type" value={resource.user} onChange={newResourcePost} />
                         <label>Description: </label>
                           <textarea name="description" type="text" value={resource.description} onChange={newResourcePost}/>
                         <label>Link: </label>
