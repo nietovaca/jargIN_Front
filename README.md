@@ -4,6 +4,9 @@
   -How to link this to interview?
   -Might be possible if interview is globally scoped?
 
+-Do I need a seperate SingleComment form component?
+  -Seems unnecessary
+
 // ========= Display Edit Forms Function ========= //
 
 

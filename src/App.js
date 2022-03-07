@@ -373,7 +373,7 @@ const interviewArray = interview.map((interview, index) => {
         </Grid>
 
         { displayCommentForm && selectIndex === index ?
-        <Comments id={interview._id} refreshFunction={updateComment} commentList={commentList}/>
+        <Comments id={interview._id} commentList={commentList}/>
         : null
         }
         {/* <h3>Replies:</h3>
