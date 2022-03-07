@@ -28,16 +28,19 @@ import {
   Paper,
   Card,
   CardActions,
-  CardContent
+  CardContent,
+  Collapse
  } from '@mui/material'
 
 // ============== MUI Icons =================== //
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 // ============== MUI Styles/Themes =================== //
 import {ThemeProvider, createTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
   // =========== Theme Build =============//
@@ -274,33 +277,60 @@ const handleEditClick = (index) => {
 }
 
 // ============ (Show Page) Mapping Interviews ============== //
+const [expanded, setExpanded] = useState(false);
+
+const ExpandMore = styled((props) => {
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+  marginLeft: 'auto',
+  transition: theme.transitions.create('transform', {
+    duration: theme.transitions.duration.shortest,
+  }),
+}));
+
+const handleExpandClick = () => {
+  setExpanded(!expanded);}
 const interviewArray = interview.map((interview, index) => {
   return (
       <ThemeProvider>
       <CssBaseline />
         <Box sx={{flexGrow: 3}}key={interview._id}>
           <Grid container spacing={2} sx={{bgcolor: '#483362', opacity: .8, padding: 2, margin: 1}}>
-            <Card sx={{m: 2, p: 1, width: .2}}>
+            <Card sx={{m: 2, p: 1, width: .4}}>
               <Typography  item gutterBottom color="#FF2A00" variant="h6">Type: {interview.type? <>Technical</> : <>Behavioral</>}</Typography>
               <Typography  item color="#FEFE00">Date: {interview.date}</Typography>
               <Typography item>Uploaded by: {interview.user}</Typography>
               <Typography  item>Offered: {interview.offer}</Typography>
               <Typography item>Added: {interview.createdAt}</Typography>
             </Card>
-            <Card sx={{m: 2, p: 1, width: .2}}>
-              <Typography item gutterBottom variant="h6">Company: {interview.company}</Typography>
-              <Grid item xs={2}><li>{interview.jobTitle}</li></Grid>
-              <Grid item xs={2}><li>{interview.stage}</li></Grid>
-              <Grid item xs={2}><li>{interview.salary}</li></Grid>
-              <Grid item xs={2}><li>{interview.location}</li></Grid>
-              <Grid item xs={2}><li>{interview.timeLimit}</li></Grid>
-              <Grid item xs={2}><li>{interview.devLanguage}</li></Grid>
-              <Grid item xs={2}><li>{interview.difficulty}</li></Grid>
+            <Card sx={{m: 2, p: 1, width: .4}}>
+              <Typography container gutterBottom variant="h6">Company: {interview.company}</Typography>
+              <Typography variant="li" item xs={3}>Position: {interview.jobTitle}</Typography><br/>
+              <Typography variant="li" item xs={3}>Stage: {interview.stage}</Typography><br/>
+              <Typography variant="li" item xs={3}>Salary: {interview.salary}</Typography><br/>
+              <Typography variant="li" item>Location: {interview.location}</Typography><br/>
+              <Typography variant="li" item>Time Limit: {interview.timeLimit}</Typography><br/>
+              <Typography variant="li" item>Language: {interview.devLanguage}</Typography><br/>
+              <Typography variant="li" item>Difficulty: {interview.difficulty}</Typography>
             </Card>
-            <Card  sx={{m: 2, p: 1, width: .7}}>
+            <Card  sx={{m: 2, p: 1, width: .9}}>
               <Grid item xs={2}><li>Question: {interview.question}</li></Grid>
-              <Grid item xs={2}><li>{interview.userResponse}</li></Grid>
-              </Card>
+              <ExpandMore
+                 expand={expanded}
+                 onClick={handleExpandClick}
+                 aria-expanded={expanded}
+                 aria-label="show more"
+               >
+                 <ExpandMoreIcon color="warning"  sx={{m: 3}}/>
+               </ExpandMore>
+             <Collapse in={expanded} timeout="auto" unmountOnExit sx={{bgcolor:'#483362'}}>
+              <CardActions>
+                <Grid item xs={2}><li>{interview.userResponse}</li></Grid>
+              </CardActions>
+              </Collapse>
+            </Card>
           </Grid>
 
         <IconButton className="edit" onClick={(event) => {handleEditClick(index)}}><EditIcon color="primary"/></IconButton>
