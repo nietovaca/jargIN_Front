@@ -72,7 +72,7 @@ import CssBaseline from '@mui/material/CssBaseline';
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    color: "#FEFE00", 
+    color: "#FEFE00",
     width: 400,
     bgcolor: 'error.main',
     border: '2px solid #000',
@@ -167,20 +167,20 @@ useEffect(() => {
 // =========== Post Function ============ //
 
 const newInterviewSubmit = (event) => {
-  console.log(newJargin.user);
-  console.log(newJargin.type);
-  console.log(newJargin.date);
-  console.log(newJargin.company);
-  console.log(newJargin.jobTitle);
-  console.log(newJargin.stage);
-  console.log(newJargin.salary);
-  console.log(newJargin.location);
-  console.log(newJargin.timeLimit);
-  console.log(newJargin.devLanguage);
-  console.log(newJargin.difficulty);
-  console.log(newJargin.question);
-  console.log(newJargin.userResponse);
-  console.log(newJargin.offer);
+  // console.log(newJargin.user);
+  // console.log(newJargin.type);
+  // console.log(newJargin.date);
+  // console.log(newJargin.company);
+  // console.log(newJargin.jobTitle);
+  // console.log(newJargin.stage);
+  // console.log(newJargin.salary);
+  // console.log(newJargin.location);
+  // console.log(newJargin.timeLimit);
+  // console.log(newJargin.devLanguage);
+  // console.log(newJargin.difficulty);
+  // console.log(newJargin.question);
+  // console.log(newJargin.userResponse);
+  // console.log(newJargin.offer);
 
   event.preventDefault()
   axios.post('http://localhost:3000/interviews', {
@@ -314,7 +314,13 @@ const interviewArray = interview.map((interview, index) => {
         <Box sx={{display: 'flex', alignItems: 'space evenly'}} key={interview._id}>
           <Grid container sx={{bgcolor: '#483362', padding: 1, margin: 1}}>
             <Card sx={{m: 2, p: 1, width: .4}}>
-              <Typography  item gutterBottom color="#FF2A00" variant="h6">Type: {interview.type? <>Technical</> : <>Behavioral</>}</Typography>
+
+              <Typography  item gutterBottom color="#FF2A00" variant="h6">
+                Type: {(interview.type === 'technical')?
+                <>Technical</> : <>Behavioral</>
+                }
+              </Typography>
+
               <Typography  item >Date: {interview.date}</Typography>
               <Typography item>Uploaded by: {interview.user}</Typography>
               <Typography  item>Offered: {interview.offer}</Typography>
