@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import HomeIcon from '@mui/icons-material/Home';
 import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
 import SearchBar from './searchBar.js'
 
@@ -67,9 +68,9 @@ const TopNav = ({placeholder, data}) => {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          <Link to ="/interviews"><Typography sx={{ color: 'white' }}>INTERVIEW LIBRARY</Typography></Link>
-          <Link to ="/resources"><Typography sx={{ color: 'white' }}>RESOURCES LIBRARY</Typography></Link>
-          <Link to ="/"><Typography sx={{ color: 'white' }}>JARGIN HOME</Typography></Link>
+          <Link to ="/interviews"><Typography sx={{ color: 'yellow' }}>INTERVIEW LIBRARY</Typography></Link>
+          <Link to ="/resources"><Typography sx={{ color: 'yellow' }}>RESOURCES LIBRARY</Typography></Link>
+          <Link to ="/"><HomeIcon sx={{ color: 'yellow' }}/></Link>
         </Toolbar>
       </AppBar>
   )
