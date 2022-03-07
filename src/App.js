@@ -37,6 +37,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 // ============== MUI Styles/Themes =================== //
 import {ThemeProvider, createTheme } from '@mui/material/styles';
@@ -323,36 +325,37 @@ const interviewArray = interview.map((interview, index) => {
                  aria-expanded={expanded}
                  aria-label="show more"
                >
-                 <ExpandMoreIcon color="warning"  sx={{m: 3}}/>
+                 <Button startIcon={<VisibilityOffIcon color="warning"/>} color="warning">Answer</Button>
                </ExpandMore>
              <Collapse in={expanded} timeout="auto" unmountOnExit sx={{bgcolor:'#483362'}}>
               <CardActions>
                 <Grid item xs={2}><li>{interview.userResponse}</li></Grid>
               </CardActions>
               </Collapse>
+              <IconButton gutterBottom className="edit"
+                sx={{padding: 1, ml: 2}}
+                onClick={(event) => {handleEditClick(index)}}><EditIcon color="primary"/></IconButton>
+                           {/* assign a number and assign the index */}
+                      { displayEditForms && selectIndex === index ?
+                      <form onSubmit={ (event) => {handleEditInterviewSubmit(interview) } }>
+                          <p> User: </p> <input
+                          type="text"
+                          name="user"
+                          // defaultChecked can also be used for checkbox
+                          defaultValue={interview.user}
+                          onChange={newInterviewPost}
+                          /><br/>
+                          <p> Type: </p> <input type="text" name="type" onChange={newInterviewPost}/><br/>
+                          <br/>
+                          <input type="submit" value="Change Interview Data"/>
+                      </form> : null
+                      }
+              <IconButton aria-label="delete"
+                onClick={(event) => {handleInterviewDelete(interview)}}
+                color="error"><DeleteIcon />
+              </IconButton>
             </Card>
           </Grid>
-
-        <IconButton className="edit" onClick={(event) => {handleEditClick(index)}}><EditIcon color="primary"/></IconButton>
-                     {/* assign a number and assign the index */}
-                { displayEditForms && selectIndex === index ?
-                <form onSubmit={ (event) => {handleEditInterviewSubmit(interview) } }>
-                    <p> User: </p> <input
-                    type="text"
-                    name="user"
-                    // defaultChecked can also be used for checkbox
-                    defaultValue={interview.user}
-                    onChange={newInterviewPost}
-                    /><br/>
-                    <p> Type: </p> <input type="text" name="type" onChange={newInterviewPost}/><br/>
-                    <br/>
-                    <input type="submit" value="Change Interview Data"/>
-                </form> : null
-                }
-        <IconButton aria-label="delete"
-          onClick={(event) => {handleInterviewDelete(interview)}}
-          color="error"><DeleteIcon />
-        </IconButton>
       </Box>
     </ThemeProvider>
   )
