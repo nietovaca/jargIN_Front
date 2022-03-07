@@ -315,9 +315,9 @@ const interviewArray = interview.map((interview, index) => {
           <Grid container sx={{bgcolor: '#483362', padding: 1, margin: 1}}>
             <Card sx={{m: 2, p: 1, width: .4}}>
 
-              <Typography  item gutterBottom color="#FF2A00" variant="h6">
+              <Typography  item gutterBottom>
                 Type: {(interview.type === 'technical')?
-                <>Technical</> : <>Behavioral</>
+                <Typography color="#FF2A00" variant="h6">Technical</Typography> : <Typography color="#0A29FD" variant="h6">Behavioral</Typography>
                 }
               </Typography>
 
