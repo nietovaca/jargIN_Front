@@ -315,9 +315,9 @@ const interviewArray = interview.map((interview, index) => {
           <Grid container sx={{bgcolor: '#483362', padding: 1, margin: 1}}>
             <Card sx={{m: 2, p: 1, width: .4}}>
 
-              <Typography  item gutterBottom color="#FF2A00" variant="h6">
+              <Typography  item gutterBottom>
                 Type: {(interview.type === 'technical')?
-                <>Technical</> : <>Behavioral</>
+                <Typography color="#FF2A00" variant="h6">Technical</Typography> : <Typography color="#0A29FD" variant="h6">Behavioral</Typography>
                 }
               </Typography>
 
@@ -385,10 +385,10 @@ const resourceArray = resource.map((resource, index) => {
        <CssBaseline />
        <Card key={resource._id} sx={{maxWidth: 400, minWidth: 200}, {padding: 1, margin: 2}}>
         <CardContent sx={{bgcolor:'#483362'}}>
-          <Typography sx={{ fontSize: 14}} gutterBottom>
+          <Typography variant="h6" gutterBottom>
             {resource.title}
           </Typography>
-          <Typography  variant="h5" component="div">
+          <Typography  variant="body1" component="div">
             {resource.type}
           </Typography>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
@@ -402,14 +402,39 @@ const resourceArray = resource.map((resource, index) => {
           <Button size="small" onClick={() => window.open(resource.link)}>Open Resource</Button>
           <IconButton className="edit" onClick={(event) => {handleEditClick(index)}}><EditIcon color="info"/></IconButton>
               { displayEditForms && selectIndex === index ?
-              <form onSubmit={ (event) => {handleEditResourceSubmit(resource) } }>
-                  <p> Username: </p> <input type="text" name="user" onChange={newResourcePost} defaultValue = {resource.user}/><br/>
-                  <br/>
-                  <p> Type: </p> <input type="text" name="type" onChange={newResourcePost} defaultValue = {resource.type}/><br/>
-                  <p> Description: </p> <input type="text" name="description" onChange={newResourcePost} defaultValue = {resource.description}/><br/>
-                  <p> link: </p> <input type="text" name="link" onChange={newResourcePost} defaultValue = {resource.link}/><br/>
-                  <input type="submit" value="Change Interview Data"/>
-              </form> : null
+                  <Box  sx={{'& .MuiTextField-root': { m: 1, width: '25ch'},}}>
+                  <form onSubmit={ (event) => {handleEditResourceSubmit(resource) } }>
+                    <Typography variant="h6" color="primary" sx={{p: 2, m:2}} >Edit Resource:</Typography>
+                      <TextField
+                        name="user"
+                        label="your name"
+                        color='primary'
+                        defaultValue={resource.user}
+                        onChange={newResourcePost}/>
+                      <TextField
+                        name="title"
+                        label="resource title"
+                        defaultValue={resource.title}
+                        onChange={newResourcePost}/>
+                      <TextField
+                        name="type"
+                        label="resource type"
+                        defaultValue={resource.type}
+                        onChange={newResourcePost} />
+                      <TextField
+                        name="description"
+                        label="resource description"
+                        defaultValue={resource.description}
+                        onChange={newResourcePost} />
+                      <TextField
+                        name="link"
+                        label="link to resource"
+                        defaultValue={resource.link}
+                        onChange={newResourcePost}/>
+                    <Button variant='contained' type="submit" value="Submit Changes" sx={{margin: 2, padding: 1}}>Submit Changes</Button>
+                  </form>
+                </Box>
+              : null
               }
           <IconButton aria-label="delete"
             onClick={(event) => {handleResourceDelete(resource)}}
@@ -510,9 +535,9 @@ return (
                 <CssBaseline />
                   <TopNav />
                   <section>
-                    <Typography variant="h4" sx={{pl: 1, pr: .5, pb: 2}} >Add Your Interview:</Typography>
+                    <Typography variant="h4" sx={{p: 2, m:2}} >Add Your Interview:</Typography>
                     <form onSubmit={newInterviewSubmit}>
-                      <Box color="secondary" sx={{ m: 1, width: '80ch', pb: 2, pl: 2}} >
+                      <Box color="primary" sx={{ m: 1, width: '80ch', pb: 2, pl: 2}} >
                         <Typography component='label' sx={{pl: 1, pr: .5, m:1}} >*Required</Typography>
                         <Typography component="select" name='type' onChange={newInterviewPost}>
                           <option  value="select type">Type of Interview:</option>
@@ -675,19 +700,39 @@ return (
                 <ThemeProvider theme={darkTheme}>
                 <CssBaseline />
                   <TopNav />
-                  <section>
+                  <Box sx={{'& .MuiTextField-root': { m: 1, width: '25ch'},}}>
+                    <Typography variant="h4" sx={{p: 2, m:2}} >Share a Resource:</Typography>
                     <form onSubmit={newResourceSubmit}>
-                        <label>Name: </label>
-                          <input name="user" type="text" value={resource.user} onChange={newResourcePost}/>
-                          <label>Title: </label>
-                            <input name="title" type="text" value={resource.title} onChange={newResourcePost}/>
-                        <label>Type: </label>
-                          <input name="type" value={resource.user} onChange={newResourcePost} />
-                        <label>Description: </label>
-                          <textarea name="description" type="text" value={resource.description} onChange={newResourcePost}/>
-                        <label>Link: </label>
-                          <input name="link" type="text" value={resource.link} onChange={newResourcePost}/>
-
+                        <Typography component="label"  sx={{pl: 1, pr: .5, m:1}} >Your Name: </Typography>
+                          <TextField
+                            name="user"
+                            color='primary'
+                            value={resource.user}
+                            onChange={newResourcePost}/>
+                          <Typography component="label"  sx={{pl: 1, pr: .5, m:1}} >Title: </Typography>
+                            <TextField
+                              name="title"
+                              value={resource.title}
+                              onChange={newResourcePost}/>
+                        <Typography component="label"  sx={{pl: 1, pr: .5, m:1}} >Type: </Typography>
+                          <TextField
+                            name="type"
+                            value={resource.type}
+                            onChange={newResourcePost} />
+                            <br/>
+                        <Typography component="label"  sx={{pl: 1, pr: .5, m:1}} >Description: </Typography>
+                          <TextField
+                            name="description"
+                            type="text"
+                            value={resource.description}
+                            onChange={newResourcePost}/>
+                        <Typography component="label"  sx={{pl: 1, pr: .5, m:1}} >Link: </Typography>
+                          <TextField
+                            name="link"
+                            type="text"
+                            value={resource.link}
+                            onChange={newResourcePost}/>
+                        <Box sx={{padding: 2}}>
                           <Button sx={{mr: 1}}color="secondary" variant="contained" value="Submit" type='submit' onClick={handleOpen}>Submit</Button>
                             <Modal
                               open={open}
@@ -695,18 +740,18 @@ return (
                               aria-labelledby="modal-modal-title"
                               aria-describedby="modal-modal-description"
                             >
-                              <Box sx={modalStyle}>
-                                <Typography id="modal-modal-title" variant="h6" component="h2">
-                                  Thank you! Your resource has been added.
-                                </Typography>
-                                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                  <Link to="/resources">Click here to see all resources.</Link>
-                                </Typography>
-                              </Box>
-                            </Modal>
-
+                            <Box sx={modalStyle}>
+                              <Typography id="modal-modal-title" variant="h6" component="h2">
+                                Thank you! Your resource has been added.
+                              </Typography>
+                              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                <Link to="/resources">Click here to see all resources.</Link>
+                              </Typography>
+                            </Box>
+                          </Modal>
+                        </Box>
                     </form>
-                </section>
+                </Box>
                 </ThemeProvider>
               </Route>
           </Switch>
