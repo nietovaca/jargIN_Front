@@ -385,10 +385,10 @@ const resourceArray = resource.map((resource, index) => {
        <CssBaseline />
        <Card key={resource._id} sx={{maxWidth: 400, minWidth: 200}, {padding: 1, margin: 2}}>
         <CardContent sx={{bgcolor:'#483362'}}>
-          <Typography sx={{ fontSize: 14}} gutterBottom>
+          <Typography variant="h6" gutterBottom>
             {resource.title}
           </Typography>
-          <Typography  variant="h5" component="div">
+          <Typography  variant="body1" component="div">
             {resource.type}
           </Typography>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
