@@ -59,44 +59,8 @@ import CssBaseline from '@mui/material/CssBaseline';
       success: {
         main: '#0A29FD'
       },
-    },
-      overrides: {
-        MuiAppBar: {
-          bgcolor: '#0A29FD',
-        },}
+    }
   });
-
-  // const defaultTheme = createTheme({
-  //   mode: 'dark',
-  //   palette: {
-  //     type: 'dark',
-  //     primary: {
-  //       main: '#ffb74d',
-  //       bgcolor: '#FFC570'
-  //     },
-  //     secondary: {
-  //       main: '#c51162',
-  //     },
-  //   },
-  //   typography: {
-  //     fontFamily: 'Questrial',
-  //   },
-  //   overrides: {
-  //     MuiAppBar: {
-  //       colorInherit: {
-  //         backgroundColor: 'rgb(137, 11, 68)',
-  //         color: '#fff',
-  //       },
-  //     },
-  //   },
-  //   props: {
-  //     MuiAppBar: {
-  //       color: 'success',
-  //     },
-  //   },
-  // });
-
-
 
 // ============ MAIN COMPONENT =================//
 const App = () => {
@@ -168,7 +132,6 @@ useEffect(() => {
 }, [])
 
 
-
 // =========== These go in the forms for the interview buttons =========== //
 
   const newInterviewPost = (event) => {
@@ -178,9 +141,6 @@ useEffect(() => {
   const newResourcePost = (event) => {
       setNewBook({...newBook,[event.target.name]:event.target.value})
   }
-
-
-
 
 // =========== Post Function ============ //
 
@@ -318,26 +278,32 @@ const interviewArray = interview.map((interview, index) => {
   return (
       <ThemeProvider>
       <CssBaseline />
-          <Box sx={{flexGrow: 1}}key={interview._id}>
-        <Grid container spacing={3}>
-          <Grid item xs={2}><li>{interview.user}</li></Grid>
-          <Grid item xs={2}>{interview.type? <li>Technical</li> : <li>Behavioral</li>}</Grid>
-          <Grid item xs={2}><li>{interview.date}</li></Grid>
-          <Grid item xs={2}><li>{interview.company}</li></Grid>
-          <Grid item xs={2}><li>{interview.jobTitle}</li></Grid>
-          <Grid item xs={2}><li>{interview.stage}</li></Grid>
-          <Grid item xs={2}><li>{interview.salary}</li></Grid>
-          <Grid item xs={2}><li>{interview.location}</li></Grid>
-          <Grid item xs={2}><li>{interview.timeLimit}</li></Grid>
-          <Grid item xs={2}><li>{interview.devLanguage}</li></Grid>
-          <Grid item xs={2}><li>{interview.difficulty}</li></Grid>
-          <Grid item xs={2}><li>{interview.question}</li></Grid>
-          <Grid item xs={2}><li>{interview.userResponse}</li></Grid>
-          <Grid item xs={2}><li>{interview.offer}</li></Grid>
-          <Grid item xs={2}><li>{interview.createdAt}</li></Grid>
-        </Grid>
+        <Box sx={{flexGrow: 3}}key={interview._id}>
+          <Grid container spacing={2} sx={{bgcolor: '#483362', opacity: .8, padding: 2, margin: 1}}>
+            <Card sx={{m: 2, p: 1, width: .2}}>
+              <Typography  item gutterBottom color="#FF2A00" variant="h6">Type: {interview.type? <>Technical</> : <>Behavioral</>}</Typography>
+              <Typography  item color="#FEFE00">Date: {interview.date}</Typography>
+              <Typography item>Uploaded by: {interview.user}</Typography>
+              <Typography  item>Offered: {interview.offer}</Typography>
+              <Typography item>Added: {interview.createdAt}</Typography>
+            </Card>
+            <Card sx={{m: 2, p: 1, width: .2}}>
+              <Typography item gutterBottom variant="h6">Company: {interview.company}</Typography>
+              <Grid item xs={2}><li>{interview.jobTitle}</li></Grid>
+              <Grid item xs={2}><li>{interview.stage}</li></Grid>
+              <Grid item xs={2}><li>{interview.salary}</li></Grid>
+              <Grid item xs={2}><li>{interview.location}</li></Grid>
+              <Grid item xs={2}><li>{interview.timeLimit}</li></Grid>
+              <Grid item xs={2}><li>{interview.devLanguage}</li></Grid>
+              <Grid item xs={2}><li>{interview.difficulty}</li></Grid>
+            </Card>
+            <Card  sx={{m: 2, p: 1, width: .7}}>
+              <Grid item xs={2}><li>Question: {interview.question}</li></Grid>
+              <Grid item xs={2}><li>{interview.userResponse}</li></Grid>
+              </Card>
+          </Grid>
 
-        <IconButton className="edit" onClick={(event) => {handleEditClick(index)}}><EditIcon color="info"/></IconButton>
+        <IconButton className="edit" onClick={(event) => {handleEditClick(index)}}><EditIcon color="primary"/></IconButton>
                      {/* assign a number and assign the index */}
                 { displayEditForms && selectIndex === index ?
                 <form onSubmit={ (event) => {handleEditInterviewSubmit(interview) } }>
@@ -367,12 +333,12 @@ const resourceArray = resource.map((resource, index) => {
   return (
       <ThemeProvider theme={darkTheme}>
        <CssBaseline />
-      <Card key={resource._id} sx={{maxWidth: 400}}>
-        <CardContent>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+       <Card key={resource._id} sx={{maxWidth: 400, minWidth: 200}, {padding: 1, margin: 2}}>
+        <CardContent sx={{bgcolor:'#483362'}}>
+          <Typography sx={{ fontSize: 14}} gutterBottom>
             {resource.title}
           </Typography>
-          <Typography variant="h5" component="div">
+          <Typography  variant="h5" component="div">
             {resource.type}
           </Typography>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
