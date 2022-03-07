@@ -101,7 +101,6 @@ const handleClose = () => setOpen(false);
 
 // form displays on edit buttons
 const [displayEditForms, setDisplayEditForms] = useState([false])
-
 const [selectIndex, setSelectIndex] = useState(0)
 
 // this will change our useEffect function based on which is true and which is false with different button clicks
@@ -125,7 +124,6 @@ const [newJargin, setNewJargin] = useState({
     userResponse: '',
     difficulty: 0,
     offer: '',
-    // comment: ''
   })
 
   const [newBook, setNewBook] = useState({
@@ -166,24 +164,9 @@ useEffect(() => {
       setNewBook({...newBook,[event.target.name]:event.target.value})
   }
 
-// =========== Post Function ============ //
+// =========== Post Functions ============ //
 
 const newInterviewSubmit = (event) => {
-  // console.log(newJargin.user);
-  // console.log(newJargin.type);
-  // console.log(newJargin.date);
-  // console.log(newJargin.company);
-  // console.log(newJargin.jobTitle);
-  // console.log(newJargin.stage);
-  // console.log(newJargin.salary);
-  // console.log(newJargin.location);
-  // console.log(newJargin.timeLimit);
-  // console.log(newJargin.devLanguage);
-  // console.log(newJargin.difficulty);
-  // console.log(newJargin.question);
-  // console.log(newJargin.userResponse);
-  // console.log(newJargin.offer);
-
   event.preventDefault()
   axios.post('http://localhost:3000/interviews', {
     type: newJargin.type,
@@ -206,8 +189,6 @@ const newInterviewSubmit = (event) => {
       setInterview(res.data)
     })
   })
-
-  // setShowNewInterviewForm(false)
 }
 
 const newResourceSubmit = (event) => {
@@ -243,7 +224,7 @@ const handleResourceDelete = (resourceData) => {
   })
 }
 
-// =========== Edit Function ============ //
+// =========== Edit Functions ============ //
 
 const handleEditInterviewSubmit = (interviewData) => {
   console.log('newJargin');
@@ -285,9 +266,7 @@ const handleEditResourceSubmit = (resourceData) => {
     })
   })
 }
-// ========= Display Edit Forms Function ========= //
 
-// Minor bug of toggling off current edit and not directly into another --> Kevin can demo next time we are together.
 const handleEditClick = (index) => {
   setDisplayEditForms(!displayEditForms);
   setSelectIndex(index);
@@ -307,8 +286,15 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-const handleExpandClick = () => {
-  setExpanded(!expanded);}
+const handleExpandClick = (event, index) => {
+  setExpanded(!expanded);
+  setDisplayAnswer(index)
+}
+const [displayAnswer, setDisplayAnswer] = useState(0)
+
+// const handleDisplayAnswer = (index) => {
+//   setDisplayAnswer(index)
+// }
 
 const interviewArray = interview.map((interview, index) => {
   return (
@@ -343,17 +329,24 @@ const interviewArray = interview.map((interview, index) => {
               <Card sx={{bgcolor: '#483362', padding: 1, margin: 1, whiteSpace: 'pre-line'}}>
                 <Typography variant="li" color="#FE2BFE" item>Question:</Typography><Typography variant='body1'>{interview.question}</Typography><br/>
               </Card>
-              <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
+              
+              <ExpandMore expand={expanded} onClick={ (event) => {handleExpandClick(index)}} aria-expanded={expanded} aria-label="show more">
                  <Button startIcon={<VisibilityOffIcon color="warning"/>} color="warning">Answer</Button>
               </ExpandMore>
-             <Collapse in={expanded} timeout="auto" unmountOnExit sx={{bgcolor:'#483362'}}>
+
+             { selectIndex === index ? 
+              <>
+              <Collapse in={expanded} timeout="auto" unmountOnExit sx={{bgcolor:'#483362'}}>
                 <CardActions sx={{bgcolor: '#483362', padding: 1, margin: 1, whiteSpace: 'pre-line'}}>
                   <Typography variant="li" item>{interview.userResponse}</Typography>
                 </CardActions>
               </Collapse>
+              </> : null
+             }
+
               <IconButton gutterBottom className="edit" sx={{padding: 1, ml: 2}}
                 onClick={(event) => {handleEditClick(index)}}><EditIcon color="primary"/></IconButton>
-  
+                
                       { displayEditForms && selectIndex === index ?
                       <form onSubmit={ (event) => {handleEditInterviewSubmit(interview) } }>
                            <Box color="primary" sx={{ m: 1, width: '80ch', pb: 2, pl: 2}} >
@@ -564,26 +557,6 @@ const resourceArray = resource.map((resource, index) => {
     </ThemeProvider>
   )
 })
-
-// ----- Matt Notes ----- //
-// Create edit form component - all editing occurs within the edit component
-
-// const refereshIndex = () => {
-
-// }
-
-// <EditForm refereshPageFunction={refreshIndex}></EditForm>
-
-// inside the edit component:
-
-// const EditForm = (props) => {
-//   const onSubmit = () => {
-//     props.refreshIndex()
-//   }
-//   return <form onSubmit = {}></form>
-// }
-
-// ----- ^Matt Notes^ ----- //
 
 //Button toggle show the new form
 const showNewForm = (event) => {
