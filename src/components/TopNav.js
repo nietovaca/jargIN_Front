@@ -8,13 +8,16 @@ import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
+import HomeIcon from '@mui/icons-material/Home';
+import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
+import SearchBar from './searchBar.js'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  backgroundColor: alpha(theme.palette.success.main, 0.15),
   '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
+    backgroundColor: alpha(theme.palette.success.main, 0.25),
   },
   marginLeft: 0,
   width: '100%',
@@ -35,7 +38,7 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
+  color: [theme.palette.success.main],
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
@@ -52,24 +55,25 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 
-const TopNav = (props) => {
+const TopNav = ({placeholder, data}) => {
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          
+      <AppBar position="sticky" sx={{bgcolor:'#FE2BFE'}}>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
           <Search>
             <SearchIconWrapper>
-              <SearchIcon />
+              <SearchIcon color="primary"/>
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              sx={{color: "yellow"}}
             />
           </Search>
+          <Link to ="/interviews"><Typography sx={{ color: 'yellow' }}>INTERVIEW LIBRARY</Typography></Link>
+          <Link to ="/resources"><Typography sx={{ color: 'yellow' }}>RESOURCES LIBRARY</Typography></Link>
+          <Link to ="/"><HomeIcon sx={{ color: 'yellow' }}/></Link>
         </Toolbar>
       </AppBar>
-    </Box>
   )
 }
 

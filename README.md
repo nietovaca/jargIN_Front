@@ -1,134 +1,84 @@
--GENERAL NOTES/ TO-DOs
+-GENERAL NOTES / TO-DOs / CODE DUMP
 
-Question for Ashley:
--Post route in frontend not posting data to the server - but is working through Postman
-
+// ========= Display Edit Forms Function ========= //
 
 
--Set up full CRUD with interview posts
--Merge backend/frontend
-    -Test through Heroku
+// const handleToggleEditInterviewForms = () => {
+//   setDisplayEditInterviewForms(!displayEditInterviewForms);
+// }
 
-    name: '',
-    company: '',
-    jobTitle: '',
-    stage: '',
-    salary: '',
-    location: '',
-    timeLimit: '',
-    date: '',
-    description: '',
-    language: '',
-    notes: '',
-    difficulty: '',
-    offer: '',
-    solution: ''
+// Minor bug of toggling off current edit and not directly into another --> Kevin can demo next time we are together.
+const handleEditClick = (index) => {
+  setDisplayEditInterviewForms(!displayEditInterviewForms);
+  setSelectInterview(index)
+}
 
-// ========== Form Functions ============ //
+// ----- Matt Notes ----- //
+// Create edit form component - all editing occurs within the edit component 
 
- const handleNewName = (event) => {
-    setName(event.target.value)
-  }
+// const refereshIndex = () => {
 
-  const handleNewCompany = (event) => {
-    setCompany(event.target.value)
-  }
+// }
 
-  const handleNewJobTitle = (event) => {
-    setJobTitle(event.target.value)
-  }
+// <EditForm refereshPageFunction={refreshIndex}></EditForm>
 
-  const handleNewStage = (event) => {
-    setStage(event.target.value)
-  }
+// inside the edit component: 
 
-  const handleNewSalary = (event) => {
-    setSalary(event.target.value)
-  }
+// const EditForm = (props) => {
+//   const onSubmit = () => {
+//     props.refreshIndex()
+//   }
+//   return <form onSubmit = {}></form>
+// }
 
-  const handleNewLocation = (event) => {
-    setLocation(event.target.value)
-  }
+// ----- ^Matt Notes^ ----- //
 
-  const handleNewTimeLimit = (event) => {
-    setTimeLimit(event.target.value)
-  }
+const interviewArray = interview.map((interview, index) => {
+  return (
+    <div key={interview._id}>
+      <ul>
+      <li>{interview.user}</li>
+      {interview.type === 'technical'? <li>Technical</li> : <li>Behavioral</li>}
+      <li>{interview.date}</li>
+      <li>{interview.company}</li>
+      <li>{interview.jobTitle}</li>
+      <li>{interview.stage}</li>
+      <li>{interview.salary}</li>
+      <li>{interview.location}</li>
+      <li>{interview.timeLimit}</li>
+      <li>{interview.devLanguage}</li>
+      <li>{interview.difficulty}</li>
+      <li>{interview.question}</li>
+      <li>{interview.response}</li>
+      <li>{interview.offer}</li>
+      </ul>
+    
+    <button className="edit" onClick={ (event) => {handleEditClick(index)} }>Edit</button>
+                {/* assign a number and assign the index */}
+                { displayEditInterviewForms && selectInterview === index ? 
+                <form onSubmit={ (event) => {handleToggleEditInterviewSubmit(interview) } }>
+                    <p> User: </p> <input type="text" name="user" onChange={newInterviewPost}/><br/>
+                    <p> Type: </p> <input type="text" name="type" onChange={newInterviewPost}/><br/>
+                    <br/>
+                    <input type="submit" value="Change Interview Data"/>
+                </form> : null
+                }
+    <IconButton aria-label="delete"
+      onClick={(event) => {handleInterviewDelete(interview)}}
+      color="error"><DeleteIcon />
+    </IconButton>
+    </div>
+  )
+})
 
-  const handleNewDate = (event) => {
-    setDate(event.target.value)
-  }
 
-  const handleNewDescription = (event) => {
-    setDescription(event.target.value)
-  }
 
-  const handleNewLanguage = (event) => {
-    setLanguage(event.target.value)
-  }
 
-  const handleNewNotes = (event) => {
-    setNotes(event.target.value)
-  }
 
-  const handleNewDifficulty = (event) => {
-    setDifficulty(event.target.value)
-  }
 
-  const handleNewOffer = (event) => {
-    setOffer(event.target.value)
-  }
 
-  const handleNewSolution = (event) => {
-    setSolution(event.target.value)
-  }
 
-<section>
-        <form onSubmit={handleNewFormSubmit}>
-                          {/* add placeholders? */}
-          <p>Name: </p><input type="text" onChange={handleNewName}/><br/>
-          <p>Company: </p><input type="text" onChange={handleNewCompany}/><br/>
-          <p>Location: </p><input type="text" onChange={handleNewLocation}/><br/>
-          <p>Job Title: </p><input type="text" onChange={handleNewJobTitle}/><br/>
-          <p>Salary: </p><input type="text" onChange={handleNewSalary}/><br/>
-          <p>Date: </p><input type="text" onChange={handleNewDate}/><br/>
-          <p>Stage: </p><input type="text" onChange={handleNewStage}/><br/>
-          <p>Time Limit: </p><input type="text" onChange={handleNewTimeLimit}/><br/>
-          <p>Description: </p><textarea name="post-submit" onChange={handleNewDescription}></textarea><br/>
-          <p>Languages used: </p><input type="text" onChange={handleNewLanguage}/><br/>
-          <p>Notes: </p><textarea name="post-submit" onChange={handleNewNotes}></textarea><br/>
-          <p>Difficulty(on a scale of 1 to 10): </p><input type="text" onChange={handleNewDifficulty}/><br/>
-          <p>Offer: </p><input type="text" onChange={handleNewOffer}/><br/>
-          <p>Solution: </p><textarea name="post-submit" onChange={handleNewSolution}></textarea><br/>
-        </form>
-</section>
 
-<section>
-        <h2>Posts:</h2>
-          {
-            setPosts.map((post) => {
-              return (
-                <div key={post._id}>
-                  <h3>{post.name}</h3>
-                  <h3>{post.company}</h3>
-                  <h3>{post.location}</h3>
-                  <h3>{post.jobTitle}</h3>
-                  <h3>{post.salary}</h3>
-                  <h3>{post.date}</h3>
-                  <h3>{post.stage}</h3>
-                  <h3>{post.timeLimit}</h3>
-                  <h3>{post.description}</h3>
-                  <h3>{post.languages}</h3>
-                  <h3>{post.notes}</h3>
-                  <h3>{post.difficulty}</h3>
-                  <h3>{post.offer}</h3>
-                  
-                  <h3>{post.solution}</h3>{/* hidden */}
-                  <button onClick={ (event) => { handleDelete(post) } }>Delete Post</button>
-                </div>
-              )
-            })
-          }
-      </section>
 
     
 
