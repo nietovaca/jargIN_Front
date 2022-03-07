@@ -33,11 +33,12 @@ const LandingPage = (props) => {
   const handleExpandClick = () => {
     setExpanded(!expanded);}
   return (
+    <>
     <Card sx={{ width: 1, height: 1}}>
       <CardMedia
         component="img"
         alt="JargIn Logo"
-        image="banner.png"
+        image="bannerBlack.png"
       />
       <CardActions sx={{bgcolor:'#483362'}}>
         <Link to="/interviews"
@@ -81,6 +82,11 @@ const LandingPage = (props) => {
        </CardContent>
      </Collapse>
     </Card>
+    <Card sx={{padding: 3}}>
+    <Typography variant="h4" sx={{color:"#FEFE00"}}>What is JargIN?</Typography>
+    <Typography variant='body1'>JargIN is your "IN" to your next interview. Founded by a group of General Assembly Software Engineering students, Jargin is an application built for sharing resources, interview questions & answers all related to the web development field. Get ready to slay your next interview with Jargin.</Typography>
+    </Card>
+</>
   );
 };
 
