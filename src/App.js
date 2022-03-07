@@ -37,6 +37,9 @@ import AddIcon from '@mui/icons-material/Add';
 import {ThemeProvider, createTheme } from '@mui/material/styles';
 import { display } from '@mui/system';
 
+// ============== Comments Component ================= //
+import Comments from './components/Comments'
+
 
 // ============ MAIN COMPONENT =================//
 const App = () => {
@@ -363,14 +366,15 @@ const interviewArray = interview.map((interview, index) => {
           <Grid item xs={2}><li>{interview.createdAt}</li></Grid>
         </Grid>
 
-        <h3>Replies:</h3>
+
+        {/* <h3>Replies:</h3>
         
         { postComment && selectIndex === index ? 
         <div>
           <p> Name: {newComment.user}</p>
           <p> Comment: {newComment.comment}</p>
         </div> : null
-        } 
+        }  */}
         
 
         <IconButton className="edit" onClick={(event) => {handleEditClick(index)}}><EditIcon color="info"/></IconButton>
@@ -544,6 +548,9 @@ return (
                 <TopNav />
                 <ThemeProvider theme={defaultTheme}>
                   {interviewArray}
+                  <Comments />
+                    {/* // comment props go here
+                    // can use the props to reference the interview id? */} 
                   <Link to ="/interviewform">
                     <Button
                       onClick={handleClose}
