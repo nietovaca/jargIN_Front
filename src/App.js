@@ -66,6 +66,19 @@ import CssBaseline from '@mui/material/CssBaseline';
       },
     }
   });
+// ========= Modal Style ========= //
+  const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    color: "#FEFE00", 
+    width: 400,
+    bgcolor: 'error.main',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
 
 // ============ MAIN COMPONENT =================//
 const App = () => {
@@ -76,8 +89,12 @@ const App = () => {
 const [interview, setInterview] = useState([])
 const [showNewInterviewForm, setShowNewInterviewForm] = useState(false)
 const [showInterviewDetails, setShowInterviewDetails] = useState(false)
-
 const [resource, setResource] = useState([])
+
+//Modal Open/Close State
+const [open, setOpen] = useState(false);
+const handleOpen = () => setOpen(true);
+const handleClose = () => setOpen(false);
 
 
 // form displays on edit buttons
@@ -268,10 +285,6 @@ const handleEditResourceSubmit = (resourceData) => {
 }
 // ========= Display Edit Forms Function ========= //
 
-// const handleToggleEditInterviewForms = () => {
-//   setDisplayEditInterviewForms(!displayEditInterviewForms);
-// }
-
 // Minor bug of toggling off current edit and not directly into another --> Kevin can demo next time we are together.
 const handleEditClick = (index) => {
   setDisplayEditForms(!displayEditForms);
@@ -298,42 +311,38 @@ const interviewArray = interview.map((interview, index) => {
   return (
       <ThemeProvider>
       <CssBaseline />
-        <Box sx={{flexGrow: 3}}key={interview._id}>
-          <Grid container spacing={2} sx={{bgcolor: '#483362', opacity: .8, padding: 2, margin: 1}}>
+        <Box sx={{display: 'flex', alignItems: 'space evenly'}} key={interview._id}>
+          <Grid container sx={{bgcolor: '#483362', padding: 1, margin: 1}}>
             <Card sx={{m: 2, p: 1, width: .4}}>
               <Typography  item gutterBottom color="#FF2A00" variant="h6">Type: {interview.type? <>Technical</> : <>Behavioral</>}</Typography>
-              <Typography  item color="#FEFE00">Date: {interview.date}</Typography>
+              <Typography  item >Date: {interview.date}</Typography>
               <Typography item>Uploaded by: {interview.user}</Typography>
               <Typography  item>Offered: {interview.offer}</Typography>
               <Typography item>Added: {interview.createdAt}</Typography>
             </Card>
             <Card sx={{m: 2, p: 1, width: .4}}>
-              <Typography container gutterBottom variant="h6">Company: {interview.company}</Typography>
+              <Typography container gutterBottom>Company: {interview.company}</Typography>
               <Typography variant="li" item xs={3}>Position: {interview.jobTitle}</Typography><br/>
               <Typography variant="li" item xs={3}>Stage: {interview.stage}</Typography><br/>
               <Typography variant="li" item xs={3}>Salary: {interview.salary}</Typography><br/>
               <Typography variant="li" item>Location: {interview.location}</Typography><br/>
+            </Card>
+            <Card  sx={{m: 2, p: 1, width: .83}}>
               <Typography variant="li" item>Time Limit: {interview.timeLimit}</Typography><br/>
               <Typography variant="li" item>Language: {interview.devLanguage}</Typography><br/>
-              <Typography variant="li" item>Difficulty: {interview.difficulty}</Typography>
-            </Card>
-            <Card  sx={{m: 2, p: 1, width: .9}}>
-              <Grid item xs={2}><li>Question: {interview.question}</li></Grid>
-              <ExpandMore
-                 expand={expanded}
-                 onClick={handleExpandClick}
-                 aria-expanded={expanded}
-                 aria-label="show more"
-               >
+              <Typography variant="li" item>Difficulty: {interview.difficulty}</Typography><br/>
+              <Card sx={{bgcolor: '#483362', padding: 1, margin: 1}}>
+                <Typography variant="li" color="#FE2BFE" item>Question:</Typography><Typography variant='body1'>{interview.question}</Typography><br/>
+              </Card>
+              <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
                  <Button startIcon={<VisibilityOffIcon color="warning"/>} color="warning">Answer</Button>
-               </ExpandMore>
+              </ExpandMore>
              <Collapse in={expanded} timeout="auto" unmountOnExit sx={{bgcolor:'#483362'}}>
-              <CardActions>
-                <Grid item xs={2}><li>{interview.userResponse}</li></Grid>
-              </CardActions>
+                <CardActions sx={{bgcolor: '#483362', padding: 1, margin: 1}}>
+                  <Typography variant="li" item>{interview.userResponse}</Typography>
+                </CardActions>
               </Collapse>
-              <IconButton gutterBottom className="edit"
-                sx={{padding: 1, ml: 2}}
+              <IconButton gutterBottom className="edit" sx={{padding: 1, ml: 2}}
                 onClick={(event) => {handleEditClick(index)}}><EditIcon color="primary"/></IconButton>
                            {/* assign a number and assign the index */}
                       { displayEditForms && selectIndex === index ?
@@ -345,14 +354,16 @@ const interviewArray = interview.map((interview, index) => {
                           defaultValue={interview.user}
                           onChange={newInterviewPost}
                           /><br/>
-                          <p> Type: </p> <input type="text" name="type" onChange={newInterviewPost}/><br/>
+                          <p> Type: </p>
+                          <input type="text" name="type" onChange={newInterviewPost}/><br/>
                           <br/>
                           <input type="submit" value="Change Interview Data"/>
                       </form> : null
                       }
               <IconButton aria-label="delete"
                 onClick={(event) => {handleInterviewDelete(interview)}}
-                color="error"><DeleteIcon />
+                color="error">
+                <DeleteIcon />
               </IconButton>
             </Card>
           </Grid>
@@ -433,23 +444,6 @@ const displayInterviewDetails = (event) => {
   setShowInterviewDetails(true)
 }
 
-// ============= Modal Style & State ====================== //
-const modalStyle = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'warning.main',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
-
-const [open, setOpen] = useState(false);
-const handleOpen = () => setOpen(true);
-const handleClose = () => setOpen(false);
-
 // =========== Browser =========== //
 return (
   <Router>
@@ -473,16 +467,19 @@ return (
               <CssBaseline />
                 <TopNav />
                   {interviewArray}
+                  <Box sx={{m:5}}>
                   <Link to ="/interviewform">
                     <Button
                       onClick={handleClose}
                       color="secondary"
                       aria-label='add your interview'
                       variant="contained"
-                      startIcon={<AddIcon />}>
+                      startIcon={<AddIcon />}
+                      >
                       Add
                     </Button>
                   </Link>
+                  </Box>
                 </ThemeProvider>
               </Route>
               <Route exact path="/resources">
