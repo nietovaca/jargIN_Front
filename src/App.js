@@ -137,7 +137,7 @@ const [newJargin, setNewJargin] = useState({
   // =========== useEffect =========== //
 
 useEffect(() => {
-        axios.get('http://localhost:3000/interviews').then((res) => {
+        axios.get('https://jarginback.herokuapp.com/interviews').then((res) => {
           setNewJargin(res.data)
           setInterview(res.data)
           setDisplayEditForms(!res.data)
@@ -146,7 +146,7 @@ useEffect(() => {
 }, [])
 
 useEffect(() => {
-    axios.get('http://localhost:3000/resources').then((res) => {
+    axios.get('https://jarginback.herokuapp.com/resources').then((res) => {
       setNewBook(res.data)
       setResource(res.data)
       setDisplayEditForms(!res.data)
@@ -183,7 +183,7 @@ const newInterviewSubmit = (event) => {
   // console.log(newJargin.offer);
 
   event.preventDefault()
-  axios.post('http://localhost:3000/interviews', {
+  axios.post('https://jarginback.herokuapp.com/interviews', {
     type: newJargin.type,
     user: newJargin.user,
     date: newJargin.date,
@@ -200,7 +200,7 @@ const newInterviewSubmit = (event) => {
     offer: newJargin.offer,
     // comment: []
   }).then(() => {
-    axios.get('http://localhost:3000/interviews').then((res) => {
+    axios.get('https://jarginback.herokuapp.com/interviews').then((res) => {
       setInterview(res.data)
     })
   })
@@ -212,13 +212,13 @@ const newResourceSubmit = (event) => {
   console.log(newJargin.user);
   console.log(newJargin.type);
   event.preventDefault()
-  axios.post('http://localhost:3000/resources', {
+  axios.post('https://jarginback.herokuapp.com/resources', {
     type: newBook.type,
     user: newBook.user,
     description: newBook.description,
     link: newBook.link
   }).then(() => {
-    axios.get('http://localhost:3000/resources').then((res) => {
+    axios.get('https://jarginback.herokuapp.com/resources').then((res) => {
       setResource(res.data)
     })
   })
@@ -226,16 +226,16 @@ const newResourceSubmit = (event) => {
 // =========== Delete Functions ============ //
 
 const handleInterviewDelete = (interviewData) => {
-  axios.delete(`http://localhost:3000/interviews/${interviewData._id}`).then((res) => {
-    axios.get('http://localhost:3000/interviews').then((res) => {
+  axios.delete(`https://jarginback.herokuapp.com/interviews/${interviewData._id}`).then((res) => {
+    axios.get('https://jarginback.herokuapp.com/interviews').then((res) => {
       setInterview(res.data)
     })
   })
 }
 
 const handleResourceDelete = (resourceData) => {
-  axios.delete(`http://localhost:3000/resources/${resourceData._id}`).then((res) => {
-    axios.get('http://localhost:3000/resources').then((res) => {
+  axios.delete(`https://jarginback.herokuapp.com/resources/${resourceData._id}`).then((res) => {
+    axios.get('https://jarginback.herokuapp.com/resources').then((res) => {
       setResource(res.data)
     })
   })
@@ -246,7 +246,7 @@ const handleResourceDelete = (resourceData) => {
 const handleEditInterviewSubmit = (interviewData) => {
   console.log('newJargin');
 
-  axios.put(`http://localhost:3000/interviews/${interviewData._id}`, {
+  axios.put(`https://jarginback.herokuapp.com/interviews/${interviewData._id}`, {
     type: newJargin.type,
     user: newJargin.user,
     date: newJargin.date,
@@ -263,14 +263,14 @@ const handleEditInterviewSubmit = (interviewData) => {
     offer: newJargin.offer,
     // comment: []
   }).then(() => {
-    axios.get('http://localhost:3000/interviews').then((res) => {
+    axios.get('https://jarginback.herokuapp.com/interviews').then((res) => {
       setInterview(res.data)
     })
   })
 }
 
 const handleEditResourceSubmit = (resourceData) => {
-  axios.put(`http://localhost:3000/resources/${resourceData._id}`, {
+  axios.put(`https://jarginback.herokuapp.com/resources/${resourceData._id}`, {
     type: newBook.type,
     user: newBook.user,
     title: newBook.title,
@@ -278,7 +278,7 @@ const handleEditResourceSubmit = (resourceData) => {
     link: newBook.link
     // comment: []
   }).then(() => {
-    axios.get('http://localhost:3000/resources').then((res) => {
+    axios.get('https://jarginback.herokuapp.com/resources').then((res) => {
       setResource(res.data)
     })
   })
