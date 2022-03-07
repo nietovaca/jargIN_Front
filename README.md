@@ -1,5 +1,9 @@
 -GENERAL NOTES / TO-DOs / CODE DUMP
 
+-Need to make Comments Array.map function?
+  -How to link this to interview?
+  -Might be possible if interview is globally scoped?
+
 // ========= Display Edit Forms Function ========= //
 
 

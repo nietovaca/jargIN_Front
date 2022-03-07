@@ -342,6 +342,12 @@ const Item = createTheme({
   },
 });
 
+const [commentList, setCommentList] = useState([])
+
+const updateComment = (newComment) => {
+  setCommentList(commentList.concat(newComment))
+}
+
 // const [postComment, setPostComment] = useState()
 
 // ============ (Show Page) Mapping Interviews ============== //
@@ -366,7 +372,10 @@ const interviewArray = interview.map((interview, index) => {
           <Grid item xs={2}><li>{interview.createdAt}</li></Grid>
         </Grid>
 
-
+        { displayCommentForm && selectIndex === index ?
+        <Comments id={interview._id} refreshFunction={updateComment} commentList={commentList}/>
+        : null
+        }
         {/* <h3>Replies:</h3>
         
         { postComment && selectIndex === index ? 
@@ -396,7 +405,7 @@ const interviewArray = interview.map((interview, index) => {
 
                 <button onClick={(event) => {handleCommentClick(index)}}>Add Comment</button>
 
-                { displayCommentForm && selectIndex === index ?
+                {/* { displayCommentForm && selectIndex === index ?
                 <form onSubmit={handleCommentPost}>
                   <p> Name: </p> <input
                   type="text"
@@ -414,7 +423,7 @@ const interviewArray = interview.map((interview, index) => {
                   /><br/>
                   <input type="submit" value="Submit"/>
                 </form> : null
-                }
+                } */}
 
         <IconButton aria-label="delete"
           onClick={(event) => {handleInterviewDelete(interview)}}
@@ -548,9 +557,7 @@ return (
                 <TopNav />
                 <ThemeProvider theme={defaultTheme}>
                   {interviewArray}
-                  <Comments />
-                    {/* // comment props go here
-                    // can use the props to reference the interview id? */} 
+                  {/* <Comments id={interview._id} refreshFunction={updateComment} commentList={commentList}/> */}
                   <Link to ="/interviewform">
                     <Button
                       onClick={handleClose}
