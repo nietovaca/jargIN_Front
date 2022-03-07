@@ -39,12 +39,12 @@ const LandingPage = (props) => {
         alt="JargIn Logo"
         image="banner.png"
       />
-      <CardActions>
+      <CardActions sx={{bgcolor:'#483362'}}>
         <Link to="/interviews"
           variant="body2">
           <Typography
-            color="yellow"
             variant="h5"
+             sx={{ml: 3}, {color:"#FEFE00"}}
           >
             Slay the Interview
           </Typography>
@@ -58,7 +58,7 @@ const LandingPage = (props) => {
            <ExpandMoreIcon color="warning"  sx={{m: 3}}/>
          </ExpandMore>
      </CardActions>
-     <Collapse in={expanded} timeout="auto" unmountOnExit>
+     <Collapse in={expanded} timeout="auto" unmountOnExit sx={{bgcolor:'#483362'}}>
        <CardContent>
        <IconButton aria-label="Github.com" onClick={() => window.open('https://github.com/nietovaca/jargIN_Front')}>
           <GitHubIcon color='warning'fontSize='large' aria-label="GitHub"/>

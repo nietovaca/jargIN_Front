@@ -44,10 +44,25 @@ import CssBaseline from '@mui/material/CssBaseline';
   const darkTheme = createTheme({
     palette: {
       mode: 'dark',
+      primary: {
+        main: '#FEFE00'
+      },
+      secondary: {
+        main: "#9D3AE1"
+      },
+      warning: {
+        main:  "#FE2BFE"
+      },
+      error: {
+        main: '#FF2A00'
+      },
+      success: {
+        main: '#0A29FD'
+      },
     },
-      props: {
+      overrides: {
         MuiAppBar: {
-          color: 'primary',
+          bgcolor: '#0A29FD',
         },}
   });
 
@@ -76,7 +91,7 @@ import CssBaseline from '@mui/material/CssBaseline';
   //   },
   //   props: {
   //     MuiAppBar: {
-  //       color: 'secondary',
+  //       color: 'success',
   //     },
   //   },
   // });
