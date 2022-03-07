@@ -54,18 +54,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 
-const TopNav = ({placeholder, data}) => {
+const TopNav = () => {
   return (
       <AppBar position="sticky">
         <Toolbar sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
           <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
+            <SearchBar />
           </Search>
           <Link to ="/interviews"><Typography sx={{ color: 'white' }}>INTERVIEW LIBRARY</Typography></Link>
           <Link to ="/resources"><Typography sx={{ color: 'white' }}>RESOURCES LIBRARY</Typography></Link>
