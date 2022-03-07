@@ -39,6 +39,7 @@ import { display } from '@mui/system';
 
 // ============== Comments Component ================= //
 import Comments from './components/Comments'
+import SingleComment from './components/SingleComment'
 
 
 // ============ MAIN COMPONENT =================//
@@ -71,6 +72,9 @@ const [displayInterviews, setDisplayInterviews] = useState([false])
 const [comment, setComment] = useState([])
 const [displayCommentForm, setDisplayCommentForm] = useState([false])
 const [postComment, setPostComment] = useState()
+
+  // Stuff from John Ahn vid: 
+const [commentList, setCommentList] = useState([])
 
   // Kevin C killed it here with the below states!!!
 const [newJargin, setNewJargin] = useState({
@@ -126,7 +130,7 @@ useEffect(() => {
 
 useEffect(() => {
   axios.get('http://localhost:3000/comments').then((res) => {
-    setNewComment(res.data)
+    setCommentList(res.data)
   })
 }, [])
 
@@ -222,7 +226,7 @@ const newCommentSubmit = (event) => {
     comment: newComment.comment
   }).then(() => {
     axios.get('http://localhost:3000/comments').then((res) => {
-      setComment(res.data)
+      setCommentList(res.data)
     })
   })
 }
@@ -311,6 +315,13 @@ const handleCommentPost = (index) => {
   setPostComment(index)
 }
 
+ // Stuff from John Ahn vid: 
+
+const updateComment = (newComment) => {
+  setCommentList(commentList.concat(newComment))
+}
+
+
 // ============ Styling Show Page =============== //
 
 const Item = createTheme({
@@ -342,18 +353,12 @@ const Item = createTheme({
   },
 });
 
-const [commentList, setCommentList] = useState([])
-
-const updateComment = (newComment) => {
-  setCommentList(commentList.concat(newComment))
-}
-
 // const [postComment, setPostComment] = useState()
 
 // ============ (Show Page) Mapping Interviews ============== //
-const interviewArray = interview.map((interview, index) => {
+const interviewArray = interview.reverse().map((interview, index) => {
   return (
-          <Box sx={{flexGrow: 1}}key={interview._id}>
+          <Box sx={{flexGrow: 1, flexDirection: 'row-reverse'}}key={interview._id}>
         <Grid container spacing={3}>
           <Grid item xs={2}><li>{interview.user}</li></Grid>
           <Grid item xs={2}>{interview.type? <li>Technical</li> : <li>Behavioral</li>}</Grid>
@@ -373,7 +378,10 @@ const interviewArray = interview.map((interview, index) => {
         </Grid>
 
         { displayCommentForm && selectIndex === index ?
-        <Comments id={interview._id} commentList={commentList}/>
+        <Comments 
+          id={interview._id} 
+          commentList={commentList} 
+          refereshFunction={updateComment}/>
         : null
         }
         {/* <h3>Replies:</h3>
@@ -403,7 +411,7 @@ const interviewArray = interview.map((interview, index) => {
                 </form> : null
                 }
 
-                <button onClick={(event) => {handleCommentClick(index)}}>Add Comment</button>
+                <button onClick={(event) => {handleCommentClick(index)}}>Show comments</button>
 
                 {/* { displayCommentForm && selectIndex === index ?
                 <form onSubmit={handleCommentPost}>

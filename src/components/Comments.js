@@ -6,7 +6,7 @@ const Comments = (props) => {
 
     const [comment, setComment] = useState("")
     const [user, setUser] = useState("")
-    const [postComment, setPostComment] = useState([])
+    const [postComment, setPostComment] = useState(0)
 
     const handleCommentChange = (event) => {
         setComment(event.target.value)
@@ -21,11 +21,11 @@ const Comments = (props) => {
         axios.post('http://localhost:3000/comments', {
             user: user,
             comment: comment,
-            id: props.id
+            // id: postComment._id
         }).then(() => {
             axios.get('http://localhost:3000/comments').then((res) => {
-            setComment(res.data)
-            // props.refreshFunction(res.data)
+            setPostComment(res.data)
+            props.refreshFunction(res.data)
             })
         })
         console.log(comment);
@@ -40,11 +40,16 @@ const Comments = (props) => {
         <>  
             <h3>Comments</h3>
             
-           {props.commentList && props.commentList.map((comment, index) => {
-                <>
-                    <SingleComment comment={comment} id={props.id}/>
-                </>           
+           {props.commentList.map((comment, index) => {
+               return(
+                <div>
+                    <p> From: {props.commentList[index].user}</p>
+                    <p>{props.commentList[index].comment}</p>
+                </div>
+               )         
            })}
+           <hr></hr>
+           <h4>Add a comment</h4>
             <form onSubmit={handleCommentPost}>
                 <input
                 type="text"
@@ -57,11 +62,11 @@ const Comments = (props) => {
                 <textarea
                 type="text"
                 name="comment"
-                placeholder="Add a comment..."
+                placeholder="Comment..."
                 value={comment.comment}
                 onChange={handleCommentChange}
                 /><br/>
-                <input type="submit" value="Submit" onClick={handleCommentPost}/>
+                <input type="submit" value="Submit Comment" onClick={handleCommentPost}/>
             </form>
         </>
     )}
