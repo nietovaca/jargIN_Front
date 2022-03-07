@@ -510,9 +510,9 @@ return (
                 <CssBaseline />
                   <TopNav />
                   <section>
-                    <Typography variant="h4" sx={{pl: 1, pr: .5, pb: 2}} >Add Your Interview:</Typography>
+                    <Typography variant="h4" sx={{p: 2, m:2}} >Add Your Interview:</Typography>
                     <form onSubmit={newInterviewSubmit}>
-                      <Box color="secondary" sx={{ m: 1, width: '80ch', pb: 2, pl: 2}} >
+                      <Box color="primary" sx={{ m: 1, width: '80ch', pb: 2, pl: 2}} >
                         <Typography component='label' sx={{pl: 1, pr: .5, m:1}} >*Required</Typography>
                         <Typography component="select" name='type' onChange={newInterviewPost}>
                           <option  value="select type">Type of Interview:</option>
@@ -675,19 +675,39 @@ return (
                 <ThemeProvider theme={darkTheme}>
                 <CssBaseline />
                   <TopNav />
-                  <section>
+                  <Box sx={{'& .MuiTextField-root': { m: 1, width: '25ch'},}}>
+                    <Typography variant="h4" sx={{p: 2, m:2}} >Share a Resource:</Typography>
                     <form onSubmit={newResourceSubmit}>
-                        <label>Name: </label>
-                          <input name="user" type="text" value={resource.user} onChange={newResourcePost}/>
-                          <label>Title: </label>
-                            <input name="title" type="text" value={resource.title} onChange={newResourcePost}/>
-                        <label>Type: </label>
-                          <input name="type" value={resource.user} onChange={newResourcePost} />
-                        <label>Description: </label>
-                          <textarea name="description" type="text" value={resource.description} onChange={newResourcePost}/>
-                        <label>Link: </label>
-                          <input name="link" type="text" value={resource.link} onChange={newResourcePost}/>
-
+                        <Typography component="label"  sx={{pl: 1, pr: .5, m:1}} >Your Name: </Typography>
+                          <TextField
+                            name="user"
+                            color='primary'
+                            value={resource.user}
+                            onChange={newResourcePost}/>
+                          <Typography component="label"  sx={{pl: 1, pr: .5, m:1}} >Title: </Typography>
+                            <TextField
+                              name="title"
+                              value={resource.title}
+                              onChange={newResourcePost}/>
+                        <Typography component="label"  sx={{pl: 1, pr: .5, m:1}} >Type: </Typography>
+                          <TextField
+                            name="type"
+                            value={resource.user}
+                            onChange={newResourcePost} />
+                            <br/>
+                        <Typography component="label"  sx={{pl: 1, pr: .5, m:1}} >Description: </Typography>
+                          <TextField
+                            name="description"
+                            type="text"
+                            value={resource.description}
+                            onChange={newResourcePost}/>
+                        <Typography component="label"  sx={{pl: 1, pr: .5, m:1}} >Link: </Typography>
+                          <TextField
+                            name="link"
+                            type="text"
+                            value={resource.link}
+                            onChange={newResourcePost}/>
+                        <Box sx={{padding: 2}}>
                           <Button sx={{mr: 1}}color="secondary" variant="contained" value="Submit" type='submit' onClick={handleOpen}>Submit</Button>
                             <Modal
                               open={open}
@@ -695,18 +715,18 @@ return (
                               aria-labelledby="modal-modal-title"
                               aria-describedby="modal-modal-description"
                             >
-                              <Box sx={modalStyle}>
-                                <Typography id="modal-modal-title" variant="h6" component="h2">
-                                  Thank you! Your resource has been added.
-                                </Typography>
-                                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                                  <Link to="/resources">Click here to see all resources.</Link>
-                                </Typography>
-                              </Box>
-                            </Modal>
-
+                            <Box sx={modalStyle}>
+                              <Typography id="modal-modal-title" variant="h6" component="h2">
+                                Thank you! Your resource has been added.
+                              </Typography>
+                              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                                <Link to="/resources">Click here to see all resources.</Link>
+                              </Typography>
+                            </Box>
+                          </Modal>
+                        </Box>
                     </form>
-                </section>
+                </Box>
                 </ThemeProvider>
               </Route>
           </Switch>
