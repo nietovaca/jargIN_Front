@@ -402,14 +402,39 @@ const resourceArray = resource.map((resource, index) => {
           <Button size="small" onClick={() => window.open(resource.link)}>Open Resource</Button>
           <IconButton className="edit" onClick={(event) => {handleEditClick(index)}}><EditIcon color="info"/></IconButton>
               { displayEditForms && selectIndex === index ?
-              <form onSubmit={ (event) => {handleEditResourceSubmit(resource) } }>
-                  <p> Username: </p> <input type="text" name="user" onChange={newResourcePost} defaultValue = {resource.user}/><br/>
-                  <br/>
-                  <p> Type: </p> <input type="text" name="type" onChange={newResourcePost} defaultValue = {resource.type}/><br/>
-                  <p> Description: </p> <input type="text" name="description" onChange={newResourcePost} defaultValue = {resource.description}/><br/>
-                  <p> link: </p> <input type="text" name="link" onChange={newResourcePost} defaultValue = {resource.link}/><br/>
-                  <input type="submit" value="Change Interview Data"/>
-              </form> : null
+                  <Box  sx={{'& .MuiTextField-root': { m: 1, width: '25ch'},}}>
+                  <form onSubmit={ (event) => {handleEditResourceSubmit(resource) } }>
+                    <Typography variant="h6" color="primary" sx={{p: 2, m:2}} >Edit Resource:</Typography>
+                      <TextField
+                        name="user"
+                        label="your name"
+                        color='primary'
+                        defaultValue={resource.user}
+                        onChange={newResourcePost}/>
+                      <TextField
+                        name="title"
+                        label="resource title"
+                        defaultValue={resource.title}
+                        onChange={newResourcePost}/>
+                      <TextField
+                        name="type"
+                        label="resource type"
+                        defaultValue={resource.type}
+                        onChange={newResourcePost} />
+                      <TextField
+                        name="description"
+                        label="resource description"
+                        defaultValue={resource.description}
+                        onChange={newResourcePost} />
+                      <TextField
+                        name="link"
+                        label="link to resource"
+                        defaultValue={resource.link}
+                        onChange={newResourcePost}/>
+                    <Button variant='contained' type="submit" value="Submit Changes" sx={{margin: 2, padding: 1}}>Submit Changes</Button>
+                  </form>
+                </Box>
+              : null
               }
           <IconButton aria-label="delete"
             onClick={(event) => {handleResourceDelete(resource)}}
@@ -692,7 +717,7 @@ return (
                         <Typography component="label"  sx={{pl: 1, pr: .5, m:1}} >Type: </Typography>
                           <TextField
                             name="type"
-                            value={resource.user}
+                            value={resource.type}
                             onChange={newResourcePost} />
                             <br/>
                         <Typography component="label"  sx={{pl: 1, pr: .5, m:1}} >Description: </Typography>
