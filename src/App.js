@@ -25,17 +25,60 @@ import {
   Box,
   Modal,
   Grid,
-  Paper
+  Paper,
+  Card,
+  CardActions,
+  CardContent,
+  Collapse
  } from '@mui/material'
 
 // ============== MUI Icons =================== //
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 // ============== MUI Styles/Themes =================== //
 import {ThemeProvider, createTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 
+  // =========== Theme Build =============//
+  const darkTheme = createTheme({
+    palette: {
+      mode: 'dark',
+      primary: {
+        main: '#FEFE00'
+      },
+      secondary: {
+        main: "#9D3AE1"
+      },
+      warning: {
+        main:  "#FE2BFE"
+      },
+      error: {
+        main: '#FF2A00'
+      },
+      success: {
+        main: '#0A29FD'
+      },
+    }
+  });
+// ========= Modal Style ========= //
+  const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    color: "#FEFE00",
+    width: 400,
+    bgcolor: 'error.main',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
 
 // ============ MAIN COMPONENT =================//
 const App = () => {
@@ -46,8 +89,12 @@ const App = () => {
 const [interview, setInterview] = useState([])
 const [showNewInterviewForm, setShowNewInterviewForm] = useState(false)
 const [showInterviewDetails, setShowInterviewDetails] = useState(false)
-
 const [resource, setResource] = useState([])
+
+//Modal Open/Close State
+const [open, setOpen] = useState(false);
+const handleOpen = () => setOpen(true);
+const handleClose = () => setOpen(false);
 
 
 // form displays on edit buttons
@@ -107,7 +154,6 @@ useEffect(() => {
 }, [])
 
 
-
 // =========== These go in the forms for the interview buttons =========== //
 
   const newInterviewPost = (event) => {
@@ -118,26 +164,23 @@ useEffect(() => {
       setNewBook({...newBook,[event.target.name]:event.target.value})
   }
 
-
-
-
 // =========== Post Function ============ //
 
 const newInterviewSubmit = (event) => {
-  console.log(newJargin.user);
-  console.log(newJargin.type);
-  console.log(newJargin.date);
-  console.log(newJargin.company);
-  console.log(newJargin.jobTitle);
-  console.log(newJargin.stage);
-  console.log(newJargin.salary);
-  console.log(newJargin.location);
-  console.log(newJargin.timeLimit);
-  console.log(newJargin.devLanguage);
-  console.log(newJargin.difficulty);
-  console.log(newJargin.question);
-  console.log(newJargin.userResponse);
-  console.log(newJargin.offer);
+  // console.log(newJargin.user);
+  // console.log(newJargin.type);
+  // console.log(newJargin.date);
+  // console.log(newJargin.company);
+  // console.log(newJargin.jobTitle);
+  // console.log(newJargin.stage);
+  // console.log(newJargin.salary);
+  // console.log(newJargin.location);
+  // console.log(newJargin.timeLimit);
+  // console.log(newJargin.devLanguage);
+  // console.log(newJargin.difficulty);
+  // console.log(newJargin.question);
+  // console.log(newJargin.userResponse);
+  // console.log(newJargin.offer);
 
   event.preventDefault()
   axios.post('http://localhost:3000/interviews', {
@@ -242,124 +285,141 @@ const handleEditResourceSubmit = (resourceData) => {
 }
 // ========= Display Edit Forms Function ========= //
 
-
-// const handleToggleEditInterviewForms = () => {
-//   setDisplayEditInterviewForms(!displayEditInterviewForms);
-// }
-
 // Minor bug of toggling off current edit and not directly into another --> Kevin can demo next time we are together.
 const handleEditClick = (index) => {
   setDisplayEditForms(!displayEditForms);
   setSelectIndex(index);
 }
 
-// ============ Styling Show Page =============== //
-
-const Item = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: {
-      main: '#ffb74d',
-      bgcolor: '#FFC570'
-    },
-    secondary: {
-      main: '#c51162',
-    },
-  },
-  typography: {
-    fontFamily: 'Questrial',
-  },
-  overrides: {
-    MuiAppBar: {
-      colorInherit: {
-        backgroundColor: 'rgb(137, 11, 68)',
-        color: '#fff',
-      },
-    },
-  },
-  props: {
-    MuiAppBar: {
-      color: 'primary',
-    },
-  },
-});
-
 // ============ (Show Page) Mapping Interviews ============== //
+const [expanded, setExpanded] = useState(false);
+
+const ExpandMore = styled((props) => {
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+  marginLeft: 'auto',
+  transition: theme.transitions.create('transform', {
+    duration: theme.transitions.duration.shortest,
+  }),
+}));
+
+const handleExpandClick = () => {
+  setExpanded(!expanded);}
 const interviewArray = interview.map((interview, index) => {
   return (
-          <Box sx={{flexGrow: 1}}key={interview._id}>
-        <Grid container spacing={3}>
-          <Grid item xs={2}><li>{interview.user}</li></Grid>
-          <Grid item xs={2}>{interview.type? <li>Technical</li> : <li>Behavioral</li>}</Grid>
-          <Grid item xs={2}><li>{interview.date}</li></Grid>
-          <Grid item xs={2}><li>{interview.company}</li></Grid>
-          <Grid item xs={2}><li>{interview.jobTitle}</li></Grid>
-          <Grid item xs={2}><li>{interview.stage}</li></Grid>
-          <Grid item xs={2}><li>{interview.salary}</li></Grid>
-          <Grid item xs={2}><li>{interview.location}</li></Grid>
-          <Grid item xs={2}><li>{interview.timeLimit}</li></Grid>
-          <Grid item xs={2}><li>{interview.devLanguage}</li></Grid>
-          <Grid item xs={2}><li>{interview.difficulty}</li></Grid>
-          <Grid item xs={2}><li>{interview.question}</li></Grid>
-          <Grid item xs={2}><li>{interview.userResponse}</li></Grid>
-          <Grid item xs={2}><li>{interview.offer}</li></Grid>
-          <Grid item xs={2}><li>{interview.createdAt}</li></Grid>
-        </Grid>
+      <ThemeProvider>
+      <CssBaseline />
+        <Box sx={{display: 'flex', alignItems: 'space evenly'}} key={interview._id}>
+          <Grid container sx={{bgcolor: '#483362', padding: 1, margin: 1}}>
+            <Card sx={{m: 2, p: 1, width: .4}}>
 
-        <IconButton className="edit" onClick={(event) => {handleEditClick(index)}}><EditIcon color="info"/></IconButton>
-                     {/* assign a number and assign the index */}
-                { displayEditForms && selectIndex === index ?
-                <form onSubmit={ (event) => {handleEditInterviewSubmit(interview) } }>
-                    <p> User: </p> <input
-                    type="text"
-                    name="user"
-                    // defaultChecked can also be used for checkbox
-                    defaultValue={interview.user}
-                    onChange={newInterviewPost}
-                    /><br/>
-                    <p> Type: </p> <input type="text" name="type" onChange={newInterviewPost}/><br/>
-                    <br/>
-                    <input type="submit" value="Change Interview Data"/>
-                </form> : null
+              <Typography  item gutterBottom color="#FF2A00" variant="h6">
+                Type: {(interview.type === 'technical')?
+                <>Technical</> : <>Behavioral</>
                 }
-        <IconButton aria-label="delete"
-          onClick={(event) => {handleInterviewDelete(interview)}}
-          color="error"><DeleteIcon />
-        </IconButton>
+              </Typography>
+
+              <Typography  item >Date: {interview.date}</Typography>
+              <Typography item>Uploaded by: {interview.user}</Typography>
+              <Typography  item>Offered: {interview.offer}</Typography>
+              <Typography item>Added: {interview.createdAt}</Typography>
+            </Card>
+            <Card sx={{m: 2, p: 1, width: .4}}>
+              <Typography container gutterBottom>Company: {interview.company}</Typography>
+              <Typography variant="li" item xs={3}>Position: {interview.jobTitle}</Typography><br/>
+              <Typography variant="li" item xs={3}>Stage: {interview.stage}</Typography><br/>
+              <Typography variant="li" item xs={3}>Salary: {interview.salary}</Typography><br/>
+              <Typography variant="li" item>Location: {interview.location}</Typography><br/>
+            </Card>
+            <Card  sx={{m: 2, p: 1, width: .83}}>
+              <Typography variant="li" item>Time Limit: {interview.timeLimit}</Typography><br/>
+              <Typography variant="li" item>Language: {interview.devLanguage}</Typography><br/>
+              <Typography variant="li" item>Difficulty: {interview.difficulty}</Typography><br/>
+              <Card sx={{bgcolor: '#483362', padding: 1, margin: 1}}>
+                <Typography variant="li" color="#FE2BFE" item>Question:</Typography><Typography variant='body1'>{interview.question}</Typography><br/>
+              </Card>
+              <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
+                 <Button startIcon={<VisibilityOffIcon color="warning"/>} color="warning">Answer</Button>
+              </ExpandMore>
+             <Collapse in={expanded} timeout="auto" unmountOnExit sx={{bgcolor:'#483362'}}>
+                <CardActions sx={{bgcolor: '#483362', padding: 1, margin: 1}}>
+                  <Typography variant="li" item>{interview.userResponse}</Typography>
+                </CardActions>
+              </Collapse>
+              <IconButton gutterBottom className="edit" sx={{padding: 1, ml: 2}}
+                onClick={(event) => {handleEditClick(index)}}><EditIcon color="primary"/></IconButton>
+                           {/* assign a number and assign the index */}
+                      { displayEditForms && selectIndex === index ?
+                      <form onSubmit={ (event) => {handleEditInterviewSubmit(interview) } }>
+                          <p> User: </p> <input
+                          type="text"
+                          name="user"
+                          // defaultChecked can also be used for checkbox
+                          defaultValue={interview.user}
+                          onChange={newInterviewPost}
+                          /><br/>
+                          <p> Type: </p>
+                          <input type="text" name="type" onChange={newInterviewPost}/><br/>
+                          <br/>
+                          <input type="submit" value="Change Interview Data"/>
+                      </form> : null
+                      }
+              <IconButton aria-label="delete"
+                onClick={(event) => {handleInterviewDelete(interview)}}
+                color="error">
+                <DeleteIcon />
+              </IconButton>
+            </Card>
+          </Grid>
       </Box>
+    </ThemeProvider>
   )
 })
 
 // ============ Mapping Resources ============== //
 const resourceArray = resource.map((resource, index) => {
   return (
-      <div key={resource._id}>
-        <p>{resource.user}</p>
-        <p>{resource.title}</p>
-        <p>{resource.type}</p>
-        <p>{resource.description}</p>
-        <a href={resource.link} target="_blank">{resource.link}</a>
-
-      <IconButton className="edit" onClick={(event) => {handleEditClick(index)}}><EditIcon color="info"/></IconButton>
-                  { displayEditForms && selectIndex === index ?
-                  <form onSubmit={ (event) => {handleEditResourceSubmit(resource) } }>
-                      <p> Username: </p> <input type="text" name="user" onChange={newResourcePost} defaultValue = {resource.user}/><br/>
-                      <br/>
-                      <p> Type: </p> <input type="text" name="type" onChange={newResourcePost} defaultValue = {resource.type}/><br/>
-                      <p> Description: </p> <input type="text" name="description" onChange={newResourcePost} defaultValue = {resource.description}/><br/>
-                      <p> link: </p> <input type="text" name="link" onChange={newResourcePost} defaultValue = {resource.link}/><br/>
-                      <input type="submit" value="Change Interview Data"/>
-                  </form> : null
-                  }
-      <IconButton aria-label="delete"
-        onClick={(event) => {handleResourceDelete(resource)}}
-        color="error"><DeleteIcon />
-      </IconButton>
-      </div>
+      <ThemeProvider theme={darkTheme}>
+       <CssBaseline />
+       <Card key={resource._id} sx={{maxWidth: 400, minWidth: 200}, {padding: 1, margin: 2}}>
+        <CardContent sx={{bgcolor:'#483362'}}>
+          <Typography sx={{ fontSize: 14}} gutterBottom>
+            {resource.title}
+          </Typography>
+          <Typography  variant="h5" component="div">
+            {resource.type}
+          </Typography>
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            {resource.user}
+          </Typography>
+          <Typography variant="body2">
+            {resource.description}
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size="small" onClick={() => window.open(resource.link)}>Open Resource</Button>
+          <IconButton className="edit" onClick={(event) => {handleEditClick(index)}}><EditIcon color="info"/></IconButton>
+              { displayEditForms && selectIndex === index ?
+              <form onSubmit={ (event) => {handleEditResourceSubmit(resource) } }>
+                  <p> Username: </p> <input type="text" name="user" onChange={newResourcePost} defaultValue = {resource.user}/><br/>
+                  <br/>
+                  <p> Type: </p> <input type="text" name="type" onChange={newResourcePost} defaultValue = {resource.type}/><br/>
+                  <p> Description: </p> <input type="text" name="description" onChange={newResourcePost} defaultValue = {resource.description}/><br/>
+                  <p> link: </p> <input type="text" name="link" onChange={newResourcePost} defaultValue = {resource.link}/><br/>
+                  <input type="submit" value="Change Interview Data"/>
+              </form> : null
+              }
+          <IconButton aria-label="delete"
+            onClick={(event) => {handleResourceDelete(resource)}}
+            color="error"><DeleteIcon />
+          </IconButton>
+        </CardActions>
+      </Card>
+    </ThemeProvider>
   )
 })
-
-
 
 // ----- Matt Notes ----- //
 // Create edit form component - all editing occurs within the edit component
@@ -390,85 +450,47 @@ const displayInterviewDetails = (event) => {
   setShowInterviewDetails(true)
 }
 
-// ============= Modal Style & State ====================== //
-const modalStyle = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'warning.main',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
-
-const [open, setOpen] = useState(false);
-const handleOpen = () => setOpen(true);
-const handleClose = () => setOpen(false);
-
-// =========== Theme Build =============//
-
-const defaultTheme = createTheme({
-  mode: 'dark',
-  palette: {
-    type: 'dark',
-    primary: {
-      main: '#ffb74d',
-      bgcolor: '#FFC570'
-    },
-    secondary: {
-      main: '#c51162',
-    },
-  },
-  typography: {
-    fontFamily: 'Questrial',
-  },
-  overrides: {
-    MuiAppBar: {
-      colorInherit: {
-        backgroundColor: 'rgb(137, 11, 68)',
-        color: '#fff',
-      },
-    },
-  },
-  props: {
-    MuiAppBar: {
-      color: 'primary',
-    },
-  },
-});
-
 // =========== Browser =========== //
 return (
   <Router>
-      <div>
+      <>
+      <ThemeProvider theme={darkTheme}>
+       <CssBaseline enableColorScheme/>
           <header>
           </header>
           <Switch>
               <Route exact path="/">
+                <ThemeProvider theme={darkTheme}>
+                <CssBaseline />
                   <section className = "homepage">
                     <TopNav />
                     <LandingPage />
                   </section>
+                </ThemeProvider>
               </Route>
               <Route exact path="/interviews">
+              <ThemeProvider theme={darkTheme}>
+              <CssBaseline />
                 <TopNav />
-                <ThemeProvider theme={defaultTheme}>
                   {interviewArray}
+                  <Box sx={{m:5}}>
                   <Link to ="/interviewform">
                     <Button
                       onClick={handleClose}
                       color="secondary"
                       aria-label='add your interview'
                       variant="contained"
-                      startIcon={<AddIcon />}>
+                      startIcon={<AddIcon />}
+                      >
                       Add
                     </Button>
                   </Link>
+                  </Box>
                 </ThemeProvider>
               </Route>
               <Route exact path="/resources">
+                <ThemeProvider theme={darkTheme}>
+                <CssBaseline/>
                 <TopNav />
                 {resourceArray}
                 <Link to ="/resourceform">
@@ -481,8 +503,11 @@ return (
                     Add
                   </Button>
                 </Link>
+                </ThemeProvider>
               </Route>
               <Route exact path="/interviewform">
+                <ThemeProvider>
+                <CssBaseline />
                   <TopNav />
                   <section>
                     <Typography variant="h4" sx={{pl: 1, pr: .5, pb: 2}} >Add Your Interview:</Typography>
@@ -644,8 +669,11 @@ return (
                     </div>
                   </form>
                 </section>
+                </ThemeProvider>
               </Route>
               <Route exact path="/resourceform">
+                <ThemeProvider theme={darkTheme}>
+                <CssBaseline />
                   <TopNav />
                   <section>
                     <form onSubmit={newResourceSubmit}>
@@ -679,9 +707,11 @@ return (
 
                     </form>
                 </section>
+                </ThemeProvider>
               </Route>
           </Switch>
-      </div>
+      </ThemeProvider>
+      </>
   </Router>
 )
 };

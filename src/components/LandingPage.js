@@ -33,23 +33,19 @@ const LandingPage = (props) => {
   const handleExpandClick = () => {
     setExpanded(!expanded);}
   return (
-    <Card sx={{ width: 1}}>
+    <Card sx={{ width: 1, height: 1}}>
       <CardMedia
         component="img"
         alt="JargIn Logo"
-        height="500"
-        image="logoMid.png"
+        image="banner.png"
       />
-      <CardContent>
-
-      </CardContent>
-      <CardActions>
+      <CardActions sx={{bgcolor:'#483362'}}>
         <Link to="/interviews"
           variant="body2">
           <Typography
-            color="secondary"
             variant="h5"
-            >
+             sx={{ml: 3}, {color:"#FEFE00"}}
+          >
             Slay the Interview
           </Typography>
         </Link>
@@ -59,16 +55,16 @@ const LandingPage = (props) => {
            aria-expanded={expanded}
            aria-label="show more"
          >
-           <ExpandMoreIcon color="secondary"/>
+           <ExpandMoreIcon color="warning"  sx={{m: 3}}/>
          </ExpandMore>
      </CardActions>
-     <Collapse in={expanded} timeout="auto" unmountOnExit>
+     <Collapse in={expanded} timeout="auto" unmountOnExit sx={{bgcolor:'#483362'}}>
        <CardContent>
        <IconButton aria-label="Github.com" onClick={() => window.open('https://github.com/nietovaca/jargIN_Front')}>
           <GitHubIcon color='warning'fontSize='large' aria-label="GitHub"/>
         </IconButton>
         <IconButton aria-label="Reid's GitHub" onClick={() => window.open('https://github.com/billiam95')}>
-          <Avatar sx={{ bgcolor: 'primary.main' }}aria-label="ReidShipley" href="">
+          <Avatar sx={{ bgcolor: 'primary.main' }}aria-label="ReidShipley">
             RS
           </Avatar>
         </IconButton>
