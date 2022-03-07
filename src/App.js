@@ -92,7 +92,6 @@ const [newJargin, setNewJargin] = useState({
     userResponse: '',
     difficulty: 0,
     offer: '',
-    // comment: ''
   })
 
   const [newBook, setNewBook] = useState({
@@ -151,28 +150,10 @@ useEffect(() => {
       setNewComment({...newComment,[event.target.name]:event.target.value})
   }
 
-
-
-
 // =========== Post Functions ============ //
 
 // --------- Interviews ---------- //
 const newInterviewSubmit = (event) => {
-  // console.log(newJargin.user);
-  // console.log(newJargin.type);
-  // console.log(newJargin.date);
-  // console.log(newJargin.company);
-  // console.log(newJargin.jobTitle);
-  // console.log(newJargin.stage);
-  // console.log(newJargin.salary);
-  // console.log(newJargin.location);
-  // console.log(newJargin.timeLimit);
-  // console.log(newJargin.devLanguage);
-  // console.log(newJargin.difficulty);
-  // console.log(newJargin.question);
-  // console.log(newJargin.userResponse);
-  // console.log(newJargin.offer);
-
   event.preventDefault()
   axios.post('http://localhost:3000/interviews', {
     type: newJargin.type,
@@ -270,7 +251,6 @@ const handleEditInterviewSubmit = (interviewData) => {
     userResponse: newJargin.userResponse,
     difficulty: newJargin.difficulty,
     offer: newJargin.offer,
-    // comment: []
   }).then(() => {
     axios.get('http://localhost:3000/interviews').then((res) => {
       setInterview(res.data)
@@ -295,11 +275,6 @@ const handleEditResourceSubmit = (resourceData) => {
 // ========= Display Edit Forms Function ========= //
 
 
-// const handleToggleEditInterviewForms = () => {
-//   setDisplayEditInterviewForms(!displayEditInterviewForms);
-// }
-
-// Minor bug of toggling off current edit and not directly into another --> Kevin can demo next time we are together.
 const handleEditClick = (index) => {
   setDisplayEditForms(!displayEditForms);
   setSelectIndex(index);
@@ -353,10 +328,8 @@ const Item = createTheme({
   },
 });
 
-// const [postComment, setPostComment] = useState()
-
 // ============ (Show Page) Mapping Interviews ============== //
-const interviewArray = interview.reverse().map((interview, index) => {
+const interviewArray = interview.map((interview, index) => {
   return (
           <Box sx={{flexGrow: 1, flexDirection: 'row-reverse'}}key={interview._id}>
         <Grid container spacing={3}>
@@ -377,31 +350,20 @@ const interviewArray = interview.reverse().map((interview, index) => {
           <Grid item xs={2}><li>{interview.createdAt}</li></Grid>
         </Grid>
 
-        { displayCommentForm && selectIndex === index ?
+        {/* { displayCommentForm && selectIndex === index ? */}
         <Comments 
           id={interview._id} 
           commentList={commentList} 
           refereshFunction={updateComment}/>
-        : null
-        }
-        {/* <h3>Replies:</h3>
-        
-        { postComment && selectIndex === index ? 
-        <div>
-          <p> Name: {newComment.user}</p>
-          <p> Comment: {newComment.comment}</p>
-        </div> : null
-        }  */}
+        {/* : null */}
         
 
         <IconButton className="edit" onClick={(event) => {handleEditClick(index)}}><EditIcon color="info"/></IconButton>
-                     {/* assign a number and assign the index */}
                 { displayEditForms && selectIndex === index ?
                 <form onSubmit={ (event) => {handleEditInterviewSubmit(interview) } }>
                     <p> User: </p> <input
                     type="text"
                     name="user"
-                    // defaultChecked can also be used for checkbox
                     defaultValue={interview.user}
                     onChange={newInterviewPost}
                     /><br/>
@@ -412,26 +374,6 @@ const interviewArray = interview.reverse().map((interview, index) => {
                 }
 
                 <button onClick={(event) => {handleCommentClick(index)}}>Show comments</button>
-
-                {/* { displayCommentForm && selectIndex === index ?
-                <form onSubmit={handleCommentPost}>
-                  <p> Name: </p> <input
-                  type="text"
-                  name="user"
-                  value={newComment.user}
-                  onChange={newCommentPost}
-                  /><br/>
-                  <br/>
-                  <textarea
-                  type="text"
-                  name="comment"
-                  placeholder="Add a comment..."
-                  value={newComment.comment}
-                  onChange={newCommentPost}
-                  /><br/>
-                  <input type="submit" value="Submit"/>
-                </form> : null
-                } */}
 
         <IconButton aria-label="delete"
           onClick={(event) => {handleInterviewDelete(interview)}}
@@ -469,26 +411,6 @@ const resourceArray = resource.map((resource, index) => {
       </div>
   )
 })
-
-// ----- Matt Notes ----- //
-// Create edit form component - all editing occurs within the edit component
-
-// const refereshIndex = () => {
-
-// }
-
-// <EditForm refereshPageFunction={refreshIndex}></EditForm>
-
-// inside the edit component:
-
-// const EditForm = (props) => {
-//   const onSubmit = () => {
-//     props.refreshIndex()
-//   }
-//   return <form onSubmit = {}></form>
-// }
-
-// ----- ^Matt Notes^ ----- //
 
 //Button toggle show the new form
 const showNewForm = (event) => {
@@ -565,7 +487,6 @@ return (
                 <TopNav />
                 <ThemeProvider theme={defaultTheme}>
                   {interviewArray}
-                  {/* <Comments id={interview._id} refreshFunction={updateComment} commentList={commentList}/> */}
                   <Link to ="/interviewform">
                     <Button
                       onClick={handleClose}
