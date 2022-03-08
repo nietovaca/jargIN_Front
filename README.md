@@ -1,5 +1,8 @@
 -GENERAL NOTES / TO-DOs / CODE DUMP
 
+-With team: 
+  -Go through App.js to clean up states, functions, etc.
+
 // ========= Display Edit Forms Function ========= //
 
 
