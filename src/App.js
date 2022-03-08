@@ -125,6 +125,8 @@ const [newJargin, setNewJargin] = useState({
     userResponse: '',
     difficulty: 0,
     offer: '',
+    createdAt: '',
+    updatedAt: ''
   })
 
   const [newBook, setNewBook] = useState({
@@ -184,7 +186,7 @@ const newInterviewSubmit = (event) => {
     userResponse: newJargin.userResponse,
     difficulty: newJargin.difficulty,
     offer: newJargin.offer,
-    // comment: []
+    createdAt: new Intl.DateTimeFormat('en-US', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(newJargin.createdAt),
   }).then(() => {
     axios.get('https://jarginback.herokuapp.com/interviews').then((res) => {
       setInterview(res.data)
