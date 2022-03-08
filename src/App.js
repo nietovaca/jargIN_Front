@@ -1,6 +1,8 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
 
+import './index.css'
+
 // ================= React Router Components ================= //
 import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom';
 
@@ -100,7 +102,6 @@ const handleClose = () => setOpen(false);
 
 // form displays on edit buttons
 const [displayEditForms, setDisplayEditForms] = useState([false])
-
 const [selectIndex, setSelectIndex] = useState(0)
 
 // this will change our useEffect function based on which is true and which is false with different button clicks
@@ -124,7 +125,6 @@ const [newJargin, setNewJargin] = useState({
     userResponse: '',
     difficulty: 0,
     offer: '',
-    // comment: ''
   })
 
   const [newBook, setNewBook] = useState({
@@ -165,24 +165,9 @@ useEffect(() => {
       setNewBook({...newBook,[event.target.name]:event.target.value})
   }
 
-// =========== Post Function ============ //
+// =========== Post Functions ============ //
 
 const newInterviewSubmit = (event) => {
-  // console.log(newJargin.user);
-  // console.log(newJargin.type);
-  // console.log(newJargin.date);
-  // console.log(newJargin.company);
-  // console.log(newJargin.jobTitle);
-  // console.log(newJargin.stage);
-  // console.log(newJargin.salary);
-  // console.log(newJargin.location);
-  // console.log(newJargin.timeLimit);
-  // console.log(newJargin.devLanguage);
-  // console.log(newJargin.difficulty);
-  // console.log(newJargin.question);
-  // console.log(newJargin.userResponse);
-  // console.log(newJargin.offer);
-
   event.preventDefault()
   axios.post('http://localhost:3000/interviews', {
     type: newJargin.type,
@@ -205,8 +190,6 @@ const newInterviewSubmit = (event) => {
       setInterview(res.data)
     })
   })
-
-  // setShowNewInterviewForm(false)
 }
 
 const newResourceSubmit = (event) => {
@@ -242,7 +225,7 @@ const handleResourceDelete = (resourceData) => {
   })
 }
 
-// =========== Edit Function ============ //
+// =========== Edit Functions ============ //
 
 const handleEditInterviewSubmit = (interviewData) => {
   console.log('newJargin');
@@ -284,9 +267,7 @@ const handleEditResourceSubmit = (resourceData) => {
     })
   })
 }
-// ========= Display Edit Forms Function ========= //
 
-// Minor bug of toggling off current edit and not directly into another --> Kevin can demo next time we are together.
 const handleEditClick = (index) => {
   setDisplayEditForms(!displayEditForms);
   setSelectIndex(index);
@@ -302,12 +283,18 @@ const ExpandMore = styled((props) => {
   transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
   marginLeft: 'auto',
   transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest,
+  duration: theme.transitions.duration.shortest,
   }),
 }));
 
-const handleExpandClick = () => {
-  setExpanded(!expanded);}
+const [displayAnswer, setDisplayAnswer] = useState(false)
+
+const handleExpandClick = (index) => {
+  setExpanded(!expanded);
+  setDisplayAnswer(!displayAnswer)
+  setSelectIndex(index)
+}
+
 const interviewArray = interview.map((interview, index) => {
   return (
       <ThemeProvider>
@@ -338,33 +325,156 @@ const interviewArray = interview.map((interview, index) => {
               <Typography variant="li" item>Time Limit: {interview.timeLimit}</Typography><br/>
               <Typography variant="li" item>Language: {interview.devLanguage}</Typography><br/>
               <Typography variant="li" item>Difficulty: {interview.difficulty}</Typography><br/>
-              <Card sx={{bgcolor: '#483362', padding: 1, margin: 1}}>
+              <Card sx={{bgcolor: '#483362', padding: 1, margin: 1, whiteSpace: 'pre-line'}}>
                 <Typography variant="li" color="#FE2BFE" item>Question:</Typography><Typography variant='body1'>{interview.question}</Typography><br/>
               </Card>
-              <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
+              
+              <ExpandMore expand={expanded} onClick={ (event) => {handleExpandClick(index)}} aria-expanded={expanded} aria-label="show more">
                  <Button startIcon={<VisibilityOffIcon color="warning"/>} color="warning">Answer</Button>
               </ExpandMore>
-             <Collapse in={expanded} timeout="auto" unmountOnExit sx={{bgcolor:'#483362'}}>
-                <CardActions sx={{bgcolor: '#483362', padding: 1, margin: 1}}>
+
+             { displayAnswer && selectIndex === index ? 
+              <>
+              <Collapse in={expanded} timeout="auto" unmountOnExit sx={{bgcolor:'#483362'}}>
+                <CardActions sx={{bgcolor: '#483362', padding: 1, margin: 1, whiteSpace: 'pre-line'}}>
                   <Typography variant="li" item>{interview.userResponse}</Typography>
                 </CardActions>
               </Collapse>
+              </> : null
+             }
+
               <IconButton gutterBottom className="edit" sx={{padding: 1, ml: 2}}
                 onClick={(event) => {handleEditClick(index)}}><EditIcon color="primary"/></IconButton>
-                           {/* assign a number and assign the index */}
+                
                       { displayEditForms && selectIndex === index ?
                       <form onSubmit={ (event) => {handleEditInterviewSubmit(interview) } }>
-                          <p> User: </p> <input
-                          type="text"
+                           <Box color="primary" sx={{ m: 1, width: '80ch', pb: 2, pl: 2}} >
+                          <Typography component='label' sx={{pl: 1, pr: .5, m:1}} >*Required</Typography>
+                          <Typography component="select" name='type' onChange={newInterviewPost}>
+                            <option  value="select type">Type of Interview:</option>
+                            <option  name="type" value='technical'>Technical Interview</option>
+                            <option name="type" value='behavioral'>Behavioral Interview</option>
+                          </Typography>
+                          </Box>
+                          <Box  sx={{'& .MuiTextField-root': { m: 1, width: '25ch'},}}>
+                        <TextField
+                          color="secondary"
+                          required
+                          focused
+                          multiline
+                          id="user"
                           name="user"
-                          // defaultChecked can also be used for checkbox
+                          label="Name"
                           defaultValue={interview.user}
                           onChange={newInterviewPost}
-                          /><br/>
-                          <p> Type: </p>
-                          <input type="text" name="type" onChange={newInterviewPost}/><br/>
-                          <br/>
-                          <input type="submit" value="Change Interview Data"/>
+                        />
+                        <TextField
+                          color="secondary"
+                          focused
+                          multiline
+                          id="company"
+                          name="company"
+                          label="Company Name"
+                          defaultValue={interview.company}
+                          onChange={newInterviewPost}
+                        />
+                        <TextField
+                          color="secondary"
+                          focused
+                          multiline
+                          id="jobTitle"
+                          name="jobTitle"
+                          label="Job Title"
+                          defaultValue={interview.jobTitle}
+                          onChange={newInterviewPost}
+                        />
+                        <TextField
+                          color="secondary"
+                          focused
+                          multiline
+                          id="stage"
+                          name="stage"
+                          label="Stage in Interview Process"
+                          defaultValue={interview.stage}
+                          onChange={newInterviewPost}
+                          />
+                        <TextField
+                          color="secondary"
+                          focused
+                          multiline
+                          id="salary"
+                          name="salary"
+                          label="Salary"
+                          helperText = "Numbers Only"
+                          defaultValue={interview.salary}
+                          onChange={newInterviewPost}
+                        />
+                        <TextField
+                          color="secondary"
+                          focused
+                          multiline
+                          id="location"
+                          name="location"
+                          label="Location"
+                          helperText = "Online / In-person"
+                          defaultValue={interview.location}
+                          onChange={newInterviewPost}
+                        />
+                        <TextField
+                          color="secondary"
+                          focused
+                          multiline
+                          id="timeLimit"
+                          name="timeLimit"
+                          label="Time Limit"
+                          defaultValue={interview.timeLimit}
+                          onChange={newInterviewPost}
+                        />
+                        <TextField
+                          color="secondary"
+                          focused
+                          multiline
+                          id="devLanguage"
+                          name="devLanguage"
+                          label="Language/Framework"
+                          helperText = "* Technical Interview"
+                          defaultValue={interview.devLanguage}
+                          onChange={newInterviewPost}
+                        />
+                      </Box>
+                      <Box sx={{pt:1, pb: 1, pl: 2}}>
+                        <Typography >Date of Interview:</Typography>
+                        <Typography component='input' name="date" type="date" value={Date().now} onChange={newInterviewPost}/>
+                      </Box>
+                      <Box sx={{width: .75, p: 2, mb: .5,}}>
+                        <TextField
+                          color="secondary"
+                          multiline
+                          variant="filled"
+                          rows={10}
+                          fullWidth
+                          id="question"
+                          name="question"
+                          label="Question"
+                          defaultValue={interview.question}
+                          onChange={newInterviewPost}
+                          />
+                      </Box>
+                      <Box sx={{width: .75, p: 2, mb: .5}}>
+                        <TextField
+                          color="secondary"
+                          multiline
+                          variant="filled"
+                          rows={10}
+                          fullWidth
+                          id="userResponse"
+                          name="userResponse"
+                          label="Response"
+                          defaultValue={interview.userResponse}
+                          onChange={newInterviewPost}
+                          />
+                      </Box>
+                      <Button variant='contained' type="submit" value="Submit Changes" sx={{margin: 2, padding: 1}}>Submit Changes</Button>
                       </form> : null
                       }
               <IconButton aria-label="delete"
@@ -447,26 +557,6 @@ const resourceArray = resource.map((resource, index) => {
   )
 })
 
-// ----- Matt Notes ----- //
-// Create edit form component - all editing occurs within the edit component
-
-// const refereshIndex = () => {
-
-// }
-
-// <EditForm refereshPageFunction={refreshIndex}></EditForm>
-
-// inside the edit component:
-
-// const EditForm = (props) => {
-//   const onSubmit = () => {
-//     props.refreshIndex()
-//   }
-//   return <form onSubmit = {}></form>
-// }
-
-// ----- ^Matt Notes^ ----- //
-
 //Button toggle show the new form
 const showNewForm = (event) => {
   setShowNewInterviewForm(true)
@@ -498,8 +588,10 @@ return (
               <ThemeProvider theme={darkTheme}>
               <CssBaseline />
                 <TopNav />
+                <Box sx={{display: 'flex', flexDirection: 'column-reverse'}}>
                   {interviewArray}
-                  <Box sx={{m:2}}>
+                </Box>
+                  <Box sx={{m:3}}>
                   <Link to ="/interviewform">
                     <Button
                       sx={{m:1}}
@@ -520,7 +612,9 @@ return (
                 <ThemeProvider theme={darkTheme}>
                 <CssBaseline/>
                 <TopNav />
+                <Box sx={{display: 'flex', flexDirection: 'column-reverse'}}>
                 {resourceArray}
+                </Box>
                 <Link to ="/resourceform">
                   <Button
                   position= 'sticky'
