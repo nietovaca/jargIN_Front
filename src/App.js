@@ -286,12 +286,13 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
+const [displayAnswer, setDisplayAnswer] = useState(false)
+
 const handleExpandClick = (index) => {
   setExpanded(!expanded);
-  setDisplayAnswer(index)
+  setDisplayAnswer(!displayAnswer)
   setSelectIndex(index)
 }
-const [displayAnswer, setDisplayAnswer] = useState(0)
 
 const interviewArray = interview.map((interview, index) => {
   return (
