@@ -286,15 +286,12 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-const handleExpandClick = (event, index) => {
+const handleExpandClick = (index) => {
   setExpanded(!expanded);
   setDisplayAnswer(index)
+  setSelectIndex(index)
 }
 const [displayAnswer, setDisplayAnswer] = useState(0)
-
-// const handleDisplayAnswer = (index) => {
-//   setDisplayAnswer(index)
-// }
 
 const interviewArray = interview.map((interview, index) => {
   return (
@@ -334,7 +331,7 @@ const interviewArray = interview.map((interview, index) => {
                  <Button startIcon={<VisibilityOffIcon color="warning"/>} color="warning">Answer</Button>
               </ExpandMore>
 
-             { selectIndex === index ? 
+             { displayAnswer && selectIndex === index ? 
               <>
               <Collapse in={expanded} timeout="auto" unmountOnExit sx={{bgcolor:'#483362'}}>
                 <CardActions sx={{bgcolor: '#483362', padding: 1, margin: 1, whiteSpace: 'pre-line'}}>
