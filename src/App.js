@@ -29,7 +29,8 @@ import {
   Card,
   CardActions,
   CardContent,
-  Collapse
+  Collapse,
+  Fab
  } from '@mui/material'
 
 // ============== MUI Icons =================== //
@@ -498,10 +499,12 @@ return (
               <CssBaseline />
                 <TopNav />
                   {interviewArray}
-                  <Box sx={{m:5}}>
+                  <Box sx={{m:2}}>
                   <Link to ="/interviewform">
                     <Button
+                      sx={{m:1}}
                       onClick={handleClose}
+                      position= 'sticky'
                       color="secondary"
                       aria-label='add your interview'
                       variant="contained"
@@ -520,6 +523,8 @@ return (
                 {resourceArray}
                 <Link to ="/resourceform">
                   <Button
+                  position= 'sticky'
+                  sx={{margin: 2}}
                     onClick={handleClose}
                     color="secondary"
                     aria-label='add your resource'
@@ -673,7 +678,7 @@ return (
                         onChange={newInterviewPost}
                         />
                     </Box>
-                    <div>
+                    <Box sx={{padding: 3}}>
                       <Button sx={{mr: 1}}color="secondary" variant="contained" value="Submit" type='submit' onClick={handleOpen}>Submit</Button>
                         <Modal
                           open={open}
@@ -691,7 +696,7 @@ return (
                           </Box>
                         </Modal>
                       <Link to="/interviews"><Button color="primary" variant="contained">Back to all Interviews</Button></Link>
-                    </div>
+                    </Box>
                   </form>
                 </section>
                 </ThemeProvider>
