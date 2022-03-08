@@ -311,7 +311,7 @@ const interviewArray = interview.map((interview, index) => {
                 }
               </Typography>
 
-              <Typography  item >Date: {interview.date}</Typography>
+              <Typography  item >Date of Interview: {interview.date}</Typography>
               <Typography item>Uploaded by: {interview.user}</Typography>
               <Typography  item>Offered: {interview.offer}</Typography>
               <Typography item>Added: {interview.createdAt}</Typography>
