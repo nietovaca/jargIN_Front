@@ -678,7 +678,7 @@ return (
                         onChange={newInterviewPost}
                         />
                     </Box>
-                    <div>
+                    <Box sx={{padding: 3}}>
                       <Button sx={{mr: 1}}color="secondary" variant="contained" value="Submit" type='submit' onClick={handleOpen}>Submit</Button>
                         <Modal
                           open={open}
@@ -696,7 +696,7 @@ return (
                           </Box>
                         </Modal>
                       <Link to="/interviews"><Button color="primary" variant="contained">Back to all Interviews</Button></Link>
-                    </div>
+                    </Box>
                   </form>
                 </section>
                 </ThemeProvider>
