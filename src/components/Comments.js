@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import SingleComment from './SingleComment'
 
 const Comments = (props) => {
@@ -25,7 +25,7 @@ const Comments = (props) => {
         }).then(() => {
             axios.get('http://localhost:3000/comments').then((res) => {
             setPostComment(res.data)
-            props.refreshFunction(res.data)
+            // props.refreshFunction(res.data)
             })
         })
         console.log(comment);

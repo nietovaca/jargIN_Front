@@ -69,9 +69,9 @@ const [displayResources, setDisplayResources] = useState([false])
 const [displayInterviews, setDisplayInterviews] = useState([false])
 
 // Comments stuff
-const [comment, setComment] = useState([])
+// const [comment, setComment] = useState([])
 const [displayCommentForm, setDisplayCommentForm] = useState([false])
-const [postComment, setPostComment] = useState()
+// const [postComment, setPostComment] = useState()
 
   // Stuff from John Ahn vid: 
 const [commentList, setCommentList] = useState([])
@@ -176,8 +176,6 @@ const newInterviewSubmit = (event) => {
       setInterview(res.data)
     })
   })
-
-  // setShowNewInterviewForm(false)
 }
 
 // --------- Resources ---------- //
@@ -211,7 +209,6 @@ const newCommentSubmit = (event) => {
     })
   })
 }
-
 
 // =========== Delete Functions ============ //
 
@@ -265,7 +262,6 @@ const handleEditResourceSubmit = (resourceData) => {
     title: newBook.title,
     description: newBook.description,
     link: newBook.link
-    // comment: []
   }).then(() => {
     axios.get('http://localhost:3000/resources').then((res) => {
       setResource(res.data)
@@ -285,10 +281,10 @@ const handleCommentClick = (index) => {
   setSelectIndex(index)
 }
 
-const handleCommentPost = (index) => {
-  newCommentSubmit(index)
-  setPostComment(index)
-}
+// const handleCommentPost = (index) => {
+//   newCommentSubmit(index)
+//   setPostComment(index)
+// }
 
  // Stuff from John Ahn vid: 
 
@@ -350,13 +346,14 @@ const interviewArray = interview.map((interview, index) => {
           <Grid item xs={2}><li>{interview.createdAt}</li></Grid>
         </Grid>
 
-        {/* { displayCommentForm && selectIndex === index ? */}
+        { commentList && selectIndex === index ?
         <Comments 
           id={interview._id} 
           commentList={commentList} 
-          refereshFunction={updateComment}/>
-        {/* : null */}
-        
+          // refereshFunction={updateComment}
+          />
+        : null
+        }
 
         <IconButton className="edit" onClick={(event) => {handleEditClick(index)}}><EditIcon color="info"/></IconButton>
                 { displayEditForms && selectIndex === index ?
